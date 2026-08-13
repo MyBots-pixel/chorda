@@ -1,42 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Chorda</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background: #111318;
             color: white;
+
             overflow: hidden;
         }
 
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =========================
+           MAIN APP
+        ========================= */
+
         .app {
             height: 100vh;
+
             display: flex;
         }
 
-        /* SERVER BAR */
+
+        /* =========================
+           SERVER SIDEBAR
+        ========================= */
 
         .servers {
+
             width: 72px;
+
             background: #0b0d10;
+
             padding: 12px;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             gap: 12px;
+
+            flex-shrink: 0;
         }
 
+
         .server {
+
             width: 48px;
             height: 48px;
 
@@ -45,77 +82,128 @@
             background: #242833;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            font-size: 18px;
             font-weight: bold;
 
             cursor: pointer;
 
             transition: 0.2s;
+
+            color: white;
+
+            border: none;
         }
+
 
         .server:hover {
-            border-radius: 13px;
+
             background: #5865f2;
+
+            border-radius: 13px;
         }
+
 
         .server.active {
+
             background: #5865f2;
+
             border-radius: 13px;
         }
 
+
         .server.add {
+
             color: #6ee7a0;
+
+            font-size: 24px;
         }
 
-        /* CHANNEL BAR */
+
+        /* =========================
+           CHANNEL SIDEBAR
+        ========================= */
 
         .channels {
+
             width: 250px;
+
             background: #171a21;
 
             display: flex;
+
             flex-direction: column;
+
+            flex-shrink: 0;
         }
 
+
         .workspace {
+
             height: 64px;
 
             padding: 0 18px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
-            border-bottom: 1px solid #292d36;
+            border-bottom:
+                1px solid #292d36;
 
             font-size: 18px;
+
             font-weight: bold;
         }
 
+
         .settings {
-            cursor: pointer;
+
             color: #9ca3af;
+
+            cursor: pointer;
+
+            font-size: 18px;
         }
+
+
+        .settings:hover {
+
+            color: white;
+        }
+
 
         .channel-list {
+
             padding: 18px 10px;
+
+            overflow-y: auto;
+
+            flex: 1;
         }
 
+
         .category {
+
             color: #8f96a3;
 
             font-size: 12px;
+
             font-weight: bold;
 
             text-transform: uppercase;
 
-            margin: 10px 8px;
+            margin:
+                12px 8px 8px;
         }
 
+
         .channel {
+
             padding: 10px;
 
             border-radius: 6px;
@@ -123,51 +211,80 @@
             color: #9ca3af;
 
             cursor: pointer;
+
+            margin-bottom: 2px;
         }
+
 
         .channel:hover {
+
             background: #252a35;
+
             color: white;
         }
+
 
         .channel.active {
+
             background: #252a35;
+
             color: white;
         }
 
-        /* CHAT */
+
+        /* =========================
+           CHAT
+        ========================= */
 
         .chat {
+
             flex: 1;
 
-            display: flex;
-            flex-direction: column;
-
             min-width: 0;
+
+            display: flex;
+
+            flex-direction: column;
         }
 
+
         .chat-header {
+
             height: 64px;
 
             padding: 0 20px;
 
             display: flex;
+
             align-items: center;
 
             background: #171a21;
 
-            border-bottom: 1px solid #292d36;
+            border-bottom:
+                1px solid #292d36;
 
             font-weight: bold;
+
+            flex-shrink: 0;
         }
 
+
         .channel-icon {
+
             color: #8f96a3;
+
             margin-right: 8px;
+
             font-size: 20px;
         }
 
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
         .messages {
+
             flex: 1;
 
             padding: 25px;
@@ -175,7 +292,9 @@
             overflow-y: auto;
         }
 
+
         .welcome {
+
             padding: 20px;
 
             border-radius: 10px;
@@ -185,15 +304,24 @@
             margin-bottom: 25px;
         }
 
+
         .welcome h2 {
-            margin-top: 0;
+
+            margin:
+                0 0 8px;
         }
+
 
         .welcome p {
+
             color: #9ca3af;
+
+            margin: 0;
         }
 
+
         .message {
+
             display: flex;
 
             gap: 12px;
@@ -203,11 +331,16 @@
             border-radius: 6px;
         }
 
+
         .message:hover {
-            background: rgba(255,255,255,0.03);
+
+            background:
+                rgba(255,255,255,0.03);
         }
 
+
         .avatar {
+
             width: 40px;
             height: 40px;
 
@@ -216,24 +349,32 @@
             background: #5865f2;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             font-size: 13px;
+
             font-weight: bold;
 
             flex-shrink: 0;
         }
 
+
         .message-content {
+
             min-width: 0;
         }
 
+
         .username {
+
             font-weight: bold;
         }
 
+
         .timestamp {
+
             margin-left: 8px;
 
             color: #737b89;
@@ -241,7 +382,9 @@
             font-size: 11px;
         }
 
+
         .message-text {
+
             margin-top: 4px;
 
             color: #d5d9e0;
@@ -251,14 +394,22 @@
             overflow-wrap: anywhere;
         }
 
-        /* MESSAGE BOX */
+
+        /* =========================
+           MESSAGE INPUT
+        ========================= */
 
         .message-area {
-            padding: 12px 20px 18px;
+
+            padding:
+                12px 20px 18px;
         }
 
+
         .message-box {
+
             display: flex;
+
             align-items: center;
 
             background: #20242d;
@@ -268,10 +419,13 @@
             padding: 5px 10px;
         }
 
+
         .message-box input {
+
             flex: 1;
 
             border: none;
+
             outline: none;
 
             background: transparent;
@@ -279,16 +433,21 @@
             color: white;
 
             padding: 12px;
+
+            min-width: 0;
         }
 
+
         .message-box button {
+
             border: none;
 
             background: #5865f2;
 
             color: white;
 
-            padding: 9px 14px;
+            padding:
+                9px 14px;
 
             border-radius: 7px;
 
@@ -297,19 +456,36 @@
             font-weight: bold;
         }
 
-        /* MEMBERS */
+
+        .message-box button:hover {
+
+            background: #4752c4;
+        }
+
+
+        /* =========================
+           MEMBERS
+        ========================= */
 
         .members {
+
             width: 230px;
 
             background: #171a21;
 
-            border-left: 1px solid #292d36;
+            border-left:
+                1px solid #292d36;
 
             padding: 20px 12px;
+
+            overflow-y: auto;
+
+            flex-shrink: 0;
         }
 
+
         .members-title {
+
             color: #8f96a3;
 
             font-size: 12px;
@@ -321,7 +497,9 @@
             margin-bottom: 12px;
         }
 
+
         .member {
+
             display: flex;
 
             align-items: center;
@@ -335,15 +513,21 @@
             cursor: pointer;
         }
 
+
         .member:hover {
+
             background: #252a35;
         }
 
+
         .member-name {
+
             font-size: 14px;
         }
 
+
         .online {
+
             width: 8px;
             height: 8px;
 
@@ -354,266 +538,389 @@
             margin-left: auto;
         }
 
-        /* MOBILE */
 
-        @media (max-width: 850px) {
+        /* =========================
+           PLUS CARD
+        ========================= */
+
+        .plus {
+
+            margin: 10px;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #292e4a,
+                    #202432
+                );
+
+            border:
+                1px solid #3a4168;
+        }
+
+
+        .plus-title {
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+
+        .plus-text {
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+            margin-bottom: 10px;
+        }
+
+
+        .plus-button {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 8px;
+
+            border-radius: 7px;
+
+            background: #5865f2;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 950px) {
 
             .members {
+
                 display: none;
             }
 
         }
 
-        @media (max-width: 650px) {
+
+        @media (max-width: 700px) {
 
             .channels {
+
                 width: 210px;
             }
 
+        }
+
+
+        @media (max-width: 600px) {
+
             .servers {
+
                 width: 60px;
+
+                padding: 9px;
             }
 
+
             .server {
+
                 width: 42px;
                 height: 42px;
             }
 
+
             .channels {
-                display: none;
+
+                width: 210px;
             }
 
+
             .messages {
+
                 padding: 15px;
             }
 
+
             .message-area {
-                padding: 10px;
+
+                padding:
+                    10px;
             }
+
+
+            .chat-header {
+
+                padding:
+                    0 14px;
+            }
+
+
+            .message-box input {
+
+                padding:
+                    10px;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="app">
 
-    <!-- SERVERS -->
 
-    <div class="servers">
+    <!-- =========================
+         SERVERS
+    ========================= -->
 
-        <div class="server active">
+    <aside class="servers">
+
+        <button
+            class="server active"
+            title="Chorda"
+        >
             C
-        </div>
+        </button>
 
-        <div class="server">
+
+        <button
+            class="server"
+            title="Gaming"
+        >
             G
-        </div>
+        </button>
 
-        <div class="server">
+
+        <button
+            class="server"
+            title="Study"
+        >
             S
-        </div>
+        </button>
 
-        <div class="server add">
+
+        <button
+            class="server add"
+            title="Add Server"
+            onclick="comingSoon('Server creation')"
+        >
             +
-        </div>
+        </button>
 
-    </div>
+    </aside>
 
 
-    <!-- CHANNELS -->
 
-    <div class="channels">
+    <!-- =========================
+         CHANNELS
+    ========================= -->
+
+    <aside class="channels">
+
 
         <div class="workspace">
 
-            <span>Chorda</span>
+            <span>
+                Chorda
+            </span>
 
-            <span class="settings">
+            <span
+                class="settings"
+                onclick="comingSoon('Settings')"
+            >
                 ⚙
             </span>
 
         </div>
 
 
-      <div class="channel-list">
-
-    <div class="category">
-        Welcome
-    </div>
-
-    <div class="channel active" data-channel="general">
-        # general
-    </div>
-
-    <div class="channel" data-channel="announcements">
-        # announcements
-    </div>
+        <div class="channel-list">
 
 
-    <div class="category">
-        Community
-    </div>
-
-    <div class="channel" data-channel="chat">
-        # chat
-    </div>
-
-    <div class="channel" data-channel="memes">
-        # memes
-    </div>
-
-    <div class="channel" data-channel="support">
-        # support
-    </div>
+            <div class="category">
+                Welcome
+            </div>
 
 
-    <div class="category">
-        Voice
-    </div>
-
-    <div class="channel">
-        🔊 Lounge
-    </div>
-
-    <div class="channel">
-        🔊 Gaming
-    </div>
-
-</div>
+            <div
+                class="channel active"
+                data-channel="general"
+            >
+                # general
+            </div>
 
 
-    <!-- CHAT -->
+            <div
+                class="channel"
+                data-channel="announcements"
+            >
+                # announcements
+            </div>
 
-    <div class="chat">
 
-        <div class="chat-header">
+            <div class="category">
+                Community
+            </div>
+
+
+            <div
+                class="channel"
+                data-channel="chat"
+            >
+                # chat
+            </div>
+
+
+            <div
+                class="channel"
+                data-channel="memes"
+            >
+                # memes
+            </div>
+
+
+            <div
+                class="channel"
+                data-channel="support"
+            >
+                # support
+            </div>
+
+
+            <div class="category">
+                Voice
+            </div>
+
+
+            <div
+                class="channel"
+                onclick="comingSoon('Voice channels')"
+            >
+                🔊 Lounge
+            </div>
+
+
+            <div
+                class="channel"
+                onclick="comingSoon('Voice channels')"
+            >
+                🔊 Gaming
+            </div>
+
+
+        </div>
+
+
+        <!-- PLUS -->
+
+        <div class="plus">
+
+            <div class="plus-title">
+                ✦ Chorda Plus
+            </div>
+
+
+            <div class="plus-text">
+                Premium features are currently
+                coming soon.
+            </div>
+
+
+            <button
+                class="plus-button"
+                onclick="comingSoon('Chorda Plus')"
+            >
+                Coming Soon
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         CHAT
+    ========================= -->
+
+    <main class="chat">
+
+
+        <header class="chat-header">
 
             <span class="channel-icon">
                 #
             </span>
 
-            general
+            <span id="channelName">
+                general
+            </span>
 
-        </div>
+        </header>
 
 
-        <div class="messages">
+        <div
+            class="messages"
+            id="messages"
+        >
 
             <div class="welcome">
 
-                <h2>
-                    Welcome to Chorda 👋
+                <h2 id="welcomeTitle">
+                    Welcome to #general 👋
                 </h2>
 
                 <p>
-                    This is the beginning of your community.
+                    This is the beginning
+                    of this channel.
                 </p>
 
             </div>
 
 
-            <div class="message">
-
-                <div class="avatar">
-                    AX
-                </div>
-
-                <div class="message-content">
-
-                    <div>
-
-                        <span class="username">
-                            Alex
-                        </span>
-
-                        <span class="timestamp">
-                            Today at 7:01 PM
-                        </span>
-
-                    </div>
-
-                    <div class="message-text">
-                        Welcome everyone! Chorda is officially starting.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="message">
-
-                <div class="avatar">
-                    SK
-                </div>
-
-                <div class="message-content">
-
-                    <div>
-
-                        <span class="username">
-                            Sky
-                        </span>
-
-                        <span class="timestamp">
-                            Today at 7:04 PM
-                        </span>
-
-                    </div>
-
-                    <div class="message-text">
-                        This looks awesome already.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="message">
-
-                <div class="avatar">
-                    JM
-                </div>
-
-                <div class="message-content">
-
-                    <div>
-
-                        <span class="username">
-                            Jamie
-                        </span>
-
-                        <span class="timestamp">
-                            Today at 7:06 PM
-                        </span>
-
-                    </div>
-
-                    <div class="message-text">
-                        More features coming soon!
-                    </div>
-
-                </div>
-
-            </div>
+            <div id="messageList"></div>
 
         </div>
 
 
-        <!-- MESSAGE INPUT -->
+        <!-- MESSAGE BOX -->
 
         <div class="message-area">
 
             <div class="message-box">
 
                 <input
+                    id="messageInput"
                     type="text"
                     placeholder="Message #general"
+                    autocomplete="off"
                 >
 
-                <button>
+
+                <button
+                    id="sendButton"
+                >
                     Send
                 </button>
 
@@ -621,12 +928,17 @@
 
         </div>
 
-    </div>
+
+    </main>
 
 
-    <!-- MEMBERS -->
 
-    <div class="members">
+    <!-- =========================
+         MEMBERS
+    ========================= -->
+
+    <aside class="members">
+
 
         <div class="members-title">
             Online — 4
@@ -692,70 +1004,511 @@
 
         </div>
 
-    </div>
+
+    </aside>
+
 
 </div>
 
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
 <script>
-    const input = document.querySelector(".message-box input");
-    const sendButton = document.querySelector(".message-box button");
-    const messages = document.querySelector(".messages");
 
-    function sendMessage() {
 
-        const text = input.value.trim();
+/* =========================
+   CHANNEL DATA
+========================= */
 
-        if (text === "") {
-            return;
+const channelData = {
+
+    general: [
+
+        {
+            name: "Alex",
+            avatar: "AX",
+            text: "Welcome to Chorda!",
+            time: "Today at 7:01 PM"
+        },
+
+        {
+            name: "Sky",
+            avatar: "SK",
+            text: "This is the general channel.",
+            time: "Today at 7:04 PM"
         }
 
-        const message = document.createElement("div");
+    ],
 
-        message.className = "message";
 
-        message.innerHTML = `
-            <div class="avatar">
-                YO
-            </div>
+    announcements: [
 
-            <div class="message-content">
+        {
+            name: "Alex",
+            avatar: "AX",
+            text: "Welcome to the announcements channel.",
+            time: "Today at 6:55 PM"
+        }
 
-                <div>
+    ],
 
-                    <span class="username">
-                        You
-                    </span>
 
-                    <span class="timestamp">
-                        Just now
-                    </span>
+    chat: [
 
-                </div>
+        {
+            name: "Jamie",
+            avatar: "JM",
+            text: "Hey everyone! What's happening?",
+            time: "Today at 6:42 PM"
+        }
 
-                <div class="message-text"></div>
+    ],
 
-            </div>
-        `;
 
-        message.querySelector(".message-text").textContent = text;
+    memes: [
 
-        messages.appendChild(message);
+        {
+            name: "Sky",
+            avatar: "SK",
+            text: "This channel is ready for memes 😂",
+            time: "Today at 6:30 PM"
+        }
 
-        input.value = "";
+    ],
 
-        messages.scrollTop = messages.scrollHeight;
+
+    support: [
+
+        {
+            name: "Riley",
+            avatar: "RB",
+            text: "Need help? Ask your question here.",
+            time: "Today at 6:15 PM"
+        }
+
+    ]
+
+};
+
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const channelButtons =
+    document.querySelectorAll(
+        ".channel[data-channel]"
+    );
+
+
+const channelName =
+    document.getElementById(
+        "channelName"
+    );
+
+
+const welcomeTitle =
+    document.getElementById(
+        "welcomeTitle"
+    );
+
+
+const messageList =
+    document.getElementById(
+        "messageList"
+    );
+
+
+const messages =
+    document.getElementById(
+        "messages"
+    );
+
+
+const input =
+    document.getElementById(
+        "messageInput"
+    );
+
+
+const sendButton =
+    document.getElementById(
+        "sendButton"
+    );
+
+
+
+/* =========================
+   LOAD CHANNEL
+========================= */
+
+function loadChannel(name) {
+
+    channelName.textContent =
+        name;
+
+
+    welcomeTitle.textContent =
+        "Welcome to #" +
+        name +
+        " 👋";
+
+
+    input.placeholder =
+        "Message #" +
+        name;
+
+
+    messageList.innerHTML = "";
+
+
+    const channel =
+        channelData[name];
+
+
+    if (!channel) {
+        return;
     }
 
-    sendButton.addEventListener("click", sendMessage);
 
-    input.addEventListener("keydown", function(event) {
+    channel.forEach(function(message) {
 
-        if (event.key === "Enter") {
-            sendMessage();
-        }
+        createMessage(
+
+            message.name,
+
+            message.avatar,
+
+            message.text,
+
+            message.time,
+
+            false
+
+        );
 
     });
+
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+
+/* =========================
+   CREATE MESSAGE
+========================= */
+
+function createMessage(
+    name,
+    avatar,
+    text,
+    time,
+    scroll = true
+) {
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+
+    message.className =
+        "message";
+
+
+    const avatarElement =
+        document.createElement(
+            "div"
+        );
+
+
+    avatarElement.className =
+        "avatar";
+
+
+    avatarElement.textContent =
+        avatar;
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "message-content";
+
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+
+    const username =
+        document.createElement(
+            "span"
+        );
+
+
+    username.className =
+        "username";
+
+
+    username.textContent =
+        name;
+
+
+    const timestamp =
+        document.createElement(
+            "span"
+        );
+
+
+    timestamp.className =
+        "timestamp";
+
+
+    timestamp.textContent =
+        time;
+
+
+    header.appendChild(
+        username
+    );
+
+
+    header.appendChild(
+        timestamp
+    );
+
+
+    const textElement =
+        document.createElement(
+            "div"
+        );
+
+
+    textElement.className =
+        "message-text";
+
+
+    textElement.textContent =
+        text;
+
+
+    content.appendChild(
+        header
+    );
+
+
+    content.appendChild(
+        textElement
+    );
+
+
+    message.appendChild(
+        avatarElement
+    );
+
+
+    message.appendChild(
+        content
+    );
+
+
+    messageList.appendChild(
+        message
+    );
+
+
+    if (scroll) {
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    }
+
+}
+
+
+
+/* =========================
+   SEND MESSAGE
+========================= */
+
+function sendMessage() {
+
+    const text =
+        input.value.trim();
+
+
+    if (text === "") {
+        return;
+    }
+
+
+    const currentChannel =
+        channelName.textContent;
+
+
+    if (!channelData[currentChannel]) {
+
+        channelData[currentChannel] =
+            [];
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    const time =
+        now.toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+
+
+    channelData[currentChannel].push({
+
+        name: "You",
+
+        avatar: "YO",
+
+        text: text,
+
+        time: "Today at " + time
+
+    });
+
+
+    createMessage(
+
+        "You",
+
+        "YO",
+
+        text,
+
+        "Today at " + time
+
+    );
+
+
+    input.value = "";
+
+}
+
+
+
+/* =========================
+   SEND BUTTON
+========================= */
+
+sendButton.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+
+/* =========================
+   ENTER TO SEND
+========================= */
+
+input.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   CHANNEL BUTTONS
+========================= */
+
+channelButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                channelButtons.forEach(
+                    function(item) {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                loadChannel(
+                    button.dataset.channel
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================
+   COMING SOON
+========================= */
+
+function comingSoon(feature) {
+
+    alert(
+        feature +
+        " is coming soon!"
+    );
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+loadChannel("general");
+
+
 </script>
 
+
 </body>
+
 </html>
