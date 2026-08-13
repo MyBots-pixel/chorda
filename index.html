@@ -28,12 +28,12 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--background);
-    color: var(--text);
     overflow: hidden;
 }
 
@@ -52,22 +52,24 @@ input:focus-visible {
     outline-offset: 2px;
 }
 
-/* =====================================================
+/* =========================
    APP
-===================================================== */
+========================= */
 
 .app {
     width: 100%;
     height: 100vh;
+    min-height: 0;
     display: flex;
 }
 
-/* =====================================================
-   SERVERS
-===================================================== */
+/* =========================
+   SERVER BAR
+========================= */
 
 .servers {
     width: 72px;
+    height: 100vh;
     background: var(--sidebar-dark);
     padding: 12px;
     display: flex;
@@ -75,16 +77,18 @@ input:focus-visible {
     align-items: center;
     gap: 12px;
     flex-shrink: 0;
+    overflow-y: auto;
     z-index: 30;
 }
 
 .server {
     width: 48px;
     height: 48px;
+    min-height: 48px;
     border: 0;
     border-radius: 16px;
     background: #242833;
-    color: white;
+    color: #fff;
     font-weight: bold;
     font-size: 18px;
     transition: .2s;
@@ -101,21 +105,24 @@ input:focus-visible {
     font-size: 24px;
 }
 
-/* =====================================================
+/* =========================
    CHANNEL SIDEBAR
-===================================================== */
+========================= */
 
 .channels {
     width: 250px;
+    height: 100vh;
     background: var(--sidebar);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    min-height: 0;
     z-index: 20;
 }
 
 .workspace {
     height: 64px;
+    min-height: 64px;
     padding: 0 18px;
     display: flex;
     align-items: center;
@@ -141,13 +148,16 @@ input:focus-visible {
 
 .small-button:hover {
     background: var(--card);
-    color: white;
+    color: #fff;
 }
 
+/* THIS IS THE IMPORTANT PART */
+
 .channel-list {
+    flex: 1;
+    min-height: 0;
     padding: 14px 10px;
     overflow-y: auto;
-    flex: 1;
 }
 
 .category {
@@ -169,12 +179,12 @@ input:focus-visible {
 .channel:hover,
 .channel.active {
     background: var(--card);
-    color: white;
+    color: #fff;
 }
 
-/* =====================================================
+/* =========================
    PLUS
-===================================================== */
+========================= */
 
 .plus {
     margin: 10px;
@@ -182,6 +192,7 @@ input:focus-visible {
     border-radius: 10px;
     background: linear-gradient(135deg, #292e4a, #202432);
     border: 1px solid #3a4168;
+    flex-shrink: 0;
 }
 
 .plus-title {
@@ -202,7 +213,7 @@ input:focus-visible {
     padding: 8px;
     border-radius: 7px;
     background: var(--accent);
-    color: white;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -210,19 +221,33 @@ input:focus-visible {
     filter: brightness(1.1);
 }
 
-/* =====================================================
+/* =========================
+   USER BUTTON
+========================= */
+
+#profileButton {
+    width: calc(100% - 16px);
+    margin: 8px;
+    flex-shrink: 0;
+    text-align: left;
+}
+
+/* =========================
    CHAT
-===================================================== */
+========================= */
 
 .chat {
     flex: 1;
     min-width: 0;
+    min-height: 0;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .chat-header {
     height: 64px;
+    min-height: 64px;
     padding: 0 15px;
     display: flex;
     align-items: center;
@@ -230,6 +255,7 @@ input:focus-visible {
     background: var(--sidebar);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
+    position: relative;
 }
 
 .channel-icon {
@@ -269,16 +295,16 @@ input:focus-visible {
 
 .header-button:hover {
     background: var(--card);
-    color: white;
+    color: #fff;
 }
 
 .mobile-menu {
     display: none;
 }
 
-/* =====================================================
+/* =========================
    SEARCH
-===================================================== */
+========================= */
 
 .search-container {
     display: none;
@@ -303,17 +329,18 @@ input:focus-visible {
     border: 0;
     outline: 0;
     background: var(--card);
-    color: white;
+    color: #fff;
     padding: 10px;
     border-radius: 7px;
 }
 
-/* =====================================================
+/* =========================
    MESSAGES
-===================================================== */
+========================= */
 
 .messages {
     flex: 1;
+    min-height: 0;
     padding: 25px;
     overflow-y: auto;
 }
@@ -424,15 +451,17 @@ input:focus-visible {
 
 .message-action:hover {
     background: var(--card-hover);
-    color: white;
+    color: #fff;
 }
 
-/* =====================================================
+/* =========================
    MESSAGE INPUT
-===================================================== */
+========================= */
 
 .message-area {
     padding: 12px 20px 18px;
+    flex-shrink: 0;
+    background: var(--background);
 }
 
 .message-box {
@@ -449,14 +478,14 @@ input:focus-visible {
     border: 0;
     outline: 0;
     background: transparent;
-    color: white;
+    color: #fff;
     padding: 12px;
 }
 
 .message-box button {
     border: 0;
     background: var(--accent);
-    color: white;
+    color: #fff;
     padding: 9px 14px;
     border-radius: 7px;
     font-weight: bold;
@@ -466,12 +495,13 @@ input:focus-visible {
     filter: brightness(1.1);
 }
 
-/* =====================================================
+/* =========================
    MEMBERS
-===================================================== */
+========================= */
 
 .members {
     width: 230px;
+    height: 100vh;
     background: var(--sidebar);
     border-left: 1px solid var(--border);
     padding: 20px 12px;
@@ -517,13 +547,13 @@ input:focus-visible {
     margin-left: auto;
 }
 
-/* =====================================================
+/* =========================
    USER PANEL
-===================================================== */
+========================= */
 
 .user-panel {
     position: fixed;
-    bottom: 12px;
+    bottom: 70px;
     left: 82px;
     width: 220px;
     background: #1a1e27;
@@ -570,9 +600,9 @@ input:focus-visible {
     background: var(--card);
 }
 
-/* =====================================================
+/* =========================
    MODAL
-===================================================== */
+========================= */
 
 .modal {
     position: fixed;
@@ -591,13 +621,10 @@ input:focus-visible {
 
 .modal-box {
     width: min(520px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 22px;
-    box-shadow: 0 20px 70px rgba(0,0,0,.6);
 }
 
 .modal-header {
@@ -613,7 +640,7 @@ input:focus-visible {
 .close-button {
     border: 0;
     background: var(--card);
-    color: white;
+    color: #fff;
     border-radius: 7px;
     padding: 7px 10px;
 }
@@ -634,55 +661,9 @@ input:focus-visible {
     font-size: 13px;
 }
 
-/* =====================================================
-   ZOOM SETTINGS
-===================================================== */
-
-.zoom-controls {
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.zoom-button {
-    width: 38px;
-    height: 34px;
-    border: 1px solid var(--border);
-    background: #181c24;
-    color: white;
-    border-radius: 7px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.zoom-button:hover {
-    background: var(--card-hover);
-}
-
-.zoom-value {
-    min-width: 65px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.zoom-reset {
-    margin-left: auto;
-    border: 1px solid var(--border);
-    background: #181c24;
-    color: #d5d9e0;
-    padding: 8px 12px;
-    border-radius: 7px;
-}
-
-.zoom-reset:hover {
-    background: var(--card-hover);
-    color: white;
-}
-
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 .mobile-overlay {
     display: none;
@@ -714,6 +695,7 @@ input:focus-visible {
     .server {
         width: 42px;
         height: 42px;
+        min-height: 42px;
     }
 
     .channels {
@@ -721,6 +703,7 @@ input:focus-visible {
         left: 58px;
         top: 0;
         bottom: 0;
+        height: 100vh;
         width: 250px;
         transform: translateX(-110%);
         transition: transform .2s ease;
@@ -735,7 +718,7 @@ input:focus-visible {
         display: block;
         border: 0;
         background: transparent;
-        color: white;
+        color: #fff;
         font-size: 22px;
         padding: 5px;
     }
@@ -774,7 +757,7 @@ input:focus-visible {
 
     .user-panel {
         left: 68px;
-        bottom: 10px;
+        bottom: 70px;
         width: calc(100vw - 80px);
     }
 
@@ -786,9 +769,7 @@ input:focus-visible {
 
 <div class="app">
 
-    <!-- =================================================
-         SERVERS
-    ================================================== -->
+    <!-- SERVER BAR -->
 
     <aside class="servers">
 
@@ -819,15 +800,15 @@ input:focus-visible {
     </aside>
 
 
-    <!-- =================================================
-         CHANNELS
-    ================================================== -->
+    <!-- CHANNEL SIDEBAR -->
 
     <aside class="channels" id="channels">
 
         <div class="workspace">
 
-            <span id="workspaceName">Chorda</span>
+            <span id="workspaceName">
+                Chorda
+            </span>
 
             <div class="workspace-actions">
 
@@ -840,6 +821,7 @@ input:focus-visible {
             </div>
 
         </div>
+
 
         <div
             class="channel-list"
@@ -870,7 +852,6 @@ input:focus-visible {
         <button
             class="small-button"
             id="profileButton"
-            style="margin:8px;text-align:left;"
         >
             👤 You — Online
         </button>
@@ -878,9 +859,7 @@ input:focus-visible {
     </aside>
 
 
-    <!-- =================================================
-         CHAT
-    ================================================== -->
+    <!-- CHAT -->
 
     <main class="chat">
 
@@ -892,12 +871,16 @@ input:focus-visible {
                 aria-label="Open channels"
             >☰</button>
 
-            <span class="channel-icon">#</span>
+            <span class="channel-icon">
+                #
+            </span>
 
             <span
                 class="channel-name"
                 id="channelName"
-            >general</span>
+            >
+                general
+            </span>
 
             <span
                 class="channel-topic"
@@ -988,9 +971,7 @@ input:focus-visible {
     </main>
 
 
-    <!-- =================================================
-         MEMBERS
-    ================================================== -->
+    <!-- MEMBERS -->
 
     <aside class="members">
 
@@ -1000,45 +981,45 @@ input:focus-visible {
 
         <div class="member">
             <div class="avatar">AX</div>
-
             <div>
                 <div class="member-name">Alex</div>
-                <div class="member-status">Building things</div>
+                <div class="member-status">
+                    Building things
+                </div>
             </div>
-
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">SK</div>
-
             <div>
                 <div class="member-name">Sky</div>
-                <div class="member-status">Listening</div>
+                <div class="member-status">
+                    Listening
+                </div>
             </div>
-
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">JM</div>
-
             <div>
                 <div class="member-name">Jamie</div>
-                <div class="member-status">Playing</div>
+                <div class="member-status">
+                    Playing
+                </div>
             </div>
-
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">RB</div>
-
             <div>
                 <div class="member-name">Riley</div>
-                <div class="member-status">Online</div>
+                <div class="member-status">
+                    Online
+                </div>
             </div>
-
             <div class="online"></div>
         </div>
 
@@ -1047,9 +1028,7 @@ input:focus-visible {
 </div>
 
 
-<!-- =================================================
-     MOBILE OVERLAY
-================================================== -->
+<!-- MOBILE OVERLAY -->
 
 <div
     class="mobile-overlay"
@@ -1057,9 +1036,7 @@ input:focus-visible {
 ></div>
 
 
-<!-- =================================================
-     PROFILE
-================================================== -->
+<!-- PROFILE -->
 
 <div
     class="user-panel"
@@ -1068,11 +1045,20 @@ input:focus-visible {
 
     <div class="profile-header">
 
-        <div class="avatar">YO</div>
+        <div class="avatar">
+            YO
+        </div>
 
         <div>
-            <div class="profile-name">You</div>
-            <div class="profile-status">● Online</div>
+
+            <div class="profile-name">
+                You
+            </div>
+
+            <div class="profile-status">
+                ● Online
+            </div>
+
         </div>
 
     </div>
@@ -1080,24 +1066,28 @@ input:focus-visible {
     <button
         class="profile-option"
         onclick="comingSoon('Edit profile')"
-    >👤 Edit Profile</button>
+    >
+        👤 Edit Profile
+    </button>
 
     <button
         class="profile-option"
         onclick="openSettings()"
-    >⚙ Settings</button>
+    >
+        ⚙ Settings
+    </button>
 
     <button
         class="profile-option"
         onclick="comingSoon('Account switching')"
-    >⇄ Switch Account</button>
+    >
+        ⇄ Switch Account
+    </button>
 
 </div>
 
 
-<!-- =================================================
-     SETTINGS
-================================================== -->
+<!-- SETTINGS -->
 
 <div
     class="modal"
@@ -1108,110 +1098,52 @@ input:focus-visible {
 
         <div class="modal-header">
 
-            <h2>Chorda Settings</h2>
+            <h2>
+                Chorda Settings
+            </h2>
 
             <button
                 class="close-button"
                 onclick="closeSettings()"
-            >✕</button>
+            >
+                ✕
+            </button>
 
         </div>
 
-
         <div class="settings-row">
-
             <strong>Account</strong>
-
             <span>
                 Account management is coming soon.
             </span>
-
         </div>
 
-
         <div class="settings-row">
-
             <strong>Appearance</strong>
-
             <span>
                 Dark mode is currently enabled.
             </span>
-
         </div>
 
-
-        <!-- ZOOM -->
-
         <div class="settings-row">
-
-            <strong>Zoom</strong>
-
-            <span>
-                Your Chorda zoom level is saved on this device until you change it.
-            </span>
-
-
-            <div class="zoom-controls">
-
-                <button
-                    class="zoom-button"
-                    id="zoomOutButton"
-                    title="Zoom out"
-                >−</button>
-
-                <div
-                    class="zoom-value"
-                    id="zoomValue"
-                >100%</div>
-
-                <button
-                    class="zoom-button"
-                    id="zoomInButton"
-                    title="Zoom in"
-                >+</button>
-
-                <button
-                    class="zoom-reset"
-                    id="zoomResetButton"
-                >
-                    Reset
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="settings-row">
-
             <strong>Notifications</strong>
-
             <span>
                 Notification controls are coming soon.
             </span>
-
         </div>
 
-
         <div class="settings-row">
-
             <strong>Privacy</strong>
-
             <span>
                 Privacy controls will be added later.
             </span>
-
         </div>
 
-
         <div class="settings-row">
-
             <strong>Chorda Plus</strong>
-
             <span>
                 Premium features are coming soon.
             </span>
-
         </div>
 
     </div>
@@ -1228,11 +1160,9 @@ input:focus-visible {
 const serverData = {
 
     chorda: {
-
         name: "Chorda",
 
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to your community."
@@ -1257,18 +1187,13 @@ const serverData = {
                 name: "support",
                 topic: "Get help from the community."
             }
-
         }
-
     },
 
-
     gaming: {
-
         name: "Gaming",
 
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to the Gaming server."
@@ -1288,18 +1213,13 @@ const serverData = {
                 name: "clips",
                 topic: "Share your gaming clips."
             }
-
         }
-
     },
 
-
     study: {
-
         name: "Study",
 
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to the Study server."
@@ -1319,24 +1239,20 @@ const serverData = {
                 name: "chat",
                 topic: "General study discussion."
             }
-
         }
-
     }
 
 };
 
 
 /* =====================================================
-   SELECTED CHANNEL PER SERVER
+   REMEMBER CHANNEL PER SERVER
 ===================================================== */
 
 const selectedChannel = {
 
     chorda: "general",
-
     gaming: "general",
-
     study: "general"
 
 };
@@ -1403,7 +1319,6 @@ const messagesData = {
 
     },
 
-
     gaming: {
 
         general: [
@@ -1443,7 +1358,6 @@ const messagesData = {
         ]
 
     },
-
 
     study: {
 
@@ -1500,418 +1414,99 @@ let currentServer = "chorda";
 ===================================================== */
 
 const serverButtons =
-    document.querySelectorAll(".server[data-server]");
+    document.querySelectorAll(
+        ".server[data-server]"
+    );
 
 const channelList =
-    document.getElementById("channelList");
+    document.getElementById(
+        "channelList"
+    );
 
 const workspaceName =
-    document.getElementById("workspaceName");
+    document.getElementById(
+        "workspaceName"
+    );
 
 const channelName =
-    document.getElementById("channelName");
+    document.getElementById(
+        "channelName"
+    );
 
 const channelTopic =
-    document.getElementById("channelTopic");
+    document.getElementById(
+        "channelTopic"
+    );
 
 const welcomeTitle =
-    document.getElementById("welcomeTitle");
+    document.getElementById(
+        "welcomeTitle"
+    );
 
 const welcomeText =
-    document.getElementById("welcomeText");
+    document.getElementById(
+        "welcomeText"
+    );
 
 const messageList =
-    document.getElementById("messageList");
+    document.getElementById(
+        "messageList"
+    );
 
 const messages =
-    document.getElementById("messages");
+    document.getElementById(
+        "messages"
+    );
 
 const input =
-    document.getElementById("messageInput");
+    document.getElementById(
+        "messageInput"
+    );
 
 const sendButton =
-    document.getElementById("sendButton");
+    document.getElementById(
+        "sendButton"
+    );
 
 const channelsPanel =
-    document.getElementById("channels");
+    document.getElementById(
+        "channels"
+    );
 
 const mobileMenu =
-    document.getElementById("mobileMenu");
+    document.getElementById(
+        "mobileMenu"
+    );
 
 const mobileOverlay =
-    document.getElementById("mobileOverlay");
+    document.getElementById(
+        "mobileOverlay"
+    );
 
 const searchContainer =
-    document.getElementById("searchContainer");
+    document.getElementById(
+        "searchContainer"
+    );
 
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
 
 const profileButton =
-    document.getElementById("profileButton");
+    document.getElementById(
+        "profileButton"
+    );
 
 const userPanel =
-    document.getElementById("userPanel");
+    document.getElementById(
+        "userPanel"
+    );
 
 const settingsModal =
-    document.getElementById("settingsModal");
-
-
-/* =====================================================
-   PERSISTENT ZOOM
-===================================================== */
-
-/*
-   IMPORTANT:
-
-   This value is stored in localStorage.
-
-   Therefore:
-   - refresh = stays
-   - close browser = stays
-   - reopen website = stays
-   - change server = stays
-   - change channel = stays
-
-   It only changes when the user changes it.
-*/
-
-const ZOOM_STORAGE_KEY =
-    "chorda_zoom_level";
-
-const DEFAULT_ZOOM =
-    1;
-
-const MIN_ZOOM =
-    0.75;
-
-const MAX_ZOOM =
-    1.50;
-
-const ZOOM_STEP =
-    0.10;
-
-
-let currentZoom =
-    loadSavedZoom();
-
-
-function loadSavedZoom() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(
-                ZOOM_STORAGE_KEY
-            );
-
-
-        if (saved === null) {
-
-            return DEFAULT_ZOOM;
-
-        }
-
-
-        const number =
-            parseFloat(saved);
-
-
-        if (
-            Number.isFinite(number) &&
-            number >= MIN_ZOOM &&
-            number <= MAX_ZOOM
-        ) {
-
-            return number;
-
-        }
-
-    } catch (error) {
-
-        console.warn(
-            "Unable to load saved Chorda zoom.",
-            error
-        );
-
-    }
-
-
-    return DEFAULT_ZOOM;
-
-}
-
-
-function saveZoom() {
-
-    try {
-
-        localStorage.setItem(
-            ZOOM_STORAGE_KEY,
-            currentZoom.toString()
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "Unable to save Chorda zoom.",
-            error
-        );
-
-    }
-
-}
-
-
-function applyZoom() {
-
-    /*
-       CSS zoom changes the actual layout size
-       rather than simply making the page blurry.
-    */
-
-    document.documentElement.style.zoom =
-        currentZoom;
-
-
-    updateZoomDisplay();
-
-    saveZoom();
-
-}
-
-
-function updateZoomDisplay() {
-
-    const zoomValue =
-        document.getElementById(
-            "zoomValue"
-        );
-
-
-    if (!zoomValue) {
-        return;
-    }
-
-
-    zoomValue.textContent =
-        Math.round(
-            currentZoom * 100
-        ) + "%";
-
-}
-
-
-function setZoom(value) {
-
-    let newZoom =
-        Number(value);
-
-
-    if (!Number.isFinite(newZoom)) {
-
-        return;
-
-    }
-
-
-    newZoom =
-        Math.max(
-            MIN_ZOOM,
-            Math.min(
-                MAX_ZOOM,
-                newZoom
-            )
-        );
-
-
-    /*
-       Prevent floating-point values such as
-       1.2000000000000002.
-    */
-
-    newZoom =
-        Math.round(
-            newZoom * 100
-        ) / 100;
-
-
-    currentZoom =
-        newZoom;
-
-
-    applyZoom();
-
-}
-
-
-function zoomIn() {
-
-    setZoom(
-        currentZoom +
-        ZOOM_STEP
-    );
-
-}
-
-
-function zoomOut() {
-
-    setZoom(
-        currentZoom -
-        ZOOM_STEP
-    );
-
-}
-
-
-function resetZoom() {
-
-    setZoom(
-        DEFAULT_ZOOM
-    );
-
-}
-
-
-/* =====================================================
-   ZOOM BUTTONS
-===================================================== */
-
-const zoomInButton =
     document.getElementById(
-        "zoomInButton"
+        "settingsModal"
     );
-
-const zoomOutButton =
-    document.getElementById(
-        "zoomOutButton"
-    );
-
-const zoomResetButton =
-    document.getElementById(
-        "zoomResetButton"
-    );
-
-
-zoomInButton.addEventListener(
-    "click",
-    zoomIn
-);
-
-
-zoomOutButton.addEventListener(
-    "click",
-    zoomOut
-);
-
-
-zoomResetButton.addEventListener(
-    "click",
-    resetZoom
-);
-
-
-/* =====================================================
-   KEYBOARD ZOOM
-===================================================== */
-
-/*
-   Ctrl + Plus
-   Ctrl + Minus
-   Ctrl + 0
-
-   The browser's normal zoom is prevented so that
-   Chorda controls its own persistent zoom.
-*/
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (!event.ctrlKey && !event.metaKey) {
-
-            return;
-
-        }
-
-
-        if (
-            event.key === "+" ||
-            event.key === "="
-        ) {
-
-            event.preventDefault();
-
-            zoomIn();
-
-            return;
-
-        }
-
-
-        if (
-            event.key === "-" ||
-            event.key === "_"
-        ) {
-
-            event.preventDefault();
-
-            zoomOut();
-
-            return;
-
-        }
-
-
-        if (event.key === "0") {
-
-            event.preventDefault();
-
-            resetZoom();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   MOUSE WHEEL ZOOM
-===================================================== */
-
-document.addEventListener(
-    "wheel",
-    function(event) {
-
-        if (
-            !event.ctrlKey &&
-            !event.metaKey
-        ) {
-
-            return;
-
-        }
-
-
-        event.preventDefault();
-
-
-        if (event.deltaY < 0) {
-
-            zoomIn();
-
-        } else {
-
-            zoomOut();
-
-        }
-
-    },
-    {
-        passive: false
-    }
-);
 
 
 /* =====================================================
@@ -1920,48 +1515,29 @@ document.addEventListener(
 
 function loadServer(serverId) {
 
-    const server =
-        serverData[serverId];
-
-
-    if (!server) {
+    if (!serverData[serverId]) {
         return;
     }
 
+    currentServer = serverId;
 
-    currentServer =
-        serverId;
+    serverButtons.forEach(function(button) {
 
+        button.classList.toggle(
+            "active",
+            button.dataset.server === serverId
+        );
 
-    serverButtons.forEach(
-        function(button) {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.server === serverId
-            );
-
-        }
-    );
-
+    });
 
     workspaceName.textContent =
-        server.name;
-
+        serverData[serverId].name;
 
     renderChannels();
 
-
-    /*
-       Every server has its own saved channel.
-    */
-
-    const savedChannel =
-        selectedChannel[serverId];
-
-
     loadChannel(
-        savedChannel
+        selectedChannel[serverId] ||
+        "general"
     );
 
 }
@@ -1976,90 +1552,81 @@ function renderChannels() {
     const server =
         serverData[currentServer];
 
-
     if (!server) {
         return;
     }
 
-
-    channelList.innerHTML =
-        "";
+    channelList.innerHTML = "";
 
 
-    const welcomeCategory =
+    const category =
         document.createElement("div");
 
-    welcomeCategory.className =
+    category.className =
         "category";
 
-    welcomeCategory.textContent =
-        "Welcome";
+    category.textContent =
+        "Text Channels";
 
     channelList.appendChild(
-        welcomeCategory
+        category
     );
 
 
-    Object.keys(server.channels)
-        .forEach(
-            function(channelId) {
+    Object.keys(server.channels).forEach(
+        function(channelId) {
 
-                const channel =
-                    server.channels[channelId];
+            const channel =
+                server.channels[channelId];
 
+            const element =
+                document.createElement("div");
 
-                const channelElement =
-                    document.createElement("div");
+            element.className =
+                "channel";
 
-                channelElement.className =
-                    "channel";
+            element.dataset.channel =
+                channelId;
 
-
-                if (
-                    selectedChannel[currentServer] ===
-                    channelId
-                ) {
-
-                    channelElement.classList.add(
-                        "active"
-                    );
-
-                }
+            element.textContent =
+                "# " + channel.name;
 
 
-                channelElement.dataset.channel =
-                    channelId;
+            if (
+                selectedChannel[currentServer] ===
+                channelId
+            ) {
 
-                channelElement.textContent =
-                    "# " + channel.name;
-
-
-                channelElement.addEventListener(
-                    "click",
-                    function() {
-
-                        selectedChannel[currentServer] =
-                            channelId;
-
-
-                        renderChannels();
-
-                        loadChannel(
-                            channelId
-                        );
-
-                        closeMobileMenu();
-
-                    }
-                );
-
-
-                channelList.appendChild(
-                    channelElement
+                element.classList.add(
+                    "active"
                 );
 
             }
-        );
+
+
+            element.addEventListener(
+                "click",
+                function() {
+
+                    selectedChannel[currentServer] =
+                        channelId;
+
+                    renderChannels();
+
+                    loadChannel(channelId);
+
+                    closeMobileMenu();
+
+                }
+            );
+
+
+            channelList.appendChild(
+                element
+            );
+
+        }
+    );
 
 
     const voiceCategory =
@@ -2076,36 +1643,35 @@ function renderChannels() {
     );
 
 
-    ["Lounge", "Gaming"]
-        .forEach(
-            function(name) {
+    ["Lounge", "Gaming"].forEach(
+        function(name) {
 
-                const voice =
-                    document.createElement("div");
+            const voice =
+                document.createElement("div");
 
-                voice.className =
-                    "channel";
+            voice.className =
+                "channel";
 
-                voice.textContent =
-                    "🔊 " + name;
+            voice.textContent =
+                "🔊 " + name;
 
+            voice.addEventListener(
+                "click",
+                function() {
 
-                voice.onclick =
-                    function() {
+                    comingSoon(
+                        "Voice channels"
+                    );
 
-                        comingSoon(
-                            "Voice channels"
-                        );
+                }
+            );
 
-                    };
+            channelList.appendChild(
+                voice
+            );
 
-
-                channelList.appendChild(
-                    voice
-                );
-
-            }
-        );
+        }
+    );
 
 }
 
@@ -2119,20 +1685,16 @@ function loadChannel(channelId) {
     const server =
         serverData[currentServer];
 
-
     if (!server) {
         return;
     }
 
-
     const channel =
         server.channels[channelId];
-
 
     if (!channel) {
         return;
     }
-
 
     selectedChannel[currentServer] =
         channelId;
@@ -2157,64 +1719,53 @@ function loadChannel(channelId) {
         channel.name;
 
 
-    messageList.innerHTML =
-        "";
+    messageList.innerHTML = "";
 
 
-    if (
-        !messagesData[currentServer]
-    ) {
-
-        messagesData[currentServer] =
-            {};
-
+    if (!messagesData[currentServer]) {
+        messagesData[currentServer] = {};
     }
-
 
     if (
         !messagesData[currentServer][channelId]
     ) {
-
         messagesData[currentServer][channelId] =
             [];
-
     }
 
 
     messagesData[currentServer][channelId]
-        .forEach(
-            function(message) {
+        .forEach(function(message) {
 
-                createMessage(
-                    message.name,
-                    message.avatar,
-                    message.text,
-                    message.time,
-                    false
-                );
+            createMessage(
+                message.name,
+                message.avatar,
+                message.text,
+                message.time,
+                false
+            );
 
-            }
-        );
+        });
 
 
-    messages.scrollTop =
-        messages.scrollHeight;
-
-
-    searchInput.value =
-        "";
-
+    searchInput.value = "";
 
     document
         .querySelectorAll(".message")
-        .forEach(
-            function(message) {
+        .forEach(function(message) {
 
-                message.style.display =
-                    "flex";
+            message.style.display =
+                "flex";
 
-            }
-        );
+        });
+
+
+    requestAnimationFrame(function() {
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    });
 
 }
 
@@ -2279,13 +1830,8 @@ function createMessage(
         time;
 
 
-    header.appendChild(
-        username
-    );
-
-    header.appendChild(
-        timestamp
-    );
+    header.appendChild(username);
+    header.appendChild(timestamp);
 
 
     const textElement =
@@ -2318,7 +1864,8 @@ function createMessage(
     let likes = 0;
 
 
-    likeButton.onclick =
+    likeButton.addEventListener(
+        "click",
         function() {
 
             likes++;
@@ -2326,7 +1873,8 @@ function createMessage(
             likeButton.textContent =
                 "👍 " + likes;
 
-        };
+        }
+    );
 
 
     reactions.appendChild(
@@ -2334,17 +1882,9 @@ function createMessage(
     );
 
 
-    content.appendChild(
-        header
-    );
-
-    content.appendChild(
-        textElement
-    );
-
-    content.appendChild(
-        reactions
-    );
+    content.appendChild(header);
+    content.appendChild(textElement);
+    content.appendChild(reactions);
 
 
     const actions =
@@ -2364,7 +1904,8 @@ function createMessage(
         "😀";
 
 
-    reactButton.onclick =
+    reactButton.addEventListener(
+        "click",
         function() {
 
             likes++;
@@ -2372,7 +1913,8 @@ function createMessage(
             likeButton.textContent =
                 "👍 " + likes;
 
-        };
+        }
+    );
 
 
     actions.appendChild(
@@ -2417,9 +1959,24 @@ function sendMessage() {
     const text =
         input.value.trim();
 
-
     if (!text) {
         return;
+    }
+
+
+    const channelId =
+        selectedChannel[currentServer];
+
+
+    if (!messagesData[currentServer]) {
+        messagesData[currentServer] = {};
+    }
+
+    if (
+        !messagesData[currentServer][channelId]
+    ) {
+        messagesData[currentServer][channelId] =
+            [];
     }
 
 
@@ -2437,30 +1994,6 @@ function sendMessage() {
         );
 
 
-    const channelId =
-        selectedChannel[currentServer];
-
-
-    if (
-        !messagesData[currentServer]
-    ) {
-
-        messagesData[currentServer] =
-            {};
-
-    }
-
-
-    if (
-        !messagesData[currentServer][channelId]
-    ) {
-
-        messagesData[currentServer][channelId] =
-            [];
-
-    }
-
-
     const newMessage = {
 
         name: "You",
@@ -2475,9 +2008,7 @@ function sendMessage() {
 
 
     messagesData[currentServer][channelId]
-        .push(
-            newMessage
-        );
+        .push(newMessage);
 
 
     createMessage(
@@ -2488,8 +2019,9 @@ function sendMessage() {
     );
 
 
-    input.value =
-        "";
+    input.value = "";
+
+    input.focus();
 
 }
 
@@ -2505,6 +2037,8 @@ input.addEventListener(
     function(event) {
 
         if (event.key === "Enter") {
+
+            event.preventDefault();
 
             sendMessage();
 
@@ -2537,7 +2071,7 @@ serverButtons.forEach(
 
 
 /* =====================================================
-   MOBILE MENU
+   MOBILE
 ===================================================== */
 
 mobileMenu.addEventListener(
@@ -2611,22 +2145,20 @@ searchInput.addEventListener(
 
         document
             .querySelectorAll(".message")
-            .forEach(
-                function(message) {
+            .forEach(function(message) {
 
-                    const text =
-                        message.textContent
-                            .toLowerCase();
+                const text =
+                    message.textContent
+                        .toLowerCase();
 
 
-                    message.style.display =
-                        !query ||
-                        text.includes(query)
-                            ? "flex"
-                            : "none";
+                message.style.display =
+                    !query ||
+                    text.includes(query)
+                        ? "flex"
+                        : "none";
 
-                }
-            );
+            });
 
     }
 );
@@ -2661,8 +2193,6 @@ function openSettings() {
     settingsModal.classList.add(
         "open"
     );
-
-    updateZoomDisplay();
 
 }
 
@@ -2726,18 +2256,10 @@ function comingSoon(feature) {
 
 
 /* =====================================================
-   START APP
+   START
 ===================================================== */
 
-/*
-   Apply saved zoom BEFORE displaying the app.
-*/
-
-applyZoom();
-
-loadServer(
-    "chorda"
-);
+loadServer("chorda");
 
 </script>
 
