@@ -6,675 +6,778 @@
 <title>Chorda</title>
 
 <style>
-*{box-sizing:border-box}
-
-:root{
-    --background:#111318;
-    --sidebar:#171a21;
-    --sidebar-dark:#0b0d10;
-    --card:#20242d;
-    --card-hover:#292e38;
-    --border:#303540;
-    --text:#fff;
-    --muted:#9ca3af;
-    --accent:#5865f2;
-    --success:#57d68a;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--background);
-    color:var(--text);
-    overflow:hidden;
+:root {
+    --background: #111318;
+    --sidebar: #171a21;
+    --sidebar-dark: #0b0d10;
+    --card: #20242d;
+    --card-hover: #292e38;
+    --border: #303540;
+    --text: #ffffff;
+    --muted: #9ca3af;
+    --accent: #5865f2;
+    --success: #57d68a;
 }
 
-button,input{font-family:inherit}
-button{cursor:pointer}
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    overflow: hidden;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
 
 button:focus-visible,
-input:focus-visible{
-    outline:2px solid var(--accent);
-    outline-offset:2px;
+input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-.app{
-    height:100vh;
-    display:flex;
+/* =====================================================
+   APP
+===================================================== */
+
+.app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
 }
 
-/* SERVER BAR */
+/* =====================================================
+   SERVERS
+===================================================== */
 
-.servers{
-    width:72px;
-    background:var(--sidebar-dark);
-    padding:12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:12px;
-    flex-shrink:0;
-    z-index:30;
+.servers {
+    width: 72px;
+    background: var(--sidebar-dark);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 30;
 }
 
-.server{
-    width:48px;
-    height:48px;
-    border:0;
-    border-radius:16px;
-    background:#242833;
-    color:#fff;
-    font-weight:bold;
-    font-size:18px;
-    transition:.2s;
+.server {
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 16px;
+    background: #242833;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: .2s;
 }
 
 .server:hover,
-.server.active{
-    background:var(--accent);
-    border-radius:13px;
+.server.active {
+    background: var(--accent);
+    border-radius: 13px;
 }
 
-.server.add{
-    color:#6ee7a0;
-    font-size:24px;
+.server.add {
+    color: #6ee7a0;
+    font-size: 24px;
 }
 
-/* CHANNEL SIDEBAR */
+/* =====================================================
+   CHANNEL SIDEBAR
+===================================================== */
 
-.channels{
-    width:250px;
-    background:var(--sidebar);
-    display:flex;
-    flex-direction:column;
-    flex-shrink:0;
-    z-index:20;
+.channels {
+    width: 250px;
+    background: var(--sidebar);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 20;
 }
 
-.workspace{
-    height:64px;
-    padding:0 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border);
-    font-size:18px;
-    font-weight:bold;
+.workspace {
+    height: 64px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.workspace-actions{
-    display:flex;
-    gap:5px;
+.workspace-actions {
+    display: flex;
+    gap: 5px;
 }
 
-.small-button{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    font-size:17px;
-    padding:5px;
-    border-radius:6px;
+.small-button {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 17px;
+    padding: 5px;
+    border-radius: 6px;
 }
 
-.small-button:hover{
-    background:var(--card);
-    color:#fff;
+.small-button:hover {
+    background: var(--card);
+    color: white;
 }
 
-.channel-list{
-    padding:14px 10px;
-    overflow-y:auto;
-    flex:1;
+.channel-list {
+    padding: 14px 10px;
+    overflow-y: auto;
+    flex: 1;
 }
 
-.category{
-    color:#8f96a3;
-    font-size:12px;
-    font-weight:bold;
-    text-transform:uppercase;
-    margin:12px 8px 8px;
+.category {
+    color: #8f96a3;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 12px 8px 8px;
 }
 
-.channel{
-    padding:10px;
-    border-radius:6px;
-    color:var(--muted);
-    cursor:pointer;
-    margin-bottom:2px;
+.channel {
+    padding: 10px;
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-bottom: 2px;
 }
 
 .channel:hover,
-.channel.active{
-    background:var(--card);
-    color:#fff;
+.channel.active {
+    background: var(--card);
+    color: white;
 }
 
-/* PLUS */
+/* =====================================================
+   PLUS
+===================================================== */
 
-.plus{
-    margin:10px;
-    padding:14px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#292e4a,#202432);
-    border:1px solid #3a4168;
+.plus {
+    margin: 10px;
+    padding: 14px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #292e4a, #202432);
+    border: 1px solid #3a4168;
 }
 
-.plus-title{
-    font-weight:bold;
-    margin-bottom:5px;
+.plus-title {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.plus-text{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.4;
-    margin-bottom:10px;
+.plus-text {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 10px;
 }
 
-.plus-button{
-    width:100%;
-    border:0;
-    padding:8px;
-    border-radius:7px;
-    background:var(--accent);
-    color:#fff;
-    font-weight:bold;
+.plus-button {
+    width: 100%;
+    border: 0;
+    padding: 8px;
+    border-radius: 7px;
+    background: var(--accent);
+    color: white;
+    font-weight: bold;
 }
 
-/* CHAT */
-
-.chat{
-    flex:1;
-    min-width:0;
-    display:flex;
-    flex-direction:column;
+.plus-button:hover {
+    filter: brightness(1.1);
 }
 
-.chat-header{
-    height:64px;
-    padding:0 15px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:var(--sidebar);
-    border-bottom:1px solid var(--border);
-    flex-shrink:0;
+/* =====================================================
+   CHAT
+===================================================== */
+
+.chat {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
-.channel-icon{
-    color:#8f96a3;
-    font-size:21px;
+.chat-header {
+    height: 64px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--sidebar);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
 }
 
-.channel-name{
-    font-weight:bold;
+.channel-icon {
+    color: #8f96a3;
+    font-size: 21px;
 }
 
-.channel-topic{
-    color:var(--muted);
-    font-size:13px;
-    margin-left:5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+.channel-name {
+    font-weight: bold;
 }
 
-.header-actions{
-    margin-left:auto;
-    display:flex;
-    align-items:center;
-    gap:5px;
+.channel-topic {
+    color: var(--muted);
+    font-size: 13px;
+    margin-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.header-button{
-    width:38px;
-    height:38px;
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    border-radius:7px;
-    font-size:18px;
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.header-button:hover{
-    background:var(--card);
-    color:#fff;
+.header-button {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 7px;
+    font-size: 18px;
 }
 
-.mobile-menu{
-    display:none;
+.header-button:hover {
+    background: var(--card);
+    color: white;
 }
 
-/* SEARCH */
-
-.search-container{
-    display:none;
-    position:absolute;
-    top:58px;
-    right:15px;
-    width:280px;
-    padding:10px;
-    background:#1a1e27;
-    border:1px solid var(--border);
-    border-radius:10px;
-    z-index:100;
-    box-shadow:0 15px 40px rgba(0,0,0,.45);
+.mobile-menu {
+    display: none;
 }
 
-.search-container.open{
-    display:block;
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-container {
+    display: none;
+    position: absolute;
+    top: 58px;
+    right: 15px;
+    width: 280px;
+    padding: 10px;
+    background: #1a1e27;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    z-index: 100;
+    box-shadow: 0 15px 40px rgba(0,0,0,.45);
 }
 
-.search-container input{
-    width:100%;
-    border:0;
-    outline:0;
-    background:var(--card);
-    color:#fff;
-    padding:10px;
-    border-radius:7px;
+.search-container.open {
+    display: block;
 }
 
-/* MESSAGES */
-
-.messages{
-    flex:1;
-    padding:25px;
-    overflow-y:auto;
+.search-container input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: var(--card);
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
 }
 
-.welcome{
-    padding:20px;
-    border-radius:10px;
-    background:#1d222b;
-    margin-bottom:25px;
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.messages {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
 }
 
-.welcome h2{
-    margin:0 0 8px;
+.welcome {
+    padding: 20px;
+    border-radius: 10px;
+    background: #1d222b;
+    margin-bottom: 25px;
 }
 
-.welcome p{
-    color:var(--muted);
-    margin:0;
+.welcome h2 {
+    margin: 0 0 8px;
 }
 
-.message{
-    display:flex;
-    gap:12px;
-    padding:8px;
-    border-radius:6px;
-    position:relative;
+.welcome p {
+    color: var(--muted);
+    margin: 0;
 }
 
-.message:hover{
-    background:rgba(255,255,255,.03);
+.message {
+    display: flex;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 6px;
+    position: relative;
 }
 
-.avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:var(--accent);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    font-weight:bold;
-    flex-shrink:0;
+.message:hover {
+    background: rgba(255,255,255,.03);
 }
 
-.message-content{
-    min-width:0;
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    flex-shrink: 0;
 }
 
-.username{
-    font-weight:bold;
+.message-content {
+    min-width: 0;
 }
 
-.timestamp{
-    margin-left:8px;
-    color:#737b89;
-    font-size:11px;
+.username {
+    font-weight: bold;
 }
 
-.message-text{
-    margin-top:4px;
-    color:#d5d9e0;
-    line-height:1.5;
-    overflow-wrap:anywhere;
+.timestamp {
+    margin-left: 8px;
+    color: #737b89;
+    font-size: 11px;
 }
 
-.reactions{
-    display:flex;
-    gap:5px;
-    margin-top:7px;
-    flex-wrap:wrap;
+.message-text {
+    margin-top: 4px;
+    color: #d5d9e0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
-.reaction{
-    border:1px solid var(--border);
-    background:#20242d;
-    color:#d5d9e0;
-    padding:4px 8px;
-    border-radius:7px;
-    font-size:12px;
+.reactions {
+    display: flex;
+    gap: 5px;
+    margin-top: 7px;
+    flex-wrap: wrap;
 }
 
-.reaction:hover{
-    border-color:var(--accent);
+.reaction {
+    border: 1px solid var(--border);
+    background: #20242d;
+    color: #d5d9e0;
+    padding: 4px 8px;
+    border-radius: 7px;
+    font-size: 12px;
 }
 
-.message-actions{
-    display:none;
-    position:absolute;
-    right:8px;
-    top:-5px;
-    background:#20242d;
-    border:1px solid var(--border);
-    border-radius:7px;
-    overflow:hidden;
+.reaction:hover {
+    border-color: var(--accent);
 }
 
-.message:hover .message-actions{
-    display:flex;
+.message-actions {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: -5px;
+    background: #20242d;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    overflow: hidden;
 }
 
-.message-action{
-    border:0;
-    background:transparent;
-    padding:7px 9px;
-    color:var(--muted);
+.message:hover .message-actions {
+    display: flex;
 }
 
-.message-action:hover{
-    background:var(--card-hover);
-    color:#fff;
+.message-action {
+    border: 0;
+    background: transparent;
+    padding: 7px 9px;
+    color: var(--muted);
 }
 
-/* INPUT */
-
-.message-area{
-    padding:12px 20px 18px;
+.message-action:hover {
+    background: var(--card-hover);
+    color: white;
 }
 
-.message-box{
-    display:flex;
-    align-items:center;
-    background:var(--card);
-    border-radius:9px;
-    padding:5px 10px;
+/* =====================================================
+   MESSAGE INPUT
+===================================================== */
+
+.message-area {
+    padding: 12px 20px 18px;
 }
 
-.message-box input{
-    flex:1;
-    min-width:0;
-    border:0;
-    outline:0;
-    background:transparent;
-    color:#fff;
-    padding:12px;
+.message-box {
+    display: flex;
+    align-items: center;
+    background: var(--card);
+    border-radius: 9px;
+    padding: 5px 10px;
 }
 
-.message-box button{
-    border:0;
-    background:var(--accent);
-    color:#fff;
-    padding:9px 14px;
-    border-radius:7px;
-    font-weight:bold;
+.message-box input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: white;
+    padding: 12px;
 }
 
-/* MEMBERS */
-
-.members{
-    width:230px;
-    background:var(--sidebar);
-    border-left:1px solid var(--border);
-    padding:20px 12px;
-    overflow-y:auto;
-    flex-shrink:0;
+.message-box button {
+    border: 0;
+    background: var(--accent);
+    color: white;
+    padding: 9px 14px;
+    border-radius: 7px;
+    font-weight: bold;
 }
 
-.members-title{
-    color:#8f96a3;
-    font-size:12px;
-    font-weight:bold;
-    text-transform:uppercase;
-    margin:4px 8px 12px;
+.message-box button:hover {
+    filter: brightness(1.1);
 }
 
-.member{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px;
-    border-radius:6px;
+/* =====================================================
+   MEMBERS
+===================================================== */
+
+.members {
+    width: 230px;
+    background: var(--sidebar);
+    border-left: 1px solid var(--border);
+    padding: 20px 12px;
+    overflow-y: auto;
+    flex-shrink: 0;
 }
 
-.member:hover{
-    background:var(--card);
+.members-title {
+    color: #8f96a3;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 4px 8px 12px;
 }
 
-.member-name{
-    font-size:14px;
+.member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 6px;
 }
 
-.member-status{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:2px;
+.member:hover {
+    background: var(--card);
 }
 
-.online{
-    width:8px;
-    height:8px;
-    background:var(--success);
-    border-radius:50%;
-    margin-left:auto;
+.member-name {
+    font-size: 14px;
 }
 
-/* USER PANEL */
-
-.user-panel{
-    position:fixed;
-    bottom:12px;
-    left:82px;
-    width:220px;
-    background:#1a1e27;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:14px;
-    display:none;
-    z-index:100;
-    box-shadow:0 15px 40px rgba(0,0,0,.5);
+.member-status {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 2px;
 }
 
-.user-panel.open{
-    display:block;
+.online {
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    margin-left: auto;
 }
 
-.profile-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:12px;
+/* =====================================================
+   USER PANEL
+===================================================== */
+
+.user-panel {
+    position: fixed;
+    bottom: 12px;
+    left: 82px;
+    width: 220px;
+    background: #1a1e27;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: none;
+    z-index: 100;
+    box-shadow: 0 15px 40px rgba(0,0,0,.5);
 }
 
-.profile-name{
-    font-weight:bold;
+.user-panel.open {
+    display: block;
 }
 
-.profile-status{
-    color:var(--success);
-    font-size:12px;
-    margin-top:3px;
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
 }
 
-.profile-option{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:#d5d9e0;
-    text-align:left;
-    padding:9px;
-    border-radius:6px;
+.profile-name {
+    font-weight: bold;
 }
 
-.profile-option:hover{
-    background:var(--card);
+.profile-status {
+    color: var(--success);
+    font-size: 12px;
+    margin-top: 3px;
 }
 
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:200;
+.profile-option {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #d5d9e0;
+    text-align: left;
+    padding: 9px;
+    border-radius: 6px;
 }
 
-.modal.open{
-    display:flex;
+.profile-option:hover {
+    background: var(--card);
 }
 
-.modal-box{
-    width:min(520px,100%);
-    background:#1a1e27;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:22px;
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 200;
 }
 
-.modal-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+.modal.open {
+    display: flex;
 }
 
-.modal-header h2{
-    margin:0;
+.modal-box {
+    width: min(520px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #1a1e27;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.6);
 }
 
-.close-button{
-    border:0;
-    background:var(--card);
-    color:#fff;
-    border-radius:7px;
-    padding:7px 10px;
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.settings-row{
-    margin-top:18px;
-    padding:14px;
-    background:var(--card);
-    border-radius:9px;
+.modal-header h2 {
+    margin: 0;
 }
 
-.settings-row strong{
-    display:block;
+.close-button {
+    border: 0;
+    background: var(--card);
+    color: white;
+    border-radius: 7px;
+    padding: 7px 10px;
 }
 
-.settings-row span{
-    color:var(--muted);
-    font-size:13px;
+.settings-row {
+    margin-top: 18px;
+    padding: 14px;
+    background: var(--card);
+    border-radius: 9px;
 }
 
-/* MOBILE */
-
-.mobile-overlay{
-    display:none;
+.settings-row strong {
+    display: block;
 }
 
-@media(max-width:1050px){
-    .members{
-        display:none;
+.settings-row span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =====================================================
+   ZOOM SETTINGS
+===================================================== */
+
+.zoom-controls {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.zoom-button {
+    width: 38px;
+    height: 34px;
+    border: 1px solid var(--border);
+    background: #181c24;
+    color: white;
+    border-radius: 7px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.zoom-button:hover {
+    background: var(--card-hover);
+}
+
+.zoom-value {
+    min-width: 65px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.zoom-reset {
+    margin-left: auto;
+    border: 1px solid var(--border);
+    background: #181c24;
+    color: #d5d9e0;
+    padding: 8px 12px;
+    border-radius: 7px;
+}
+
+.zoom-reset:hover {
+    background: var(--card-hover);
+    color: white;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+.mobile-overlay {
+    display: none;
+}
+
+@media(max-width:1050px) {
+
+    .members {
+        display: none;
     }
+
 }
 
-@media(max-width:700px){
-    .channel-topic{
-        display:none;
+@media(max-width:700px) {
+
+    .channel-topic {
+        display: none;
     }
+
 }
 
-@media(max-width:650px){
+@media(max-width:650px) {
 
-    .servers{
-        width:58px;
-        padding:8px;
+    .servers {
+        width: 58px;
+        padding: 8px;
     }
 
-    .server{
-        width:42px;
-        height:42px;
+    .server {
+        width: 42px;
+        height: 42px;
     }
 
-    .channels{
-        position:fixed;
-        left:58px;
-        top:0;
-        bottom:0;
-        width:250px;
-        transform:translateX(-110%);
-        transition:transform .2s ease;
-        box-shadow:20px 0 50px rgba(0,0,0,.5);
+    .channels {
+        position: fixed;
+        left: 58px;
+        top: 0;
+        bottom: 0;
+        width: 250px;
+        transform: translateX(-110%);
+        transition: transform .2s ease;
+        box-shadow: 20px 0 50px rgba(0,0,0,.5);
     }
 
-    .channels.open{
-        transform:translateX(0);
+    .channels.open {
+        transform: translateX(0);
     }
 
-    .mobile-menu{
-        display:block;
-        border:0;
-        background:transparent;
-        color:#fff;
-        font-size:22px;
-        padding:5px;
+    .mobile-menu {
+        display: block;
+        border: 0;
+        background: transparent;
+        color: white;
+        font-size: 22px;
+        padding: 5px;
     }
 
-    .mobile-overlay.show{
-        display:block;
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,.55);
-        z-index:10;
+    .mobile-overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+        z-index: 10;
     }
 
-    .messages{
-        padding:15px;
+    .messages {
+        padding: 15px;
     }
 
-    .message-area{
-        padding:10px;
+    .message-area {
+        padding: 10px;
     }
 
-    .chat-header{
-        padding:0 10px;
+    .chat-header {
+        padding: 0 10px;
     }
 
-    .search-container{
-        right:8px;
-        width:calc(100vw - 80px);
+    .search-container {
+        right: 8px;
+        width: calc(100vw - 80px);
     }
 
-    .message-actions{
-        display:flex;
-        position:static;
-        margin-left:auto;
-        align-self:center;
+    .message-actions {
+        display: flex;
+        position: static;
+        margin-left: auto;
+        align-self: center;
     }
 
-    .user-panel{
-        left:68px;
-        bottom:10px;
-        width:calc(100vw - 80px);
+    .user-panel {
+        left: 68px;
+        bottom: 10px;
+        width: calc(100vw - 80px);
     }
+
 }
 </style>
 </head>
@@ -683,7 +786,10 @@ input:focus-visible{
 
 <div class="app">
 
-    <!-- SERVER BAR -->
+    <!-- =================================================
+         SERVERS
+    ================================================== -->
+
     <aside class="servers">
 
         <button
@@ -713,7 +819,10 @@ input:focus-visible{
     </aside>
 
 
-    <!-- CHANNEL SIDEBAR -->
+    <!-- =================================================
+         CHANNELS
+    ================================================== -->
+
     <aside class="channels" id="channels">
 
         <div class="workspace">
@@ -731,7 +840,6 @@ input:focus-visible{
             </div>
 
         </div>
-
 
         <div
             class="channel-list"
@@ -770,7 +878,10 @@ input:focus-visible{
     </aside>
 
 
-    <!-- CHAT -->
+    <!-- =================================================
+         CHAT
+    ================================================== -->
+
     <main class="chat">
 
         <header class="chat-header">
@@ -821,11 +932,13 @@ input:focus-visible{
                 class="search-container"
                 id="searchContainer"
             >
+
                 <input
                     id="searchInput"
                     type="text"
                     placeholder="Search this channel..."
                 >
+
             </div>
 
         </header>
@@ -875,7 +988,10 @@ input:focus-visible{
     </main>
 
 
-    <!-- MEMBERS -->
+    <!-- =================================================
+         MEMBERS
+    ================================================== -->
+
     <aside class="members">
 
         <div class="members-title">
@@ -884,37 +1000,45 @@ input:focus-visible{
 
         <div class="member">
             <div class="avatar">AX</div>
+
             <div>
                 <div class="member-name">Alex</div>
                 <div class="member-status">Building things</div>
             </div>
+
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">SK</div>
+
             <div>
                 <div class="member-name">Sky</div>
                 <div class="member-status">Listening</div>
             </div>
+
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">JM</div>
+
             <div>
                 <div class="member-name">Jamie</div>
                 <div class="member-status">Playing</div>
             </div>
+
             <div class="online"></div>
         </div>
 
         <div class="member">
             <div class="avatar">RB</div>
+
             <div>
                 <div class="member-name">Riley</div>
                 <div class="member-status">Online</div>
             </div>
+
             <div class="online"></div>
         </div>
 
@@ -923,14 +1047,20 @@ input:focus-visible{
 </div>
 
 
-<!-- MOBILE OVERLAY -->
+<!-- =================================================
+     MOBILE OVERLAY
+================================================== -->
+
 <div
     class="mobile-overlay"
     id="mobileOverlay"
 ></div>
 
 
-<!-- PROFILE -->
+<!-- =================================================
+     PROFILE
+================================================== -->
+
 <div
     class="user-panel"
     id="userPanel"
@@ -965,7 +1095,10 @@ input:focus-visible{
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =================================================
+     SETTINGS
+================================================== -->
+
 <div
     class="modal"
     id="settingsModal"
@@ -984,29 +1117,101 @@ input:focus-visible{
 
         </div>
 
+
         <div class="settings-row">
+
             <strong>Account</strong>
-            <span>Account management is coming soon.</span>
+
+            <span>
+                Account management is coming soon.
+            </span>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Appearance</strong>
-            <span>Dark mode is currently enabled.</span>
+
+            <span>
+                Dark mode is currently enabled.
+            </span>
+
         </div>
 
+
+        <!-- ZOOM -->
+
         <div class="settings-row">
+
+            <strong>Zoom</strong>
+
+            <span>
+                Your Chorda zoom level is saved on this device until you change it.
+            </span>
+
+
+            <div class="zoom-controls">
+
+                <button
+                    class="zoom-button"
+                    id="zoomOutButton"
+                    title="Zoom out"
+                >−</button>
+
+                <div
+                    class="zoom-value"
+                    id="zoomValue"
+                >100%</div>
+
+                <button
+                    class="zoom-button"
+                    id="zoomInButton"
+                    title="Zoom in"
+                >+</button>
+
+                <button
+                    class="zoom-reset"
+                    id="zoomResetButton"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-row">
+
             <strong>Notifications</strong>
-            <span>Notification controls are coming soon.</span>
+
+            <span>
+                Notification controls are coming soon.
+            </span>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Privacy</strong>
-            <span>Privacy controls will be added later.</span>
+
+            <span>
+                Privacy controls will be added later.
+            </span>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Chorda Plus</strong>
-            <span>Premium features are coming soon.</span>
+
+            <span>
+                Premium features are coming soon.
+            </span>
+
         </div>
 
     </div>
@@ -1017,15 +1222,17 @@ input:focus-visible{
 <script>
 
 /* =====================================================
-   SERVERS
+   SERVER DATA
 ===================================================== */
 
 const serverData = {
 
     chorda: {
+
         name: "Chorda",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to your community."
@@ -1050,14 +1257,18 @@ const serverData = {
                 name: "support",
                 topic: "Get help from the community."
             }
+
         }
+
     },
 
 
     gaming: {
+
         name: "Gaming",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Gaming server."
@@ -1077,14 +1288,18 @@ const serverData = {
                 name: "clips",
                 topic: "Share your gaming clips."
             }
+
         }
+
     },
 
 
     study: {
+
         name: "Study",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Study server."
@@ -1104,7 +1319,9 @@ const serverData = {
                 name: "chat",
                 topic: "General study discussion."
             }
+
         }
+
     }
 
 };
@@ -1112,7 +1329,6 @@ const serverData = {
 
 /* =====================================================
    SELECTED CHANNEL PER SERVER
-   THIS FIXES THE BUG
 ===================================================== */
 
 const selectedChannel = {
@@ -1136,52 +1352,52 @@ const messagesData = {
 
         general: [
             {
-                name:"Alex",
-                avatar:"AX",
-                text:"Welcome to Chorda!",
-                time:"Today at 7:01 PM"
+                name: "Alex",
+                avatar: "AX",
+                text: "Welcome to Chorda!",
+                time: "Today at 7:01 PM"
             },
             {
-                name:"Sky",
-                avatar:"SK",
-                text:"This is the general channel.",
-                time:"Today at 7:04 PM"
+                name: "Sky",
+                avatar: "SK",
+                text: "This is the general channel.",
+                time: "Today at 7:04 PM"
             }
         ],
 
         announcements: [
             {
-                name:"Alex",
-                avatar:"AX",
-                text:"Welcome to the announcements channel.",
-                time:"Today at 6:55 PM"
+                name: "Alex",
+                avatar: "AX",
+                text: "Welcome to the announcements channel.",
+                time: "Today at 6:55 PM"
             }
         ],
 
         chat: [
             {
-                name:"Jamie",
-                avatar:"JM",
-                text:"Hey everyone! What's happening?",
-                time:"Today at 6:42 PM"
+                name: "Jamie",
+                avatar: "JM",
+                text: "Hey everyone! What's happening?",
+                time: "Today at 6:42 PM"
             }
         ],
 
         memes: [
             {
-                name:"Sky",
-                avatar:"SK",
-                text:"This channel is ready for memes 😂",
-                time:"Today at 6:30 PM"
+                name: "Sky",
+                avatar: "SK",
+                text: "This channel is ready for memes 😂",
+                time: "Today at 6:30 PM"
             }
         ],
 
         support: [
             {
-                name:"Riley",
-                avatar:"RB",
-                text:"Need help? Ask your question here.",
-                time:"Today at 6:15 PM"
+                name: "Riley",
+                avatar: "RB",
+                text: "Need help? Ask your question here.",
+                time: "Today at 6:15 PM"
             }
         ]
 
@@ -1192,37 +1408,37 @@ const messagesData = {
 
         general: [
             {
-                name:"Alex",
-                avatar:"AX",
-                text:"Welcome to Gaming!",
-                time:"Today at 7:10 PM"
+                name: "Alex",
+                avatar: "AX",
+                text: "Welcome to Gaming!",
+                time: "Today at 7:10 PM"
             }
         ],
 
         chat: [
             {
-                name:"Jamie",
-                avatar:"JM",
-                text:"What games are everyone playing?",
-                time:"Today at 7:12 PM"
+                name: "Jamie",
+                avatar: "JM",
+                text: "What games are everyone playing?",
+                time: "Today at 7:12 PM"
             }
         ],
 
         games: [
             {
-                name:"Sky",
-                avatar:"SK",
-                text:"Let's talk about games!",
-                time:"Today at 7:14 PM"
+                name: "Sky",
+                avatar: "SK",
+                text: "Let's talk about games!",
+                time: "Today at 7:14 PM"
             }
         ],
 
         clips: [
             {
-                name:"Riley",
-                avatar:"RB",
-                text:"Share your best clips here.",
-                time:"Today at 7:16 PM"
+                name: "Riley",
+                avatar: "RB",
+                text: "Share your best clips here.",
+                time: "Today at 7:16 PM"
             }
         ]
 
@@ -1233,37 +1449,37 @@ const messagesData = {
 
         general: [
             {
-                name:"Alex",
-                avatar:"AX",
-                text:"Welcome to the Study server!",
-                time:"Today at 7:20 PM"
+                name: "Alex",
+                avatar: "AX",
+                text: "Welcome to the Study server!",
+                time: "Today at 7:20 PM"
             }
         ],
 
         homework: [
             {
-                name:"Sky",
-                avatar:"SK",
-                text:"Anyone working on homework?",
-                time:"Today at 7:22 PM"
+                name: "Sky",
+                avatar: "SK",
+                text: "Anyone working on homework?",
+                time: "Today at 7:22 PM"
             }
         ],
 
         resources: [
             {
-                name:"Riley",
-                avatar:"RB",
-                text:"This channel is for useful resources.",
-                time:"Today at 7:24 PM"
+                name: "Riley",
+                avatar: "RB",
+                text: "This channel is for useful resources.",
+                time: "Today at 7:24 PM"
             }
         ],
 
         chat: [
             {
-                name:"Jamie",
-                avatar:"JM",
-                text:"How is everyone's studying going?",
-                time:"Today at 7:26 PM"
+                name: "Jamie",
+                avatar: "JM",
+                text: "How is everyone's studying going?",
+                time: "Today at 7:26 PM"
             }
         ]
 
@@ -1342,55 +1558,411 @@ const settingsModal =
 
 
 /* =====================================================
+   PERSISTENT ZOOM
+===================================================== */
+
+/*
+   IMPORTANT:
+
+   This value is stored in localStorage.
+
+   Therefore:
+   - refresh = stays
+   - close browser = stays
+   - reopen website = stays
+   - change server = stays
+   - change channel = stays
+
+   It only changes when the user changes it.
+*/
+
+const ZOOM_STORAGE_KEY =
+    "chorda_zoom_level";
+
+const DEFAULT_ZOOM =
+    1;
+
+const MIN_ZOOM =
+    0.75;
+
+const MAX_ZOOM =
+    1.50;
+
+const ZOOM_STEP =
+    0.10;
+
+
+let currentZoom =
+    loadSavedZoom();
+
+
+function loadSavedZoom() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                ZOOM_STORAGE_KEY
+            );
+
+
+        if (saved === null) {
+
+            return DEFAULT_ZOOM;
+
+        }
+
+
+        const number =
+            parseFloat(saved);
+
+
+        if (
+            Number.isFinite(number) &&
+            number >= MIN_ZOOM &&
+            number <= MAX_ZOOM
+        ) {
+
+            return number;
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to load saved Chorda zoom.",
+            error
+        );
+
+    }
+
+
+    return DEFAULT_ZOOM;
+
+}
+
+
+function saveZoom() {
+
+    try {
+
+        localStorage.setItem(
+            ZOOM_STORAGE_KEY,
+            currentZoom.toString()
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to save Chorda zoom.",
+            error
+        );
+
+    }
+
+}
+
+
+function applyZoom() {
+
+    /*
+       CSS zoom changes the actual layout size
+       rather than simply making the page blurry.
+    */
+
+    document.documentElement.style.zoom =
+        currentZoom;
+
+
+    updateZoomDisplay();
+
+    saveZoom();
+
+}
+
+
+function updateZoomDisplay() {
+
+    const zoomValue =
+        document.getElementById(
+            "zoomValue"
+        );
+
+
+    if (!zoomValue) {
+        return;
+    }
+
+
+    zoomValue.textContent =
+        Math.round(
+            currentZoom * 100
+        ) + "%";
+
+}
+
+
+function setZoom(value) {
+
+    let newZoom =
+        Number(value);
+
+
+    if (!Number.isFinite(newZoom)) {
+
+        return;
+
+    }
+
+
+    newZoom =
+        Math.max(
+            MIN_ZOOM,
+            Math.min(
+                MAX_ZOOM,
+                newZoom
+            )
+        );
+
+
+    /*
+       Prevent floating-point values such as
+       1.2000000000000002.
+    */
+
+    newZoom =
+        Math.round(
+            newZoom * 100
+        ) / 100;
+
+
+    currentZoom =
+        newZoom;
+
+
+    applyZoom();
+
+}
+
+
+function zoomIn() {
+
+    setZoom(
+        currentZoom +
+        ZOOM_STEP
+    );
+
+}
+
+
+function zoomOut() {
+
+    setZoom(
+        currentZoom -
+        ZOOM_STEP
+    );
+
+}
+
+
+function resetZoom() {
+
+    setZoom(
+        DEFAULT_ZOOM
+    );
+
+}
+
+
+/* =====================================================
+   ZOOM BUTTONS
+===================================================== */
+
+const zoomInButton =
+    document.getElementById(
+        "zoomInButton"
+    );
+
+const zoomOutButton =
+    document.getElementById(
+        "zoomOutButton"
+    );
+
+const zoomResetButton =
+    document.getElementById(
+        "zoomResetButton"
+    );
+
+
+zoomInButton.addEventListener(
+    "click",
+    zoomIn
+);
+
+
+zoomOutButton.addEventListener(
+    "click",
+    zoomOut
+);
+
+
+zoomResetButton.addEventListener(
+    "click",
+    resetZoom
+);
+
+
+/* =====================================================
+   KEYBOARD ZOOM
+===================================================== */
+
+/*
+   Ctrl + Plus
+   Ctrl + Minus
+   Ctrl + 0
+
+   The browser's normal zoom is prevented so that
+   Chorda controls its own persistent zoom.
+*/
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (!event.ctrlKey && !event.metaKey) {
+
+            return;
+
+        }
+
+
+        if (
+            event.key === "+" ||
+            event.key === "="
+        ) {
+
+            event.preventDefault();
+
+            zoomIn();
+
+            return;
+
+        }
+
+
+        if (
+            event.key === "-" ||
+            event.key === "_"
+        ) {
+
+            event.preventDefault();
+
+            zoomOut();
+
+            return;
+
+        }
+
+
+        if (event.key === "0") {
+
+            event.preventDefault();
+
+            resetZoom();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MOUSE WHEEL ZOOM
+===================================================== */
+
+document.addEventListener(
+    "wheel",
+    function(event) {
+
+        if (
+            !event.ctrlKey &&
+            !event.metaKey
+        ) {
+
+            return;
+
+        }
+
+
+        event.preventDefault();
+
+
+        if (event.deltaY < 0) {
+
+            zoomIn();
+
+        } else {
+
+            zoomOut();
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =====================================================
    LOAD SERVER
 ===================================================== */
 
 function loadServer(serverId) {
 
-    currentServer = serverId;
-
     const server =
         serverData[serverId];
+
 
     if (!server) {
         return;
     }
 
 
-    /* Highlight server */
-
-    serverButtons.forEach(function(button){
-
-        button.classList.toggle(
-            "active",
-            button.dataset.server === serverId
-        );
-
-    });
+    currentServer =
+        serverId;
 
 
-    /* Change server name */
+    serverButtons.forEach(
+        function(button) {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.server === serverId
+            );
+
+        }
+    );
+
 
     workspaceName.textContent =
         server.name;
 
 
-    /* Build channels */
-
     renderChannels();
 
 
     /*
-       IMPORTANT:
-       Use the channel saved specifically
-       for this server.
+       Every server has its own saved channel.
     */
 
     const savedChannel =
         selectedChannel[serverId];
 
 
-    loadChannel(savedChannel);
+    loadChannel(
+        savedChannel
+    );
 
 }
 
@@ -1404,7 +1976,14 @@ function renderChannels() {
     const server =
         serverData[currentServer];
 
-    channelList.innerHTML = "";
+
+    if (!server) {
+        return;
+    }
+
+
+    channelList.innerHTML =
+        "";
 
 
     const welcomeCategory =
@@ -1421,72 +2000,66 @@ function renderChannels() {
     );
 
 
-    Object.keys(server.channels).forEach(
-        function(channelId, index) {
+    Object.keys(server.channels)
+        .forEach(
+            function(channelId) {
 
-            /*
-               Put the first few channels in
-               the main list.
-            */
-
-            const channel =
-                server.channels[channelId];
-
-            const channelElement =
-                document.createElement("div");
-
-            channelElement.className =
-                "channel";
+                const channel =
+                    server.channels[channelId];
 
 
-            if (
-                selectedChannel[currentServer] ===
-                channelId
-            ) {
+                const channelElement =
+                    document.createElement("div");
 
-                channelElement.classList.add(
-                    "active"
+                channelElement.className =
+                    "channel";
+
+
+                if (
+                    selectedChannel[currentServer] ===
+                    channelId
+                ) {
+
+                    channelElement.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                channelElement.dataset.channel =
+                    channelId;
+
+                channelElement.textContent =
+                    "# " + channel.name;
+
+
+                channelElement.addEventListener(
+                    "click",
+                    function() {
+
+                        selectedChannel[currentServer] =
+                            channelId;
+
+
+                        renderChannels();
+
+                        loadChannel(
+                            channelId
+                        );
+
+                        closeMobileMenu();
+
+                    }
+                );
+
+
+                channelList.appendChild(
+                    channelElement
                 );
 
             }
-
-
-            channelElement.dataset.channel =
-                channelId;
-
-            channelElement.textContent =
-                "# " + channel.name;
-
-
-            channelElement.addEventListener(
-                "click",
-                function() {
-
-                    /*
-                       SAVE CHANNEL FOR THIS
-                       SPECIFIC SERVER
-                    */
-
-                    selectedChannel[currentServer] =
-                        channelId;
-
-
-                    renderChannels();
-
-                    loadChannel(channelId);
-
-                    closeMobileMenu();
-
-                }
-            );
-
-
-            channelList.appendChild(
-                channelElement
-            );
-
-        }
-    );
+        );
 
 
     const voiceCategory =
@@ -1503,33 +2076,36 @@ function renderChannels() {
     );
 
 
-    ["Lounge","Gaming"].forEach(
-        function(name) {
+    ["Lounge", "Gaming"]
+        .forEach(
+            function(name) {
 
-            const voice =
-                document.createElement("div");
+                const voice =
+                    document.createElement("div");
 
-            voice.className =
-                "channel";
+                voice.className =
+                    "channel";
 
-            voice.textContent =
-                "🔊 " + name;
+                voice.textContent =
+                    "🔊 " + name;
 
-            voice.onclick =
-                function() {
 
-                    comingSoon(
-                        "Voice channels"
-                    );
+                voice.onclick =
+                    function() {
 
-                };
+                        comingSoon(
+                            "Voice channels"
+                        );
 
-            channelList.appendChild(
-                voice
-            );
+                    };
 
-        }
-    );
+
+                channelList.appendChild(
+                    voice
+                );
+
+            }
+        );
 
 }
 
@@ -1543,6 +2119,12 @@ function loadChannel(channelId) {
     const server =
         serverData[currentServer];
 
+
+    if (!server) {
+        return;
+    }
+
+
     const channel =
         server.channels[channelId];
 
@@ -1551,11 +2133,6 @@ function loadChannel(channelId) {
         return;
     }
 
-
-    /*
-       Save the selected channel against
-       the CURRENT SERVER.
-    */
 
     selectedChannel[currentServer] =
         channelId;
@@ -1580,7 +2157,8 @@ function loadChannel(channelId) {
         channel.name;
 
 
-    messageList.innerHTML = "";
+    messageList.innerHTML =
+        "";
 
 
     if (
@@ -1604,37 +2182,39 @@ function loadChannel(channelId) {
 
 
     messagesData[currentServer][channelId]
-        .forEach(function(message){
+        .forEach(
+            function(message) {
 
-            createMessage(
-                message.name,
-                message.avatar,
-                message.text,
-                message.time,
-                false
-            );
+                createMessage(
+                    message.name,
+                    message.avatar,
+                    message.text,
+                    message.time,
+                    false
+                );
 
-        });
+            }
+        );
 
 
     messages.scrollTop =
         messages.scrollHeight;
 
 
-    /*
-       Clear search when changing channel.
-    */
+    searchInput.value =
+        "";
 
-    searchInput.value = "";
 
     document
         .querySelectorAll(".message")
-        .forEach(function(message){
+        .forEach(
+            function(message) {
 
-            message.style.display =
-                "flex";
+                message.style.display =
+                    "flex";
 
-        });
+            }
+        );
 
 }
 
@@ -1699,8 +2279,13 @@ function createMessage(
         time;
 
 
-    header.appendChild(username);
-    header.appendChild(timestamp);
+    header.appendChild(
+        username
+    );
+
+    header.appendChild(
+        timestamp
+    );
 
 
     const textElement =
@@ -1749,9 +2334,17 @@ function createMessage(
     );
 
 
-    content.appendChild(header);
-    content.appendChild(textElement);
-    content.appendChild(reactions);
+    content.appendChild(
+        header
+    );
+
+    content.appendChild(
+        textElement
+    );
+
+    content.appendChild(
+        reactions
+    );
 
 
     const actions =
@@ -1838,8 +2431,8 @@ function sendMessage() {
         now.toLocaleTimeString(
             [],
             {
-                hour:"numeric",
-                minute:"2-digit"
+                hour: "numeric",
+                minute: "2-digit"
             }
         );
 
@@ -1870,19 +2463,21 @@ function sendMessage() {
 
     const newMessage = {
 
-        name:"You",
+        name: "You",
 
-        avatar:"YO",
+        avatar: "YO",
 
-        text:text,
+        text: text,
 
-        time:"Today at " + time
+        time: "Today at " + time
 
     };
 
 
     messagesData[currentServer][channelId]
-        .push(newMessage);
+        .push(
+            newMessage
+        );
 
 
     createMessage(
@@ -1893,7 +2488,8 @@ function sendMessage() {
     );
 
 
-    input.value = "";
+    input.value =
+        "";
 
 }
 
@@ -1906,7 +2502,7 @@ sendButton.addEventListener(
 
 input.addEventListener(
     "keydown",
-    function(event){
+    function(event) {
 
         if (event.key === "Enter") {
 
@@ -1923,11 +2519,11 @@ input.addEventListener(
 ===================================================== */
 
 serverButtons.forEach(
-    function(button){
+    function(button) {
 
         button.addEventListener(
             "click",
-            function(){
+            function() {
 
                 loadServer(
                     button.dataset.server
@@ -1946,7 +2542,7 @@ serverButtons.forEach(
 
 mobileMenu.addEventListener(
     "click",
-    function(){
+    function() {
 
         channelsPanel.classList.add(
             "open"
@@ -1960,7 +2556,7 @@ mobileMenu.addEventListener(
 );
 
 
-function closeMobileMenu(){
+function closeMobileMenu() {
 
     channelsPanel.classList.remove(
         "open"
@@ -1983,7 +2579,7 @@ mobileOverlay.addEventListener(
    SEARCH
 ===================================================== */
 
-function toggleSearch(){
+function toggleSearch() {
 
     searchContainer.classList.toggle(
         "open"
@@ -1994,7 +2590,7 @@ function toggleSearch(){
         searchContainer.classList.contains(
             "open"
         )
-    ){
+    ) {
 
         searchInput.focus();
 
@@ -2005,7 +2601,7 @@ function toggleSearch(){
 
 searchInput.addEventListener(
     "input",
-    function(){
+    function() {
 
         const query =
             searchInput.value
@@ -2015,20 +2611,22 @@ searchInput.addEventListener(
 
         document
             .querySelectorAll(".message")
-            .forEach(function(message){
+            .forEach(
+                function(message) {
 
-                const text =
-                    message.textContent
-                        .toLowerCase();
+                    const text =
+                        message.textContent
+                            .toLowerCase();
 
 
-                message.style.display =
-                    !query ||
-                    text.includes(query)
-                        ? "flex"
-                        : "none";
+                    message.style.display =
+                        !query ||
+                        text.includes(query)
+                            ? "flex"
+                            : "none";
 
-            });
+                }
+            );
 
     }
 );
@@ -2040,7 +2638,7 @@ searchInput.addEventListener(
 
 profileButton.addEventListener(
     "click",
-    function(){
+    function() {
 
         userPanel.classList.toggle(
             "open"
@@ -2054,7 +2652,7 @@ profileButton.addEventListener(
    SETTINGS
 ===================================================== */
 
-function openSettings(){
+function openSettings() {
 
     userPanel.classList.remove(
         "open"
@@ -2064,10 +2662,12 @@ function openSettings(){
         "open"
     );
 
+    updateZoomDisplay();
+
 }
 
 
-function closeSettings(){
+function closeSettings() {
 
     settingsModal.classList.remove(
         "open"
@@ -2078,12 +2678,12 @@ function closeSettings(){
 
 settingsModal.addEventListener(
     "click",
-    function(event){
+    function(event) {
 
         if (
             event.target ===
             settingsModal
-        ){
+        ) {
 
             closeSettings();
 
@@ -2097,7 +2697,7 @@ settingsModal.addEventListener(
    OTHER
 ===================================================== */
 
-function toggleNotifications(){
+function toggleNotifications() {
 
     alert(
         "You have no new notifications."
@@ -2106,7 +2706,7 @@ function toggleNotifications(){
 }
 
 
-function openPlus(){
+function openPlus() {
 
     alert(
         "Chorda Plus is coming soon!"
@@ -2115,7 +2715,7 @@ function openPlus(){
 }
 
 
-function comingSoon(feature){
+function comingSoon(feature) {
 
     alert(
         feature +
@@ -2129,7 +2729,15 @@ function comingSoon(feature){
    START APP
 ===================================================== */
 
-loadServer("chorda");
+/*
+   Apply saved zoom BEFORE displaying the app.
+*/
+
+applyZoom();
+
+loadServer(
+    "chorda"
+);
 
 </script>
 
