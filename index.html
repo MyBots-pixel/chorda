@@ -40,8 +40,7 @@ body {
 
 button,
 input,
-textarea,
-select {
+textarea {
     font-family: inherit;
 }
 
@@ -51,8 +50,7 @@ button {
 
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
+textarea:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }
@@ -64,8 +62,8 @@ select:focus-visible {
 .app {
     width: 100%;
     height: 100vh;
-    min-height: 0;
     display: flex;
+    min-height: 0;
 }
 
 /* =========================
@@ -111,6 +109,32 @@ select:focus-visible {
 }
 
 /* =========================
+   AVATARS
+========================= */
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================
    CHANNEL SIDEBAR
 ========================= */
 
@@ -147,7 +171,7 @@ select:focus-visible {
     background: transparent;
     color: var(--muted);
     font-size: 17px;
-    padding: 5px;
+    padding: 6px;
     border-radius: 6px;
 }
 
@@ -177,6 +201,7 @@ select:focus-visible {
     color: var(--muted);
     cursor: pointer;
     margin-bottom: 2px;
+    transition: .15s;
 }
 
 .channel:hover,
@@ -185,8 +210,13 @@ select:focus-visible {
     color: #fff;
 }
 
-.voice-channel {
-    opacity: .85;
+.channel.voice-disabled {
+    opacity: .55;
+}
+
+.channel.voice-disabled:hover {
+    background: transparent;
+    color: var(--muted);
 }
 
 /* =========================
@@ -237,6 +267,25 @@ select:focus-visible {
     margin: 8px;
     flex-shrink: 0;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    border-radius: 8px;
+}
+
+#profileButton:hover {
+    background: var(--card);
+}
+
+.profile-mini-avatar {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 10px;
 }
 
 /* =========================
@@ -346,15 +395,15 @@ select:focus-visible {
 ========================= */
 
 .notification-panel {
-    display: none;
     position: absolute;
     top: 58px;
-    right: 105px;
+    right: 60px;
     width: 300px;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 14px;
+    display: none;
     z-index: 110;
     box-shadow: 0 15px 40px rgba(0,0,0,.5);
 }
@@ -365,21 +414,16 @@ select:focus-visible {
 
 .notification-title {
     font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.notification-empty {
-    color: var(--muted);
-    font-size: 13px;
-    padding: 12px 0;
+    margin-bottom: 12px;
 }
 
 .notification-item {
     background: var(--card);
     padding: 10px;
     border-radius: 8px;
-    margin-top: 7px;
+    color: #d5d9e0;
     font-size: 13px;
+    margin-bottom: 7px;
 }
 
 /* =========================
@@ -421,21 +465,9 @@ select:focus-visible {
     background: rgba(255,255,255,.03);
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: bold;
-    flex-shrink: 0;
-}
-
 .message-content {
     min-width: 0;
+    flex: 1;
 }
 
 .username {
@@ -571,6 +603,7 @@ select:focus-visible {
     gap: 10px;
     padding: 8px;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .member:hover {
@@ -603,7 +636,7 @@ select:focus-visible {
     position: fixed;
     bottom: 70px;
     left: 82px;
-    width: 250px;
+    width: 260px;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -649,6 +682,78 @@ select:focus-visible {
 }
 
 /* =========================
+   PROFILE VIEW
+========================= */
+
+.profile-view {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 240;
+}
+
+.profile-view.open {
+    display: flex;
+}
+
+.profile-card {
+    width: min(400px, 100%);
+    background: #1a1e27;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.profile-banner {
+    height: 90px;
+    background: linear-gradient(135deg, #5865f2, #7c3aed);
+}
+
+.profile-main {
+    padding: 0 20px 20px;
+}
+
+.profile-large-avatar {
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    border: 5px solid #1a1e27;
+    font-size: 20px;
+}
+
+.profile-card-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-card-status {
+    color: var(--success);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.profile-bio {
+    color: var(--muted);
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.profile-close {
+    margin-top: 15px;
+    width: 100%;
+    border: 0;
+    background: var(--card);
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* =========================
    MODALS
 ========================= */
 
@@ -681,7 +786,6 @@ select:focus-visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
 }
 
 .modal-header h2 {
@@ -696,14 +800,6 @@ select:focus-visible {
     padding: 7px 10px;
 }
 
-.close-button:hover {
-    background: var(--card-hover);
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
 .settings-row {
     margin-top: 18px;
     padding: 14px;
@@ -713,7 +809,6 @@ select:focus-visible {
 
 .settings-row strong {
     display: block;
-    margin-bottom: 5px;
 }
 
 .settings-row span {
@@ -721,117 +816,87 @@ select:focus-visible {
     font-size: 13px;
 }
 
-.settings-control {
-    margin-top: 10px;
-}
-
-.settings-control button,
-.settings-control select {
-    border: 1px solid var(--border);
-    background: #171a21;
+.modal-button {
+    margin-top: 12px;
+    border: 0;
+    background: var(--accent);
     color: #fff;
-    padding: 8px 10px;
+    padding: 10px 14px;
     border-radius: 7px;
+    font-weight: bold;
 }
 
 /* =========================
-   PROFILE EDIT
+   EDIT PROFILE
 ========================= */
 
-.form-group {
-    margin-top: 15px;
-}
-
-.form-group label {
-    display: block;
-    color: #d5d9e0;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.form-group input,
-.form-group textarea {
+.profile-input {
     width: 100%;
+    margin-top: 7px;
+    padding: 11px;
+    background: var(--card);
     border: 1px solid var(--border);
-    background: var(--card);
     color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-.form-group textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.primary-button,
-.secondary-button,
-.danger-button {
-    border: 0;
-    padding: 9px 14px;
     border-radius: 7px;
-    font-weight: bold;
 }
 
-.primary-button {
-    background: var(--accent);
-    color: #fff;
+.profile-label {
+    display: block;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #d5d9e0;
 }
 
-.secondary-button {
+/* =========================
+   PLUS MODAL
+========================= */
+
+.plus-feature {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
     background: var(--card);
-    color: #fff;
+    border-radius: 8px;
+    margin-top: 9px;
 }
 
-.danger-button {
-    background: var(--danger);
-    color: #fff;
+.plus-feature-icon {
+    font-size: 20px;
+}
+
+.plus-feature-text strong {
+    display: block;
+}
+
+.plus-feature-text span {
+    color: var(--muted);
+    font-size: 12px;
 }
 
 /* =========================
    TOAST
 ========================= */
 
-.toast-container {
+.toast {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    left: 50%;
+    bottom: 25px;
+    transform: translate(-50%, 20px);
+    background: #20242d;
+    border: 1px solid var(--border);
+    color: #fff;
+    padding: 11px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .2s;
     z-index: 500;
 }
 
-.toast {
-    min-width: 230px;
-    max-width: 350px;
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    color: #fff;
-    padding: 12px 14px;
-    border-radius: 9px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.45);
-    animation: toastIn .2s ease;
-}
-
-@keyframes toastIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
 }
 
 /* =========================
@@ -843,15 +908,19 @@ select:focus-visible {
 }
 
 @media(max-width:1050px) {
+
     .members {
         display: none;
     }
+
 }
 
 @media(max-width:700px) {
+
     .channel-topic {
         display: none;
     }
+
 }
 
 @media(max-width:650px) {
@@ -935,16 +1004,6 @@ select:focus-visible {
         width: calc(100vw - 80px);
     }
 
-    .toast-container {
-        left: 68px;
-        right: 10px;
-        bottom: 15px;
-    }
-
-    .toast {
-        min-width: 0;
-        width: 100%;
-    }
 }
 </style>
 </head>
@@ -957,21 +1016,15 @@ select:focus-visible {
 
     <aside class="servers">
 
-        <button class="server active"
-                data-server="chorda"
-                title="Chorda">C</button>
+        <button class="server active" data-server="chorda" title="Chorda">C</button>
+        <button class="server" data-server="gaming" title="Gaming">G</button>
+        <button class="server" data-server="study" title="Study">S</button>
 
-        <button class="server"
-                data-server="gaming"
-                title="Gaming">G</button>
-
-        <button class="server"
-                data-server="study"
-                title="Study">S</button>
-
-        <button class="server add"
-                id="addServerButton"
-                title="Create a server">+</button>
+        <button
+            class="server add"
+            onclick="showToast('Server creation is not available yet.')"
+            title="Create a server"
+        >+</button>
 
     </aside>
 
@@ -986,17 +1039,18 @@ select:focus-visible {
 
             <div class="workspace-actions">
 
-                <button class="small-button"
-                        id="workspaceSettingsButton"
-                        title="Server settings">⚙</button>
+                <button
+                    class="small-button"
+                    onclick="openSettings()"
+                    title="Settings"
+                >⚙</button>
 
             </div>
 
         </div>
 
 
-        <div class="channel-list"
-             id="channelList"></div>
+        <div class="channel-list" id="channelList"></div>
 
 
         <div class="plus">
@@ -1006,20 +1060,36 @@ select:focus-visible {
             </div>
 
             <div class="plus-text">
-                Unlock extra features and customisation.
+                Unlock future premium features.
             </div>
 
-            <button class="plus-button"
-                    id="plusButton">
-                Learn More
+            <button
+                class="plus-button"
+                onclick="openPlus()"
+            >
+                View Chorda Plus
             </button>
 
         </div>
 
 
-        <button class="small-button"
-                id="profileButton">
-            👤 You — Online
+        <button
+            class="small-button"
+            id="profileButton"
+        >
+
+            <div class="avatar profile-mini-avatar">
+                <img
+                    id="miniProfileImage"
+                    src="https://i.pravatar.cc/100?img=12"
+                    alt="Profile"
+                >
+            </div>
+
+            <span id="profileButtonName">
+                You — Online
+            </span>
+
         </button>
 
     </aside>
@@ -1031,81 +1101,90 @@ select:focus-visible {
 
         <header class="chat-header">
 
-            <button class="mobile-menu"
-                    id="mobileMenu"
-                    aria-label="Open channels">
-                ☰
-            </button>
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Open channels"
+            >☰</button>
 
             <span class="channel-icon">#</span>
 
-            <span class="channel-name"
-                  id="channelName">
+            <span
+                class="channel-name"
+                id="channelName"
+            >
                 general
             </span>
 
-            <span class="channel-topic"
-                  id="channelTopic"></span>
+            <span
+                class="channel-topic"
+                id="channelTopic"
+            ></span>
 
 
             <div class="header-actions">
 
-                <button class="header-button"
-                        id="notificationButton"
-                        title="Notifications">
-                    🔔
-                </button>
+                <button
+                    class="header-button"
+                    onclick="toggleNotifications()"
+                    title="Notifications"
+                >🔔</button>
 
-                <button class="header-button"
-                        id="searchButton"
-                        title="Search">
-                    🔎
-                </button>
+                <button
+                    class="header-button"
+                    onclick="toggleSearch()"
+                    title="Search"
+                >🔎</button>
 
-                <button class="header-button"
-                        id="headerSettingsButton"
-                        title="Settings">
-                    ⚙
-                </button>
-
-            </div>
-
-
-            <!-- SEARCH -->
-
-            <div class="search-container"
-                 id="searchContainer">
-
-                <input id="searchInput"
-                       type="text"
-                       placeholder="Search this channel...">
+                <button
+                    class="header-button"
+                    onclick="openSettings()"
+                    title="Settings"
+                >⚙</button>
 
             </div>
 
 
-            <!-- NOTIFICATIONS -->
+            <div
+                class="search-container"
+                id="searchContainer"
+            >
 
-            <div class="notification-panel"
-                 id="notificationPanel">
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search this channel..."
+                >
+
+            </div>
+
+
+            <div
+                class="notification-panel"
+                id="notificationPanel"
+            >
 
                 <div class="notification-title">
                     Notifications
                 </div>
 
-                <div class="notification-empty"
-                     id="notificationEmpty">
-                    You're all caught up.
+                <div class="notification-item">
+                    🔔 You have no new notifications.
                 </div>
 
-                <div id="notificationList"></div>
+                <div class="notification-item">
+                    💬 Chorda notifications are working locally.
+                </div>
 
             </div>
 
         </header>
 
 
-        <div class="messages"
-             id="messages">
+        <div
+            class="messages"
+            id="messages"
+        >
 
             <div class="welcome">
 
@@ -1128,10 +1207,12 @@ select:focus-visible {
 
             <div class="message-box">
 
-                <input id="messageInput"
-                       type="text"
-                       placeholder="Message #general"
-                       autocomplete="off">
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Message #general"
+                    autocomplete="off"
+                >
 
                 <button id="sendButton">
                     Send
@@ -1152,40 +1233,91 @@ select:focus-visible {
             Online — 4
         </div>
 
-        <div class="member">
-            <div class="avatar">AX</div>
+        <div
+            class="member"
+            data-member="Alex"
+        >
+
+            <div class="avatar">
+                <img
+                    src="https://i.pravatar.cc/100?img=11"
+                    alt="Alex"
+                >
+            </div>
+
             <div>
                 <div class="member-name">Alex</div>
                 <div class="member-status">Building things</div>
             </div>
+
             <div class="online"></div>
+
         </div>
 
-        <div class="member">
-            <div class="avatar">SK</div>
+
+        <div
+            class="member"
+            data-member="Sky"
+        >
+
+            <div class="avatar">
+                <img
+                    src="https://i.pravatar.cc/100?img=47"
+                    alt="Sky"
+                >
+            </div>
+
             <div>
                 <div class="member-name">Sky</div>
                 <div class="member-status">Listening</div>
             </div>
+
             <div class="online"></div>
+
         </div>
 
-        <div class="member">
-            <div class="avatar">JM</div>
+
+        <div
+            class="member"
+            data-member="Jamie"
+        >
+
+            <div class="avatar">
+                <img
+                    src="https://i.pravatar.cc/100?img=32"
+                    alt="Jamie"
+                >
+            </div>
+
             <div>
                 <div class="member-name">Jamie</div>
                 <div class="member-status">Playing</div>
             </div>
+
             <div class="online"></div>
+
         </div>
 
-        <div class="member">
-            <div class="avatar">RB</div>
+
+        <div
+            class="member"
+            data-member="Riley"
+        >
+
+            <div class="avatar">
+                <img
+                    src="https://i.pravatar.cc/100?img=5"
+                    alt="Riley"
+                >
+            </div>
+
             <div>
                 <div class="member-name">Riley</div>
                 <div class="member-status">Online</div>
             </div>
+
             <div class="online"></div>
+
         </div>
 
     </aside>
@@ -1195,26 +1327,35 @@ select:focus-visible {
 
 <!-- MOBILE OVERLAY -->
 
-<div class="mobile-overlay"
-     id="mobileOverlay"></div>
+<div
+    class="mobile-overlay"
+    id="mobileOverlay"
+></div>
 
 
 <!-- PROFILE PANEL -->
 
-<div class="user-panel"
-     id="userPanel">
+<div
+    class="user-panel"
+    id="userPanel"
+>
 
     <div class="profile-header">
 
-        <div class="avatar"
-             id="profileAvatar">
-            YO
+        <div class="avatar">
+            <img
+                id="profilePanelImage"
+                src="https://i.pravatar.cc/100?img=12"
+                alt="You"
+            >
         </div>
 
         <div>
 
-            <div class="profile-name"
-                 id="profilePanelName">
+            <div
+                class="profile-name"
+                id="profilePanelName"
+            >
                 You
             </div>
 
@@ -1226,28 +1367,36 @@ select:focus-visible {
 
     </div>
 
-    <button class="profile-option"
-            id="editProfileButton">
+    <button
+        class="profile-option"
+        onclick="openEditProfile()"
+    >
         👤 Edit Profile
     </button>
 
-    <button class="profile-option"
-            id="profileSettingsButton">
+    <button
+        class="profile-option"
+        onclick="openSettings()"
+    >
         ⚙ Settings
     </button>
 
-    <button class="profile-option"
-            id="switchAccountButton">
+    <button
+        class="profile-option"
+        onclick="showToast('Account switching is not available yet.')"
+    >
         ⇄ Switch Account
     </button>
 
 </div>
 
 
-<!-- SETTINGS MODAL -->
+<!-- SETTINGS -->
 
-<div class="modal"
-     id="settingsModal">
+<div
+    class="modal"
+    id="settingsModal"
+>
 
     <div class="modal-box">
 
@@ -1255,106 +1404,72 @@ select:focus-visible {
 
             <h2>Chorda Settings</h2>
 
-            <button class="close-button"
-                    id="closeSettingsButton">
+            <button
+                class="close-button"
+                onclick="closeSettings()"
+            >
                 ✕
             </button>
 
         </div>
-
 
         <div class="settings-row">
 
             <strong>Account</strong>
 
             <span>
-                Your Chorda profile is stored locally on this device.
+                Your local Chorda account is active.
             </span>
 
-            <div class="settings-control">
-
-                <button id="settingsProfileButton">
-                    Edit Profile
-                </button>
-
-            </div>
-
         </div>
-
 
         <div class="settings-row">
 
             <strong>Appearance</strong>
 
             <span>
-                Change the appearance of Chorda.
+                Chorda is currently using dark mode.
             </span>
 
-            <div class="settings-control">
-
-                <button id="themeButton">
-                    Toggle Theme
-                </button>
-
-            </div>
-
         </div>
-
 
         <div class="settings-row">
 
             <strong>Notifications</strong>
 
-            <span id="notificationSettingText">
-                Notifications are enabled.
+            <span>
+                Notifications are currently simulated locally.
             </span>
 
-            <div class="settings-control">
-
-                <button id="notificationToggleButton">
-                    Disable Notifications
-                </button>
-
-            </div>
-
         </div>
-
 
         <div class="settings-row">
 
             <strong>Privacy</strong>
 
             <span>
-                Control whether message history is kept on this device.
+                Privacy controls will be connected when Chorda gets a backend.
             </span>
-
-            <div class="settings-control">
-
-                <button id="clearMessagesButton"
-                        class="danger-button">
-                    Clear Local Messages
-                </button>
-
-            </div>
 
         </div>
 
+        <div class="settings-row">
+
+            <strong>Voice</strong>
+
+            <span>
+                Voice channels are currently UI-only. They cannot connect to a live voice service yet.
+            </span>
+
+        </div>
 
         <div class="settings-row">
 
             <strong>Chorda Plus</strong>
 
             <span>
-                Explore the features planned for Chorda Plus.
+                Premium features are being prepared.
             </span>
-
-            <div class="settings-control">
-
-                <button id="settingsPlusButton">
-                    View Plus
-                </button>
-
-            </div>
 
         </div>
 
@@ -1363,10 +1478,12 @@ select:focus-visible {
 </div>
 
 
-<!-- PROFILE EDIT MODAL -->
+<!-- EDIT PROFILE -->
 
-<div class="modal"
-     id="profileModal">
+<div
+    class="modal"
+    id="editProfileModal"
+>
 
     <div class="modal-box">
 
@@ -1374,116 +1491,70 @@ select:focus-visible {
 
             <h2>Edit Profile</h2>
 
-            <button class="close-button"
-                    id="closeProfileButton">
+            <button
+                class="close-button"
+                onclick="closeEditProfile()"
+            >
                 ✕
             </button>
 
         </div>
 
 
-        <div class="form-group">
+        <label class="profile-label">
+            Display name
+        </label>
 
-            <label for="profileNameInput">
-                Display Name
-            </label>
-
-            <input id="profileNameInput"
-                   type="text"
-                   maxlength="24"
-                   placeholder="Your name">
-
-        </div>
+        <input
+            class="profile-input"
+            id="editName"
+            value="You"
+            maxlength="30"
+        >
 
 
-        <div class="form-group">
+        <label class="profile-label">
+            Profile picture URL
+        </label>
 
-            <label for="profileBioInput">
-                About Me
-            </label>
-
-            <textarea id="profileBioInput"
-                      maxlength="160"
-                      placeholder="Tell people a little about yourself"></textarea>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button class="secondary-button"
-                    id="cancelProfileButton">
-                Cancel
-            </button>
-
-            <button class="primary-button"
-                    id="saveProfileButton">
-                Save Profile
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
+        <input
+            class="profile-input"
+            id="editAvatar"
+            value="https://i.pravatar.cc/100?img=12"
+            placeholder="Paste an image URL"
+        >
 
 
-<!-- SERVER CREATION MODAL -->
+        <label class="profile-label">
+            About me
+        </label>
 
-<div class="modal"
-     id="serverModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>Create Server</h2>
-
-            <button class="close-button"
-                    id="closeServerButton">
-                ✕
-            </button>
-
-        </div>
+        <textarea
+            class="profile-input"
+            id="editBio"
+            rows="4"
+            placeholder="Tell people about yourself..."
+        >Building Chorda.</textarea>
 
 
-        <div class="form-group">
-
-            <label for="serverNameInput">
-                Server Name
-            </label>
-
-            <input id="serverNameInput"
-                   type="text"
-                   maxlength="24"
-                   placeholder="My new server">
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button class="secondary-button"
-                    id="cancelServerButton">
-                Cancel
-            </button>
-
-            <button class="primary-button"
-                    id="createServerButton">
-                Create Server
-            </button>
-
-        </div>
+        <button
+            class="modal-button"
+            onclick="saveProfile()"
+        >
+            Save Profile
+        </button>
 
     </div>
 
 </div>
 
 
-<!-- PLUS MODAL -->
+<!-- PLUS -->
 
-<div class="modal"
-     id="plusModal">
+<div
+    class="modal"
+    id="plusModal"
+>
 
     <div class="modal-box">
 
@@ -1491,8 +1562,10 @@ select:focus-visible {
 
             <h2>✦ Chorda Plus</h2>
 
-            <button class="close-button"
-                    id="closePlusButton">
+            <button
+                class="close-button"
+                onclick="closePlus()"
+            >
                 ✕
             </button>
 
@@ -1501,42 +1574,116 @@ select:focus-visible {
 
         <div class="settings-row">
 
-            <strong>More customisation</strong>
+            <strong>
+                Chorda Plus is coming
+            </strong>
 
             <span>
-                More themes, profiles and server customisation are planned.
+                These features are planned for a future version of Chorda.
             </span>
 
         </div>
 
 
-        <div class="settings-row">
+        <div class="plus-feature">
 
-            <strong>Better communities</strong>
+            <div class="plus-feature-icon">🎨</div>
 
-            <span>
-                More moderation and community tools are planned.
-            </span>
+            <div class="plus-feature-text">
 
-        </div>
+                <strong>Custom profiles</strong>
 
+                <span>
+                    More profile customisation.
+                </span>
 
-        <div class="settings-row">
-
-            <strong>Extra features</strong>
-
-            <span>
-                Chorda Plus will grow as Chorda develops.
-            </span>
+            </div>
 
         </div>
 
 
-        <div class="modal-actions">
+        <div class="plus-feature">
 
-            <button class="primary-button"
-                    id="closePlusBottomButton">
-                Got it
+            <div class="plus-feature-icon">🚀</div>
+
+            <div class="plus-feature-text">
+
+                <strong>Extra server features</strong>
+
+                <span>
+                    More tools for communities.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="plus-feature">
+
+            <div class="plus-feature-icon">✨</div>
+
+            <div class="plus-feature-text">
+
+                <strong>Premium customisation</strong>
+
+                <span>
+                    More ways to personalise Chorda.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MEMBER PROFILE -->
+
+<div
+    class="profile-view"
+    id="profileView"
+>
+
+    <div class="profile-card">
+
+        <div class="profile-banner"></div>
+
+        <div class="profile-main">
+
+            <div
+                class="avatar profile-large-avatar"
+                id="memberProfileAvatar"
+            ></div>
+
+            <div
+                class="profile-card-name"
+                id="memberProfileName"
+            >
+                Alex
+            </div>
+
+            <div
+                class="profile-card-status"
+                id="memberProfileStatus"
+            >
+                ● Online
+            </div>
+
+            <div
+                class="profile-bio"
+                id="memberProfileBio"
+            >
+                Building things.
+            </div>
+
+            <button
+                class="profile-close"
+                onclick="closeMemberProfile()"
+            >
+                Close
             </button>
 
         </div>
@@ -1546,16 +1693,18 @@ select:focus-visible {
 </div>
 
 
-<!-- TOASTS -->
+<!-- TOAST -->
 
-<div class="toast-container"
-     id="toastContainer"></div>
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <script>
 
 /* =====================================================
-   DATA
+   SERVER DATA
 ===================================================== */
 
 const serverData = {
@@ -1564,6 +1713,7 @@ const serverData = {
         name: "Chorda",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to your community."
@@ -1588,14 +1738,17 @@ const serverData = {
                 name: "support",
                 topic: "Get help from the community."
             }
+
         }
     },
 
 
     gaming: {
+
         name: "Gaming",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Gaming server."
@@ -1615,14 +1768,18 @@ const serverData = {
                 name: "clips",
                 topic: "Share your gaming clips."
             }
+
         }
+
     },
 
 
     study: {
+
         name: "Study",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Study server."
@@ -1642,7 +1799,9 @@ const serverData = {
                 name: "chat",
                 topic: "General study discussion."
             }
+
         }
+
     }
 
 };
@@ -1653,9 +1812,11 @@ const serverData = {
 ===================================================== */
 
 const selectedChannel = {
+
     chorda: "general",
     gaming: "general",
     study: "general"
+
 };
 
 
@@ -1670,14 +1831,14 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "AX",
+                avatar: "https://i.pravatar.cc/100?img=11",
                 text: "Welcome to Chorda!",
                 time: "Today at 7:01 PM"
             },
 
             {
                 name: "Sky",
-                avatar: "SK",
+                avatar: "https://i.pravatar.cc/100?img=47",
                 text: "This is the general channel.",
                 time: "Today at 7:04 PM"
             }
@@ -1686,7 +1847,7 @@ const messagesData = {
         announcements: [
             {
                 name: "Alex",
-                avatar: "AX",
+                avatar: "https://i.pravatar.cc/100?img=11",
                 text: "Welcome to the announcements channel.",
                 time: "Today at 6:55 PM"
             }
@@ -1695,7 +1856,7 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "JM",
+                avatar: "https://i.pravatar.cc/100?img=32",
                 text: "Hey everyone! What's happening?",
                 time: "Today at 6:42 PM"
             }
@@ -1704,7 +1865,7 @@ const messagesData = {
         memes: [
             {
                 name: "Sky",
-                avatar: "SK",
+                avatar: "https://i.pravatar.cc/100?img=47",
                 text: "This channel is ready for memes 😂",
                 time: "Today at 6:30 PM"
             }
@@ -1713,7 +1874,7 @@ const messagesData = {
         support: [
             {
                 name: "Riley",
-                avatar: "RB",
+                avatar: "https://i.pravatar.cc/100?img=5",
                 text: "Need help? Ask your question here.",
                 time: "Today at 6:15 PM"
             }
@@ -1727,7 +1888,7 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "AX",
+                avatar: "https://i.pravatar.cc/100?img=11",
                 text: "Welcome to Gaming!",
                 time: "Today at 7:10 PM"
             }
@@ -1736,7 +1897,7 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "JM",
+                avatar: "https://i.pravatar.cc/100?img=32",
                 text: "What games are everyone playing?",
                 time: "Today at 7:12 PM"
             }
@@ -1745,7 +1906,7 @@ const messagesData = {
         games: [
             {
                 name: "Sky",
-                avatar: "SK",
+                avatar: "https://i.pravatar.cc/100?img=47",
                 text: "Let's talk about games!",
                 time: "Today at 7:14 PM"
             }
@@ -1754,7 +1915,7 @@ const messagesData = {
         clips: [
             {
                 name: "Riley",
-                avatar: "RB",
+                avatar: "https://i.pravatar.cc/100?img=5",
                 text: "Share your best clips here.",
                 time: "Today at 7:16 PM"
             }
@@ -1768,7 +1929,7 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "AX",
+                avatar: "https://i.pravatar.cc/100?img=11",
                 text: "Welcome to the Study server!",
                 time: "Today at 7:20 PM"
             }
@@ -1777,7 +1938,7 @@ const messagesData = {
         homework: [
             {
                 name: "Sky",
-                avatar: "SK",
+                avatar: "https://i.pravatar.cc/100?img=47",
                 text: "Anyone working on homework?",
                 time: "Today at 7:22 PM"
             }
@@ -1786,7 +1947,7 @@ const messagesData = {
         resources: [
             {
                 name: "Riley",
-                avatar: "RB",
+                avatar: "https://i.pravatar.cc/100?img=5",
                 text: "This channel is for useful resources.",
                 time: "Today at 7:24 PM"
             }
@@ -1795,7 +1956,7 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "JM",
+                avatar: "https://i.pravatar.cc/100?img=32",
                 text: "How is everyone's studying going?",
                 time: "Today at 7:26 PM"
             }
@@ -1807,18 +1968,53 @@ const messagesData = {
 
 
 /* =====================================================
-   APP STATE
+   MEMBER DATA
+===================================================== */
+
+const memberData = {
+
+    Alex: {
+        avatar: "https://i.pravatar.cc/100?img=11",
+        status: "Building things",
+        bio: "Building things and working on Chorda."
+    },
+
+    Sky: {
+        avatar: "https://i.pravatar.cc/100?img=47",
+        status: "Listening",
+        bio: "Usually listening to music."
+    },
+
+    Jamie: {
+        avatar: "https://i.pravatar.cc/100?img=32",
+        status: "Playing",
+        bio: "Gaming and hanging out."
+    },
+
+    Riley: {
+        avatar: "https://i.pravatar.cc/100?img=5",
+        status: "Online",
+        bio: "Welcome to Chorda!"
+    }
+
+};
+
+
+/* =====================================================
+   CURRENT STATE
 ===================================================== */
 
 let currentServer = "chorda";
 
-let notificationsEnabled = true;
 
-let lightMode = false;
+let profileData = {
 
-let profile = {
     name: "You",
-    bio: ""
+
+    avatar: "https://i.pravatar.cc/100?img=12",
+
+    bio: "Building Chorda."
+
 };
 
 
@@ -1868,23 +2064,11 @@ const mobileMenu =
 const mobileOverlay =
     document.getElementById("mobileOverlay");
 
-const searchButton =
-    document.getElementById("searchButton");
-
 const searchContainer =
     document.getElementById("searchContainer");
 
 const searchInput =
     document.getElementById("searchInput");
-
-const notificationButton =
-    document.getElementById("notificationButton");
-
-const notificationPanel =
-    document.getElementById("notificationPanel");
-
-const notificationList =
-    document.getElementById("notificationList");
 
 const profileButton =
     document.getElementById("profileButton");
@@ -1895,147 +2079,20 @@ const userPanel =
 const settingsModal =
     document.getElementById("settingsModal");
 
-const profileModal =
-    document.getElementById("profileModal");
-
-const serverModal =
-    document.getElementById("serverModal");
+const editProfileModal =
+    document.getElementById("editProfileModal");
 
 const plusModal =
     document.getElementById("plusModal");
 
-const toastContainer =
-    document.getElementById("toastContainer");
+const notificationPanel =
+    document.getElementById("notificationPanel");
 
+const toast =
+    document.getElementById("toast");
 
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-
-function saveData() {
-
-    try {
-
-        localStorage.setItem(
-            "chordaMessages",
-            JSON.stringify(messagesData)
-        );
-
-        localStorage.setItem(
-            "chordaProfile",
-            JSON.stringify(profile)
-        );
-
-        localStorage.setItem(
-            "chordaNotifications",
-            JSON.stringify(notificationsEnabled)
-        );
-
-    } catch (error) {
-
-        console.log(
-            "Local storage unavailable."
-        );
-
-    }
-
-}
-
-
-function loadSavedData() {
-
-    try {
-
-        const savedMessages =
-            localStorage.getItem(
-                "chordaMessages"
-            );
-
-        if (savedMessages) {
-
-            const parsed =
-                JSON.parse(savedMessages);
-
-            Object.keys(parsed).forEach(
-                function(server) {
-
-                    messagesData[server] =
-                        parsed[server];
-
-                }
-            );
-
-        }
-
-
-        const savedProfile =
-            localStorage.getItem(
-                "chordaProfile"
-            );
-
-        if (savedProfile) {
-
-            profile =
-                JSON.parse(savedProfile);
-
-        }
-
-
-        const savedNotifications =
-            localStorage.getItem(
-                "chordaNotifications"
-            );
-
-        if (savedNotifications !== null) {
-
-            notificationsEnabled =
-                JSON.parse(
-                    savedNotifications
-                );
-
-        }
-
-    } catch (error) {
-
-        console.log(
-            "Could not load saved data."
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(text) {
-
-    const toast =
-        document.createElement("div");
-
-    toast.className =
-        "toast";
-
-    toast.textContent =
-        text;
-
-    toastContainer.appendChild(
-        toast
-    );
-
-
-    setTimeout(
-        function() {
-
-            toast.remove();
-
-        },
-        3000
-    );
-
-}
+const profileView =
+    document.getElementById("profileView");
 
 
 /* =====================================================
@@ -2048,20 +2105,17 @@ function loadServer(serverId) {
         return;
     }
 
-    currentServer =
-        serverId;
+    currentServer = serverId;
 
 
-    serverButtons.forEach(
-        function(button) {
+    serverButtons.forEach(function(button) {
 
-            button.classList.toggle(
-                "active",
-                button.dataset.server === serverId
-            );
+        button.classList.toggle(
+            "active",
+            button.dataset.server === serverId
+        );
 
-        }
-    );
+    });
 
 
     workspaceName.textContent =
@@ -2072,8 +2126,7 @@ function loadServer(serverId) {
 
 
     loadChannel(
-        selectedChannel[serverId] ||
-        "general"
+        selectedChannel[serverId] || "general"
     );
 
 }
@@ -2093,22 +2146,16 @@ function renderChannels() {
     }
 
 
-    channelList.innerHTML =
-        "";
+    channelList.innerHTML = "";
 
 
     const category =
         document.createElement("div");
 
-    category.className =
-        "category";
+    category.className = "category";
+    category.textContent = "Text Channels";
 
-    category.textContent =
-        "Text Channels";
-
-    channelList.appendChild(
-        category
-    );
+    channelList.appendChild(category);
 
 
     Object.keys(server.channels).forEach(
@@ -2117,15 +2164,10 @@ function renderChannels() {
             const channel =
                 server.channels[channelId];
 
-
             const element =
                 document.createElement("div");
 
-            element.className =
-                "channel";
-
-            element.dataset.channel =
-                channelId;
+            element.className = "channel";
 
             element.textContent =
                 "# " + channel.name;
@@ -2136,9 +2178,7 @@ function renderChannels() {
                 channelId
             ) {
 
-                element.classList.add(
-                    "active"
-                );
+                element.classList.add("active");
 
             }
 
@@ -2160,9 +2200,7 @@ function renderChannels() {
             );
 
 
-            channelList.appendChild(
-                element
-            );
+            channelList.appendChild(element);
 
         }
     );
@@ -2171,15 +2209,10 @@ function renderChannels() {
     const voiceCategory =
         document.createElement("div");
 
-    voiceCategory.className =
-        "category";
+    voiceCategory.className = "category";
+    voiceCategory.textContent = "Voice";
 
-    voiceCategory.textContent =
-        "Voice";
-
-    channelList.appendChild(
-        voiceCategory
-    );
+    channelList.appendChild(voiceCategory);
 
 
     ["Lounge", "Gaming"].forEach(
@@ -2189,10 +2222,14 @@ function renderChannels() {
                 document.createElement("div");
 
             voice.className =
-                "channel voice-channel";
+                "channel voice-disabled";
 
             voice.textContent =
                 "🔊 " + name;
+
+
+            voice.title =
+                "Voice channels are not connected to a live service yet";
 
 
             voice.addEventListener(
@@ -2200,16 +2237,14 @@ function renderChannels() {
                 function() {
 
                     showToast(
-                        "Voice channels are not connected to live voice yet."
+                        "Voice channels are not connected yet."
                     );
 
                 }
             );
 
 
-            channelList.appendChild(
-                voice
-            );
+            channelList.appendChild(voice);
 
         }
     );
@@ -2265,68 +2300,51 @@ function loadChannel(channelId) {
         channel.name;
 
 
-    messageList.innerHTML =
-        "";
+    messageList.innerHTML = "";
 
 
     if (!messagesData[currentServer]) {
-
-        messagesData[currentServer] =
-            {};
-
+        messagesData[currentServer] = {};
     }
 
 
-    if (
-        !messagesData[currentServer][channelId]
-    ) {
-
-        messagesData[currentServer][channelId] =
-            [];
-
+    if (!messagesData[currentServer][channelId]) {
+        messagesData[currentServer][channelId] = [];
     }
 
 
     messagesData[currentServer][channelId]
-        .forEach(
-            function(message) {
+        .forEach(function(message) {
 
-                createMessage(
-                    message.name,
-                    message.avatar,
-                    message.text,
-                    message.time,
-                    false
-                );
+            createMessage(
+                message.name,
+                message.avatar,
+                message.text,
+                message.time,
+                false
+            );
 
-            }
-        );
+        });
 
 
-    searchInput.value =
-        "";
+    searchInput.value = "";
 
 
     document
         .querySelectorAll(".message")
-        .forEach(
-            function(message) {
+        .forEach(function(message) {
 
-                message.style.display =
-                    "flex";
+            message.style.display = "flex";
 
-            }
-        );
+        });
 
 
-    requestAnimationFrame(
-        function() {
+    requestAnimationFrame(function() {
 
-            messages.scrollTop =
-                messages.scrollHeight;
+        messages.scrollTop =
+            messages.scrollHeight;
 
-        }
-    );
+    });
 
 }
 
@@ -2346,25 +2364,41 @@ function createMessage(
     const message =
         document.createElement("div");
 
-    message.className =
-        "message";
+    message.className = "message";
 
 
     const avatarElement =
         document.createElement("div");
 
-    avatarElement.className =
-        "avatar";
+    avatarElement.className = "avatar";
 
-    avatarElement.textContent =
-        avatar;
+
+    const image =
+        document.createElement("img");
+
+    image.src = avatar;
+    image.alt = name;
+
+
+    image.onerror = function() {
+
+        image.style.display = "none";
+
+        avatarElement.textContent =
+            name
+                .slice(0, 2)
+                .toUpperCase();
+
+    };
+
+
+    avatarElement.appendChild(image);
 
 
     const content =
         document.createElement("div");
 
-    content.className =
-        "message-content";
+    content.className = "message-content";
 
 
     const header =
@@ -2374,57 +2408,39 @@ function createMessage(
     const username =
         document.createElement("span");
 
-    username.className =
-        "username";
-
-    username.textContent =
-        name;
+    username.className = "username";
+    username.textContent = name;
 
 
     const timestamp =
         document.createElement("span");
 
-    timestamp.className =
-        "timestamp";
-
-    timestamp.textContent =
-        time;
+    timestamp.className = "timestamp";
+    timestamp.textContent = time;
 
 
-    header.appendChild(
-        username
-    );
-
-    header.appendChild(
-        timestamp
-    );
+    header.appendChild(username);
+    header.appendChild(timestamp);
 
 
     const textElement =
         document.createElement("div");
 
-    textElement.className =
-        "message-text";
-
-    textElement.textContent =
-        text;
+    textElement.className = "message-text";
+    textElement.textContent = text;
 
 
     const reactions =
         document.createElement("div");
 
-    reactions.className =
-        "reactions";
+    reactions.className = "reactions";
 
 
     const likeButton =
         document.createElement("button");
 
-    likeButton.className =
-        "reaction";
-
-    likeButton.textContent =
-        "👍 0";
+    likeButton.className = "reaction";
+    likeButton.textContent = "👍 0";
 
 
     let likes = 0;
@@ -2443,22 +2459,12 @@ function createMessage(
     );
 
 
-    reactions.appendChild(
-        likeButton
-    );
+    reactions.appendChild(likeButton);
 
 
-    content.appendChild(
-        header
-    );
-
-    content.appendChild(
-        textElement
-    );
-
-    content.appendChild(
-        reactions
-    );
+    content.appendChild(header);
+    content.appendChild(textElement);
+    content.appendChild(reactions);
 
 
     const actions =
@@ -2477,9 +2483,6 @@ function createMessage(
     reactButton.textContent =
         "😀";
 
-    reactButton.title =
-        "React";
-
 
     reactButton.addEventListener(
         "click",
@@ -2494,70 +2497,15 @@ function createMessage(
     );
 
 
-    const copyButton =
-        document.createElement("button");
-
-    copyButton.className =
-        "message-action";
-
-    copyButton.textContent =
-        "📋";
-
-    copyButton.title =
-        "Copy message";
+    actions.appendChild(reactButton);
 
 
-    copyButton.addEventListener(
-        "click",
-        async function() {
-
-            try {
-
-                await navigator.clipboard.writeText(
-                    text
-                );
-
-                showToast(
-                    "Message copied."
-                );
-
-            } catch {
-
-                showToast(
-                    "Could not copy message."
-                );
-
-            }
-
-        }
-    );
+    message.appendChild(avatarElement);
+    message.appendChild(content);
+    message.appendChild(actions);
 
 
-    actions.appendChild(
-        reactButton
-    );
-
-    actions.appendChild(
-        copyButton
-    );
-
-
-    message.appendChild(
-        avatarElement
-    );
-
-    message.appendChild(
-        content
-    );
-
-    message.appendChild(
-        actions
-    );
-
-
-    messageList.appendChild(
-        message
-    );
+    messageList.appendChild(message);
 
 
     if (shouldScroll) {
@@ -2589,20 +2537,12 @@ function sendMessage() {
 
 
     if (!messagesData[currentServer]) {
-
-        messagesData[currentServer] =
-            {};
-
+        messagesData[currentServer] = {};
     }
 
 
-    if (
-        !messagesData[currentServer][channelId]
-    ) {
-
-        messagesData[currentServer][channelId] =
-            [];
-
+    if (!messagesData[currentServer][channelId]) {
+        messagesData[currentServer][channelId] = [];
     }
 
 
@@ -2622,27 +2562,19 @@ function sendMessage() {
 
     const newMessage = {
 
-        name:
-            profile.name || "You",
+        name: profileData.name,
 
-        avatar:
-            getInitials(
-                profile.name || "You"
-            ),
+        avatar: profileData.avatar,
 
-        text:
-            text,
+        text: text,
 
-        time:
-            "Today at " + time
+        time: "Today at " + time
 
     };
 
 
     messagesData[currentServer][channelId]
-        .push(
-            newMessage
-        );
+        .push(newMessage);
 
 
     createMessage(
@@ -2653,929 +2585,12 @@ function sendMessage() {
     );
 
 
-    input.value =
-        "";
+    input.value = "";
 
     input.focus();
 
-
-    saveData();
-
 }
 
-
-/* =====================================================
-   INITIALS
-===================================================== */
-
-function getInitials(name) {
-
-    const parts =
-        name
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean);
-
-
-    if (!parts.length) {
-        return "YO";
-    }
-
-
-    if (parts.length === 1) {
-
-        return parts[0]
-            .substring(0, 2)
-            .toUpperCase();
-
-    }
-
-
-    return (
-        parts[0][0] +
-        parts[parts.length - 1][0]
-    ).toUpperCase();
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-function toggleSearch() {
-
-    searchContainer.classList.toggle(
-        "open"
-    );
-
-    notificationPanel.classList.remove(
-        "open"
-    );
-
-
-    if (
-        searchContainer.classList.contains(
-            "open"
-        )
-    ) {
-
-        searchInput.focus();
-
-    }
-
-}
-
-
-searchInput.addEventListener(
-    "input",
-    function() {
-
-        const query =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        document
-            .querySelectorAll(".message")
-            .forEach(
-                function(message) {
-
-                    const text =
-                        message.textContent
-                            .toLowerCase();
-
-
-                    message.style.display =
-                        !query ||
-                        text.includes(query)
-                            ? "flex"
-                            : "none";
-
-                }
-            );
-
-    }
-);
-
-
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
-
-function toggleNotifications() {
-
-    notificationPanel.classList.toggle(
-        "open"
-    );
-
-    searchContainer.classList.remove(
-        "open"
-    );
-
-
-    if (
-        notificationPanel.classList.contains(
-            "open"
-        )
-    ) {
-
-        renderNotifications();
-
-    }
-
-}
-
-
-function renderNotifications() {
-
-    notificationList.innerHTML =
-        "";
-
-
-    if (!notificationsEnabled) {
-
-        document.getElementById(
-            "notificationEmpty"
-        ).textContent =
-            "Notifications are disabled.";
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "notificationEmpty"
-    ).textContent =
-        "You're all caught up.";
-
-
-    const item =
-        document.createElement("div");
-
-    item.className =
-        "notification-item";
-
-    item.textContent =
-        "No new notifications.";
-
-    notificationList.appendChild(
-        item
-    );
-
-}
-
-
-/* =====================================================
-   PROFILE PANEL
-===================================================== */
-
-function updateProfileUI() {
-
-    const name =
-        profile.name || "You";
-
-    profileButton.textContent =
-        "👤 " +
-        name +
-        " — Online";
-
-
-    document.getElementById(
-        "profilePanelName"
-    ).textContent =
-        name;
-
-
-    document.getElementById(
-        "profileAvatar"
-    ).textContent =
-        getInitials(name);
-
-}
-
-
-profileButton.addEventListener(
-    "click",
-    function(event) {
-
-        event.stopPropagation();
-
-        userPanel.classList.toggle(
-            "open"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   EDIT PROFILE
-===================================================== */
-
-function openProfile() {
-
-    userPanel.classList.remove(
-        "open"
-    );
-
-    profileModal.classList.add(
-        "open"
-    );
-
-
-    document.getElementById(
-        "profileNameInput"
-    ).value =
-        profile.name || "";
-
-
-    document.getElementById(
-        "profileBioInput"
-    ).value =
-        profile.bio || "";
-
-
-    document.getElementById(
-        "profileNameInput"
-    ).focus();
-
-}
-
-
-function closeProfile() {
-
-    profileModal.classList.remove(
-        "open"
-    );
-
-}
-
-
-document.getElementById(
-    "editProfileButton"
-).addEventListener(
-    "click",
-    openProfile
-);
-
-
-document.getElementById(
-    "saveProfileButton"
-).addEventListener(
-    "click",
-    function() {
-
-        const name =
-            document.getElementById(
-                "profileNameInput"
-            ).value.trim();
-
-
-        const bio =
-            document.getElementById(
-                "profileBioInput"
-            ).value.trim();
-
-
-        if (!name) {
-
-            showToast(
-                "Please enter a display name."
-            );
-
-            return;
-
-        }
-
-
-        profile.name =
-            name;
-
-        profile.bio =
-            bio;
-
-
-        updateProfileUI();
-
-        saveData();
-
-        closeProfile();
-
-        showToast(
-            "Profile updated."
-        );
-
-    }
-);
-
-
-document.getElementById(
-    "closeProfileButton"
-).addEventListener(
-    "click",
-    closeProfile
-);
-
-
-document.getElementById(
-    "cancelProfileButton"
-).addEventListener(
-    "click",
-    closeProfile
-);
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-function openSettings() {
-
-    userPanel.classList.remove(
-        "open"
-    );
-
-    settingsModal.classList.add(
-        "open"
-    );
-
-    updateSettingsUI();
-
-}
-
-
-function closeSettings() {
-
-    settingsModal.classList.remove(
-        "open"
-    );
-
-}
-
-
-function updateSettingsUI() {
-
-    const text =
-        document.getElementById(
-            "notificationSettingText"
-        );
-
-    const button =
-        document.getElementById(
-            "notificationToggleButton"
-        );
-
-
-    if (notificationsEnabled) {
-
-        text.textContent =
-            "Notifications are enabled.";
-
-        button.textContent =
-            "Disable Notifications";
-
-    } else {
-
-        text.textContent =
-            "Notifications are disabled.";
-
-        button.textContent =
-            "Enable Notifications";
-
-    }
-
-}
-
-
-document.getElementById(
-    "workspaceSettingsButton"
-).addEventListener(
-    "click",
-    openSettings
-);
-
-
-document.getElementById(
-    "headerSettingsButton"
-).addEventListener(
-    "click",
-    openSettings
-);
-
-
-document.getElementById(
-    "profileSettingsButton"
-).addEventListener(
-    "click",
-    openSettings
-);
-
-
-document.getElementById(
-    "settingsProfileButton"
-).addEventListener(
-    "click",
-    function() {
-
-        closeSettings();
-
-        openProfile();
-
-    }
-);
-
-
-document.getElementById(
-    "closeSettingsButton"
-).addEventListener(
-    "click",
-    closeSettings
-);
-
-
-/* =====================================================
-   NOTIFICATION SETTING
-===================================================== */
-
-document.getElementById(
-    "notificationToggleButton"
-).addEventListener(
-    "click",
-    function() {
-
-        notificationsEnabled =
-            !notificationsEnabled;
-
-        saveData();
-
-        updateSettingsUI();
-
-        renderNotifications();
-
-        showToast(
-            notificationsEnabled
-                ? "Notifications enabled."
-                : "Notifications disabled."
-        );
-
-    }
-);
-
-
-/* =====================================================
-   THEME
-===================================================== */
-
-document.getElementById(
-    "themeButton"
-).addEventListener(
-    "click",
-    function() {
-
-        lightMode =
-            !lightMode;
-
-
-        if (lightMode) {
-
-            document.documentElement.style.setProperty(
-                "--background",
-                "#f3f4f6"
-            );
-
-            document.documentElement.style.setProperty(
-                "--sidebar",
-                "#e5e7eb"
-            );
-
-            document.documentElement.style.setProperty(
-                "--sidebar-dark",
-                "#d1d5db"
-            );
-
-            document.documentElement.style.setProperty(
-                "--card",
-                "#ffffff"
-            );
-
-            document.documentElement.style.setProperty(
-                "--card-hover",
-                "#f3f4f6"
-            );
-
-            document.documentElement.style.setProperty(
-                "--border",
-                "#cbd5e1"
-            );
-
-            document.documentElement.style.setProperty(
-                "--text",
-                "#111827"
-            );
-
-            document.documentElement.style.setProperty(
-                "--muted",
-                "#6b7280"
-            );
-
-            showToast(
-                "Light mode enabled."
-            );
-
-        } else {
-
-            document.documentElement.style.setProperty(
-                "--background",
-                "#111318"
-            );
-
-            document.documentElement.style.setProperty(
-                "--sidebar",
-                "#171a21"
-            );
-
-            document.documentElement.style.setProperty(
-                "--sidebar-dark",
-                "#0b0d10"
-            );
-
-            document.documentElement.style.setProperty(
-                "--card",
-                "#20242d"
-            );
-
-            document.documentElement.style.setProperty(
-                "--card-hover",
-                "#292e38"
-            );
-
-            document.documentElement.style.setProperty(
-                "--border",
-                "#303540"
-            );
-
-            document.documentElement.style.setProperty(
-                "--text",
-                "#ffffff"
-            );
-
-            document.documentElement.style.setProperty(
-                "--muted",
-                "#9ca3af"
-            );
-
-            showToast(
-                "Dark mode enabled."
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   CLEAR LOCAL MESSAGES
-===================================================== */
-
-document.getElementById(
-    "clearMessagesButton"
-).addEventListener(
-    "click",
-    function() {
-
-        const confirmed =
-            confirm(
-                "Clear all messages saved on this device?"
-            );
-
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        Object.keys(messagesData)
-            .forEach(
-                function(server) {
-
-                    Object.keys(
-                        messagesData[server]
-                    ).forEach(
-                        function(channel) {
-
-                            messagesData[server][channel] =
-                                [];
-
-                        }
-                    );
-
-                }
-            );
-
-
-        saveData();
-
-        loadChannel(
-            selectedChannel[currentServer]
-        );
-
-
-        showToast(
-            "Local messages cleared."
-        );
-
-    }
-);
-
-
-/* =====================================================
-   PLUS
-===================================================== */
-
-function openPlus() {
-
-    plusModal.classList.add(
-        "open"
-    );
-
-}
-
-
-document.getElementById(
-    "plusButton"
-).addEventListener(
-    "click",
-    openPlus
-);
-
-
-document.getElementById(
-    "settingsPlusButton"
-).addEventListener(
-    "click",
-    function() {
-
-        closeSettings();
-
-        openPlus();
-
-    }
-);
-
-
-document.getElementById(
-    "closePlusButton"
-).addEventListener(
-    "click",
-    function() {
-
-        plusModal.classList.remove(
-            "open"
-        );
-
-    }
-);
-
-
-document.getElementById(
-    "closePlusBottomButton"
-).addEventListener(
-    "click",
-    function() {
-
-        plusModal.classList.remove(
-            "open"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   SERVER CREATION
-===================================================== */
-
-document.getElementById(
-    "addServerButton"
-).addEventListener(
-    "click",
-    function() {
-
-        serverModal.classList.add(
-            "open"
-        );
-
-        document.getElementById(
-            "serverNameInput"
-        ).focus();
-
-    }
-);
-
-
-function closeServerModal() {
-
-    serverModal.classList.remove(
-        "open"
-    );
-
-}
-
-
-document.getElementById(
-    "closeServerButton"
-).addEventListener(
-    "click",
-    closeServerModal
-);
-
-
-document.getElementById(
-    "cancelServerButton"
-).addEventListener(
-    "click",
-    closeServerModal
-);
-
-
-document.getElementById(
-    "createServerButton"
-).addEventListener(
-    "click",
-    function() {
-
-        const name =
-            document.getElementById(
-                "serverNameInput"
-            ).value.trim();
-
-
-        if (!name) {
-
-            showToast(
-                "Enter a server name."
-            );
-
-            return;
-
-        }
-
-
-        const id =
-            "server_" +
-            Date.now();
-
-
-        serverData[id] = {
-
-            name: name,
-
-            channels: {
-
-                general: {
-                    name: "general",
-                    topic: "Welcome to your new server."
-                },
-
-                chat: {
-                    name: "chat",
-                    topic: "Talk with everyone."
-                }
-
-            }
-
-        };
-
-
-        messagesData[id] = {
-
-            general: [
-                {
-                    name: profile.name || "You",
-                    avatar: getInitials(
-                        profile.name || "You"
-                    ),
-                    text:
-                        "Welcome to " +
-                        name +
-                        "!",
-                    time:
-                        "Just now"
-                }
-            ],
-
-            chat: []
-
-        };
-
-
-        selectedChannel[id] =
-            "general";
-
-
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "server";
-
-        button.dataset.server =
-            id;
-
-        button.title =
-            name;
-
-        button.textContent =
-            getInitials(name);
-
-
-        button.addEventListener(
-            "click",
-            function() {
-
-                loadServer(id);
-
-            }
-        );
-
-
-        const addButton =
-            document.getElementById(
-                "addServerButton"
-            );
-
-
-        addButton.parentNode.insertBefore(
-            button,
-            addButton
-        );
-
-
-        closeServerModal();
-
-        document.getElementById(
-            "serverNameInput"
-        ).value =
-            "";
-
-
-        loadServer(id);
-
-
-        showToast(
-            "Server created."
-        );
-
-    }
-);
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-mobileMenu.addEventListener(
-    "click",
-    function() {
-
-        channelsPanel.classList.add(
-            "open"
-        );
-
-        mobileOverlay.classList.add(
-            "show"
-        );
-
-    }
-);
-
-
-function closeMobileMenu() {
-
-    channelsPanel.classList.remove(
-        "open"
-    );
-
-    mobileOverlay.classList.remove(
-        "show"
-    );
-
-}
-
-
-mobileOverlay.addEventListener(
-    "click",
-    closeMobileMenu
-);
-
-
-/* =====================================================
-   SEND EVENTS
-===================================================== */
 
 sendButton.addEventListener(
     "click",
@@ -3622,24 +2637,121 @@ serverButtons.forEach(
 
 
 /* =====================================================
-   HEADER EVENTS
+   MOBILE
 ===================================================== */
 
-searchButton.addEventListener(
+mobileMenu.addEventListener(
     "click",
-    toggleSearch
+    function() {
+
+        channelsPanel.classList.add("open");
+
+        mobileOverlay.classList.add("show");
+
+    }
 );
 
 
-notificationButton.addEventListener(
+function closeMobileMenu() {
+
+    channelsPanel.classList.remove("open");
+
+    mobileOverlay.classList.remove("show");
+
+}
+
+
+mobileOverlay.addEventListener(
     "click",
-    toggleNotifications
+    closeMobileMenu
 );
 
 
 /* =====================================================
-   OUTSIDE CLICK
+   SEARCH
 ===================================================== */
+
+function toggleSearch() {
+
+    notificationPanel.classList.remove("open");
+
+    searchContainer.classList.toggle("open");
+
+
+    if (
+        searchContainer.classList.contains("open")
+    ) {
+
+        searchInput.focus();
+
+    }
+
+}
+
+
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        const query =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        document
+            .querySelectorAll(".message")
+            .forEach(function(message) {
+
+                const text =
+                    message.textContent
+                        .toLowerCase();
+
+
+                message.style.display =
+                    !query ||
+                    text.includes(query)
+                        ? "flex"
+                        : "none";
+
+            });
+
+    }
+);
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+function toggleNotifications() {
+
+    searchContainer.classList.remove("open");
+
+    notificationPanel.classList.toggle("open");
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+profileButton.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        notificationPanel.classList.remove("open");
+
+        searchContainer.classList.remove("open");
+
+        userPanel.classList.toggle("open");
+
+    }
+);
+
 
 document.addEventListener(
     "click",
@@ -3650,33 +2762,7 @@ document.addEventListener(
             !profileButton.contains(event.target)
         ) {
 
-            userPanel.classList.remove(
-                "open"
-            );
-
-        }
-
-
-        if (
-            !searchContainer.contains(event.target) &&
-            !searchButton.contains(event.target)
-        ) {
-
-            searchContainer.classList.remove(
-                "open"
-            );
-
-        }
-
-
-        if (
-            !notificationPanel.contains(event.target) &&
-            !notificationButton.contains(event.target)
-        ) {
-
-            notificationPanel.classList.remove(
-                "open"
-            );
+            userPanel.classList.remove("open");
 
         }
 
@@ -3685,36 +2771,308 @@ document.addEventListener(
 
 
 /* =====================================================
-   MODAL BACKGROUND CLICK
+   SETTINGS
 ===================================================== */
 
-[
-    settingsModal,
-    profileModal,
-    serverModal,
-    plusModal
-].forEach(
-    function(modal) {
+function openSettings() {
 
-        modal.addEventListener(
+    userPanel.classList.remove("open");
+
+    settingsModal.classList.add("open");
+
+}
+
+
+function closeSettings() {
+
+    settingsModal.classList.remove("open");
+
+}
+
+
+settingsModal.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === settingsModal) {
+
+            closeSettings();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   EDIT PROFILE
+===================================================== */
+
+function openEditProfile() {
+
+    userPanel.classList.remove("open");
+
+    document.getElementById("editName").value =
+        profileData.name;
+
+    document.getElementById("editAvatar").value =
+        profileData.avatar;
+
+    document.getElementById("editBio").value =
+        profileData.bio;
+
+    editProfileModal.classList.add("open");
+
+}
+
+
+function closeEditProfile() {
+
+    editProfileModal.classList.remove("open");
+
+}
+
+
+function saveProfile() {
+
+    const newName =
+        document
+            .getElementById("editName")
+            .value
+            .trim();
+
+
+    const newAvatar =
+        document
+            .getElementById("editAvatar")
+            .value
+            .trim();
+
+
+    const newBio =
+        document
+            .getElementById("editBio")
+            .value
+            .trim();
+
+
+    if (!newName) {
+
+        showToast(
+            "Please enter a display name."
+        );
+
+        return;
+
+    }
+
+
+    profileData.name =
+        newName;
+
+    profileData.avatar =
+        newAvatar ||
+        "https://i.pravatar.cc/100?img=12";
+
+    profileData.bio =
+        newBio;
+
+
+    document.getElementById(
+        "profilePanelName"
+    ).textContent =
+        profileData.name;
+
+
+    document.getElementById(
+        "profileButtonName"
+    ).textContent =
+        profileData.name +
+        " — Online";
+
+
+    document.getElementById(
+        "miniProfileImage"
+    ).src =
+        profileData.avatar;
+
+
+    document.getElementById(
+        "profilePanelImage"
+    ).src =
+        profileData.avatar;
+
+
+    closeEditProfile();
+
+
+    showToast(
+        "Profile saved."
+    );
+
+}
+
+
+/* =====================================================
+   PLUS
+===================================================== */
+
+function openPlus() {
+
+    plusModal.classList.add("open");
+
+}
+
+
+function closePlus() {
+
+    plusModal.classList.remove("open");
+
+}
+
+
+plusModal.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === plusModal) {
+
+            closePlus();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MEMBER PROFILES
+===================================================== */
+
+document
+    .querySelectorAll(".member")
+    .forEach(function(member) {
+
+        member.addEventListener(
             "click",
-            function(event) {
+            function() {
 
-                if (
-                    event.target === modal
-                ) {
+                const name =
+                    member.dataset.member;
 
-                    modal.classList.remove(
-                        "open"
-                    );
-
-                }
+                openMemberProfile(name);
 
             }
         );
 
+    });
+
+
+function openMemberProfile(name) {
+
+    const member =
+        memberData[name];
+
+    if (!member) {
+        return;
+    }
+
+
+    const avatar =
+        document.getElementById(
+            "memberProfileAvatar"
+        );
+
+
+    avatar.innerHTML = "";
+
+
+    const image =
+        document.createElement("img");
+
+    image.src =
+        member.avatar;
+
+    image.alt =
+        name;
+
+
+    avatar.appendChild(image);
+
+
+    document.getElementById(
+        "memberProfileName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "memberProfileStatus"
+    ).textContent =
+        "● " + member.status;
+
+
+    document.getElementById(
+        "memberProfileBio"
+    ).textContent =
+        member.bio;
+
+
+    profileView.classList.add("open");
+
+}
+
+
+function closeMemberProfile() {
+
+    profileView.classList.remove("open");
+
+}
+
+
+profileView.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === profileView) {
+
+            closeMemberProfile();
+
+        }
+
     }
 );
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(
+            function() {
+
+                toast.classList.remove("show");
+
+            },
+            2500
+        );
+
+}
 
 
 /* =====================================================
@@ -3730,30 +3088,21 @@ document.addEventListener(
         }
 
 
-        document
-            .querySelectorAll(".modal.open")
-            .forEach(
-                function(modal) {
+        closeSettings();
 
-                    modal.classList.remove(
-                        "open"
-                    );
+        closeEditProfile();
 
-                }
-            );
+        closePlus();
 
+        closeMemberProfile();
 
-        userPanel.classList.remove(
-            "open"
-        );
+        closeMobileMenu();
 
-        searchContainer.classList.remove(
-            "open"
-        );
+        searchContainer.classList.remove("open");
 
-        notificationPanel.classList.remove(
-            "open"
-        );
+        notificationPanel.classList.remove("open");
+
+        userPanel.classList.remove("open");
 
     }
 );
@@ -3762,12 +3111,6 @@ document.addEventListener(
 /* =====================================================
    START
 ===================================================== */
-
-loadSavedData();
-
-updateProfileUI();
-
-updateSettingsUI();
 
 loadServer("chorda");
 
