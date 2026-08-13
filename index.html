@@ -698,5 +698,66 @@
 
 </div>
 
+<script>
+    const input = document.querySelector(".message-box input");
+    const sendButton = document.querySelector(".message-box button");
+    const messages = document.querySelector(".messages");
+
+    function sendMessage() {
+
+        const text = input.value.trim();
+
+        if (text === "") {
+            return;
+        }
+
+        const message = document.createElement("div");
+
+        message.className = "message";
+
+        message.innerHTML = `
+            <div class="avatar">
+                YO
+            </div>
+
+            <div class="message-content">
+
+                <div>
+
+                    <span class="username">
+                        You
+                    </span>
+
+                    <span class="timestamp">
+                        Just now
+                    </span>
+
+                </div>
+
+                <div class="message-text"></div>
+
+            </div>
+        `;
+
+        message.querySelector(".message-text").textContent = text;
+
+        messages.appendChild(message);
+
+        input.value = "";
+
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+
+    input.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+
+    });
+</script>
+
 </body>
 </html>
