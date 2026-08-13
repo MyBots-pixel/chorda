@@ -7,574 +7,3457 @@
 
 <style>
 *{box-sizing:border-box}
+
 :root{
---background:#111318;--sidebar:#171a21;--sidebar-dark:#0b0d10;
---card:#20242d;--card-hover:#292e38;--border:#303540;
---text:#fff;--muted:#9ca3af;--accent:#5865f2;
---success:#57d68a;--danger:#ed5c68
+--background:#111318;
+--background-secondary:#171a21;
+--background-tertiary:#0b0d10;
+--card:#20242d;
+--card-hover:#292e38;
+--border:#303540;
+--text:#fff;
+--muted:#9ca3af;
+--accent:#5865f2;
+--accent-hover:#4752c4;
+--success:#57d68a;
+--danger:#ed5c68;
+--warning:#f0b232;
 }
-html,body{margin:0;width:100%;height:100%;background:var(--background);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-body{overflow:hidden}
-button,input,select{font-family:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.app{width:100%;height:100vh;display:flex;min-height:0}
 
-/* SERVER BAR */
-.servers{width:72px;height:100vh;background:var(--sidebar-dark);padding:12px;display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;overflow-y:auto;z-index:30}
-.server{width:48px;height:48px;min-height:48px;border:0;border-radius:16px;background:#242833;color:#fff;font-weight:bold;font-size:18px;padding:0;overflow:hidden;transition:.2s}
-.server:hover,.server.active{background:var(--accent);border-radius:13px}
-.server-image{width:100%;height:100%;object-fit:cover;display:block}
-.server.add{color:#6ee7a0;font-size:24px}
+html,body{
+margin:0;
+width:100%;
+height:100%;
+background:var(--background);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif;
+}
 
-/* CHANNEL SIDEBAR */
-.channels{width:250px;height:100vh;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;min-height:0;z-index:20}
-.workspace{height:64px;min-height:64px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);font-size:17px;font-weight:bold}
-.workspace-name-wrap{display:flex;align-items:center;gap:9px;min-width:0}
-.workspace-image{width:34px;height:34px;border-radius:9px;object-fit:cover;background:var(--card);flex-shrink:0}
-#workspaceName{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.workspace-actions{display:flex;gap:4px}
-.small-button{border:0;background:transparent;color:var(--muted);font-size:17px;padding:6px;border-radius:6px}
-.small-button:hover{background:var(--card);color:#fff}
+body{
+overflow:hidden;
+}
 
-/* CHANNELS */
-.channel-list{flex:1;min-height:0;padding:14px 10px;overflow-y:auto}
-.category{color:#8f96a3;font-size:12px;font-weight:bold;text-transform:uppercase;margin:12px 8px 8px;display:flex;align-items:center;justify-content:space-between}
-.category-add{border:0;background:transparent;color:#8f96a3;font-size:18px;padding:0 4px}
-.category-add:hover{color:#fff}
-.channel{padding:9px 10px;border-radius:6px;color:var(--muted);cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:8px;user-select:none}
-.channel:hover,.channel.active{background:var(--card);color:#fff}
-.channel-icon-small{width:20px;text-align:center;color:#818896}
-.voice-channel{opacity:.85}
-.voice-channel.joined{background:rgba(87,214,138,.12);color:#fff}
-.voice-channel.joined .channel-icon-small{color:var(--success)}
-.voice-status{margin-left:auto;font-size:10px;color:#6f7785}
-.voice-status.connected{color:var(--success)}
-.channel-delete{margin-left:auto;border:0;background:transparent;color:#737b89;padding:2px 5px;border-radius:5px}
-.channel-delete:hover{background:var(--danger);color:#fff}
+button,input,select{
+font-family:inherit;
+}
 
-/* PLUS */
-.plus{margin:8px 10px;padding:12px;border-radius:10px;background:linear-gradient(135deg,#292e4a,#202432);border:1px solid #3a4168;flex-shrink:0}
-.plus-title{font-weight:bold;margin-bottom:5px}
-.plus-text{color:var(--muted);font-size:12px;line-height:1.4;margin-bottom:9px}
-.plus-button{width:100%;border:0;padding:8px;border-radius:7px;background:var(--accent);color:#fff;font-weight:bold}
-.plus-button:hover{filter:brightness(1.1)}
+button{
+cursor:pointer;
+}
 
-/* USER */
-#profileButton{width:calc(100% - 16px);margin:8px;flex-shrink:0;text-align:left;display:flex;align-items:center;gap:9px}
-.profile-mini-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.profile-button-text{min-width:0}
-.profile-button-name{font-weight:bold;color:#fff;font-size:13px}
-.profile-button-status{color:var(--success);font-size:10px}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible{
+outline:2px solid var(--accent);
+outline-offset:2px;
+}
 
-/* CHAT */
-.chat{flex:1;min-width:0;min-height:0;height:100vh;display:flex;flex-direction:column}
-.chat-header{height:64px;min-height:64px;padding:0 15px;display:flex;align-items:center;gap:10px;background:var(--sidebar);border-bottom:1px solid var(--border);flex-shrink:0;position:relative}
-.channel-icon{color:#8f96a3;font-size:21px}
-.channel-name{font-weight:bold}
-.channel-topic{color:var(--muted);font-size:13px;margin-left:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.header-actions{margin-left:auto;display:flex;align-items:center;gap:5px}
-.header-button{width:38px;height:38px;border:0;background:transparent;color:var(--muted);border-radius:7px;font-size:18px;position:relative}
-.header-button:hover{background:var(--card);color:#fff}
-.notification-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--danger);display:none}
-.notification-dot.show{display:block}
-.mobile-menu{display:none;border:0;background:transparent;color:#fff;font-size:22px;padding:5px}
+/* =========================================================
+   AGE VERIFICATION
+========================================================= */
 
-/* SEARCH */
-.search-container{display:none;position:absolute;top:58px;right:15px;width:300px;padding:10px;background:#1a1e27;border:1px solid var(--border);border-radius:10px;z-index:100;box-shadow:0 15px 40px rgba(0,0,0,.45)}
-.search-container.open{display:block}
-.search-container input{width:100%;border:0;outline:0;background:var(--card);color:#fff;padding:10px;border-radius:7px}
+.age-gate{
+position:fixed;
+inset:0;
+z-index:10000;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:
+radial-gradient(circle at 50% 20%,rgba(88,101,242,.25),transparent 40%),
+#08090c;
+}
 
-/* MESSAGES */
-.messages{flex:1;min-height:0;padding:25px;overflow-y:auto}
-.welcome{padding:20px;border-radius:10px;background:#1d222b;margin-bottom:25px}
-.welcome h2{margin:0 0 8px}.welcome p{color:var(--muted);margin:0}
-.message{display:flex;gap:12px;padding:8px;border-radius:6px;position:relative}
-.message:hover{background:rgba(255,255,255,.03)}
-.avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;flex-shrink:0;overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.message-content{min-width:0;flex:1}
-.username{font-weight:bold}.timestamp{margin-left:8px;color:#737b89;font-size:11px}
-.message-text{margin-top:4px;color:#d5d9e0;line-height:1.5;overflow-wrap:anywhere}
-.reactions{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
-.reaction{border:1px solid var(--border);background:#20242d;color:#d5d9e0;padding:4px 8px;border-radius:7px;font-size:12px}
-.reaction:hover{border-color:var(--accent);background:#272c37}
-.message-actions{display:none;position:absolute;right:8px;top:-5px;background:#20242d;border:1px solid var(--border);border-radius:7px;overflow:hidden}
-.message:hover .message-actions{display:flex}
-.message-action{border:0;background:transparent;padding:7px 9px;color:var(--muted)}
-.message-action:hover{background:var(--card-hover);color:#fff}
-.message-action.delete:hover{color:var(--danger)}
+.age-gate.hidden{
+display:none;
+}
 
-/* INPUT */
-.message-area{padding:12px 20px 18px;flex-shrink:0;background:var(--background)}
-.message-box{display:flex;align-items:center;background:var(--card);border-radius:9px;padding:5px 10px}
-.message-box input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;padding:12px}
-.message-box button{border:0;background:var(--accent);color:#fff;padding:9px 14px;border-radius:7px;font-weight:bold}
-.message-box button:hover{filter:brightness(1.1)}
+.age-card{
+width:min(430px,100%);
+background:#181b22;
+border:1px solid #303540;
+border-radius:14px;
+padding:32px;
+box-shadow:0 25px 80px rgba(0,0,0,.65);
+}
 
-/* MEMBERS */
-.members{width:230px;height:100vh;background:var(--sidebar);border-left:1px solid var(--border);padding:20px 12px;overflow-y:auto;flex-shrink:0}
-.members-title{color:#8f96a3;font-size:12px;font-weight:bold;text-transform:uppercase;margin:4px 8px 12px}
-.member{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px}
-.member:hover{background:var(--card)}
-.member-name{font-size:14px}.member-status{color:var(--muted);font-size:11px;margin-top:2px}
-.online{width:8px;height:8px;background:var(--success);border-radius:50%;margin-left:auto}
+.age-logo{
+width:64px;
+height:64px;
+border-radius:18px;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+font-weight:bold;
+margin-bottom:22px;
+}
 
-/* PANELS */
-.user-panel{position:fixed;bottom:70px;left:82px;width:250px;background:#1a1e27;border:1px solid var(--border);border-radius:12px;padding:14px;display:none;z-index:100;box-shadow:0 15px 40px rgba(0,0,0,.5)}
-.user-panel.open{display:block}
-.profile-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.profile-large-avatar{width:45px;height:45px;border-radius:50%;object-fit:cover}
-.profile-name{font-weight:bold}.profile-status{color:var(--success);font-size:12px;margin-top:3px}
-.profile-option{width:100%;border:0;background:transparent;color:#d5d9e0;text-align:left;padding:9px;border-radius:6px}
-.profile-option:hover{background:var(--card)}
+.age-card h1{
+margin:0 0 10px;
+font-size:26px;
+}
 
-.notification-panel{position:fixed;top:70px;right:245px;width:300px;background:#1a1e27;border:1px solid var(--border);border-radius:12px;padding:14px;display:none;z-index:120;box-shadow:0 15px 40px rgba(0,0,0,.5)}
-.notification-panel.open{display:block}
-.notification-title{font-weight:bold;margin-bottom:12px}
-.notification-item{padding:10px;background:var(--card);border-radius:8px;color:#d5d9e0;font-size:13px;margin-bottom:8px}
-.notification-empty{color:var(--muted);font-size:13px}
+.age-card p{
+color:var(--muted);
+line-height:1.6;
+font-size:14px;
+}
 
-/* MODALS */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px;z-index:200}
-.modal.open{display:flex}
-.modal-box{width:min(540px,100%);max-height:90vh;overflow-y:auto;background:#1a1e27;border:1px solid var(--border);border-radius:14px;padding:22px}
-.modal-header{display:flex;align-items:center;justify-content:space-between}
-.modal-header h2{margin:0}
-.close-button{border:0;background:var(--card);color:#fff;border-radius:7px;padding:7px 10px}
-.settings-row{margin-top:18px;padding:14px;background:var(--card);border-radius:9px}
-.settings-row strong{display:block;margin-bottom:5px}
-.settings-row span{color:var(--muted);font-size:13px}
-.settings-control{margin-top:10px}
-.settings-control input,.settings-control select{width:100%;background:#171a21;color:#fff;border:1px solid var(--border);border-radius:7px;padding:9px}
-.settings-button{margin-top:10px;border:0;background:var(--accent);color:#fff;padding:8px 12px;border-radius:7px;font-weight:bold}
-.settings-button:hover{filter:brightness(1.1)}
-.settings-button.danger{background:var(--danger)}
+.age-check{
+display:flex;
+gap:10px;
+align-items:flex-start;
+margin:20px 0;
+padding:13px;
+background:var(--card);
+border-radius:8px;
+font-size:13px;
+color:#d7dbe2;
+line-height:1.5;
+}
 
-/* VOICE */
-.voice-modal-text{color:var(--muted);line-height:1.5;margin-top:12px}
-.voice-status-box{margin-top:15px;padding:12px;border-radius:8px;background:var(--card);color:#d5d9e0}
-.voice-controls{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
-.voice-control-button{border:0;background:var(--card);color:#fff;padding:9px 13px;border-radius:7px;font-weight:bold}
-.voice-control-button:hover{background:var(--card-hover)}
-.voice-control-button.active,.voice-control-button.leave{background:var(--danger)}
-.voice-users{margin-top:15px;display:flex;flex-direction:column;gap:7px}
-.voice-user{display:flex;align-items:center;gap:9px;padding:8px;background:var(--card);border-radius:8px}
-.voice-user-icon{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
-.voice-user-speaking{margin-left:auto;color:var(--success);font-size:12px}
+.age-check input{
+margin-top:3px;
+accent-color:var(--accent);
+}
 
-/* TOAST */
-.toast-container{position:fixed;right:20px;bottom:20px;z-index:500;display:flex;flex-direction:column;gap:8px}
-.toast{min-width:230px;max-width:350px;background:#1a1e27;border:1px solid var(--border);color:#fff;padding:12px 14px;border-radius:9px;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:toastIn .2s ease}
-@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.mobile-overlay{display:none}
+.age-enter{
+width:100%;
+border:0;
+border-radius:8px;
+padding:12px;
+background:var(--accent);
+color:#fff;
+font-weight:bold;
+font-size:14px;
+}
 
-@media(max-width:1050px){.members{display:none}.notification-panel{right:15px}}
-@media(max-width:700px){.channel-topic{display:none}}
+.age-enter:hover{
+background:var(--accent-hover);
+}
+
+.age-enter:disabled{
+opacity:.45;
+cursor:not-allowed;
+}
+
+.age-note{
+font-size:11px!important;
+margin-top:15px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+width:100%;
+height:100vh;
+display:flex;
+min-height:0;
+}
+
+/* =========================================================
+   SERVER BAR
+========================================================= */
+
+.servers{
+width:72px;
+height:100vh;
+background:var(--background-tertiary);
+padding:12px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:12px;
+flex-shrink:0;
+overflow-y:auto;
+z-index:30;
+}
+
+.server{
+width:48px;
+height:48px;
+min-height:48px;
+border:0;
+border-radius:16px;
+background:#242833;
+color:#fff;
+font-weight:bold;
+font-size:18px;
+padding:0;
+overflow:hidden;
+transition:.2s;
+}
+
+.server:hover,
+.server.active{
+background:var(--accent);
+border-radius:13px;
+}
+
+.server-image{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.server.add{
+color:#6ee7a0;
+font-size:24px;
+}
+
+/* =========================================================
+   CHANNEL SIDEBAR
+========================================================= */
+
+.channels{
+width:250px;
+height:100vh;
+background:var(--background-secondary);
+display:flex;
+flex-direction:column;
+flex-shrink:0;
+min-height:0;
+z-index:20;
+}
+
+.workspace{
+height:64px;
+min-height:64px;
+padding:0 14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid var(--border);
+font-size:17px;
+font-weight:bold;
+}
+
+.workspace-name-wrap{
+display:flex;
+align-items:center;
+gap:9px;
+min-width:0;
+}
+
+.workspace-image{
+width:34px;
+height:34px;
+border-radius:9px;
+object-fit:cover;
+background:var(--card);
+flex-shrink:0;
+}
+
+#workspaceName{
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+}
+
+.workspace-actions{
+display:flex;
+gap:4px;
+}
+
+.small-button{
+border:0;
+background:transparent;
+color:var(--muted);
+font-size:17px;
+padding:6px;
+border-radius:6px;
+}
+
+.small-button:hover{
+background:var(--card);
+color:#fff;
+}
+
+.channel-list{
+flex:1;
+min-height:0;
+padding:14px 10px;
+overflow-y:auto;
+}
+
+.category{
+color:#8f96a3;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+margin:12px 8px 8px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.category-add{
+border:0;
+background:transparent;
+color:#8f96a3;
+font-size:18px;
+padding:0 4px;
+}
+
+.category-add:hover{
+color:#fff;
+}
+
+.channel{
+padding:9px 10px;
+border-radius:6px;
+color:var(--muted);
+cursor:pointer;
+margin-bottom:2px;
+display:flex;
+align-items:center;
+gap:8px;
+user-select:none;
+}
+
+.channel:hover,
+.channel.active{
+background:var(--card);
+color:#fff;
+}
+
+.channel-icon-small{
+width:20px;
+text-align:center;
+color:#818896;
+}
+
+.voice-channel{
+opacity:.85;
+}
+
+.voice-channel.joined{
+background:rgba(87,214,138,.12);
+color:#fff;
+}
+
+.voice-channel.joined .channel-icon-small{
+color:var(--success);
+}
+
+.voice-status{
+margin-left:auto;
+font-size:10px;
+color:#6f7785;
+}
+
+.voice-status.connected{
+color:var(--success);
+}
+
+.channel-delete{
+margin-left:auto;
+border:0;
+background:transparent;
+color:#737b89;
+padding:2px 5px;
+border-radius:5px;
+}
+
+.channel-delete:hover{
+background:var(--danger);
+color:#fff;
+}
+
+/* =========================================================
+   PLUS
+========================================================= */
+
+.plus{
+margin:8px 10px;
+padding:12px;
+border-radius:10px;
+background:linear-gradient(135deg,#292e4a,#202432);
+border:1px solid #3a4168;
+flex-shrink:0;
+}
+
+.plus-title{
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.plus-text{
+color:var(--muted);
+font-size:12px;
+line-height:1.4;
+margin-bottom:9px;
+}
+
+.plus-button{
+width:100%;
+border:0;
+padding:8px;
+border-radius:7px;
+background:var(--accent);
+color:#fff;
+font-weight:bold;
+}
+
+.plus-button:hover{
+filter:brightness(1.1);
+}
+
+/* =========================================================
+   USER
+========================================================= */
+
+#profileButton{
+width:calc(100% - 16px);
+margin:8px;
+flex-shrink:0;
+text-align:left;
+display:flex;
+align-items:center;
+gap:9px;
+}
+
+.profile-mini-avatar{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+flex-shrink:0;
+}
+
+.profile-button-text{
+min-width:0;
+}
+
+.profile-button-name{
+font-weight:bold;
+color:#fff;
+font-size:13px;
+}
+
+.profile-button-status{
+color:var(--success);
+font-size:10px;
+}
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat{
+flex:1;
+min-width:0;
+min-height:0;
+height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+.chat-header{
+height:64px;
+min-height:64px;
+padding:0 15px;
+display:flex;
+align-items:center;
+gap:10px;
+background:var(--background-secondary);
+border-bottom:1px solid var(--border);
+flex-shrink:0;
+position:relative;
+}
+
+.channel-icon{
+color:#8f96a3;
+font-size:21px;
+}
+
+.channel-name{
+font-weight:bold;
+}
+
+.channel-topic{
+color:var(--muted);
+font-size:13px;
+margin-left:5px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.header-actions{
+margin-left:auto;
+display:flex;
+align-items:center;
+gap:5px;
+}
+
+.header-button{
+width:38px;
+height:38px;
+border:0;
+background:transparent;
+color:var(--muted);
+border-radius:7px;
+font-size:18px;
+position:relative;
+}
+
+.header-button:hover{
+background:var(--card);
+color:#fff;
+}
+
+.notification-dot{
+position:absolute;
+top:7px;
+right:7px;
+width:7px;
+height:7px;
+border-radius:50%;
+background:var(--danger);
+display:none;
+}
+
+.notification-dot.show{
+display:block;
+}
+
+.mobile-menu{
+display:none;
+border:0;
+background:transparent;
+color:#fff;
+font-size:22px;
+padding:5px;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-container{
+display:none;
+position:absolute;
+top:58px;
+right:15px;
+width:300px;
+padding:10px;
+background:#1a1e27;
+border:1px solid var(--border);
+border-radius:10px;
+z-index:100;
+box-shadow:0 15px 40px rgba(0,0,0,.45);
+}
+
+.search-container.open{
+display:block;
+}
+
+.search-container input{
+width:100%;
+border:0;
+outline:0;
+background:var(--card);
+color:#fff;
+padding:10px;
+border-radius:7px;
+}
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.messages{
+flex:1;
+min-height:0;
+padding:25px;
+overflow-y:auto;
+}
+
+.welcome{
+padding:20px;
+border-radius:10px;
+background:#1d222b;
+margin-bottom:25px;
+}
+
+.welcome h2{
+margin:0 0 8px;
+}
+
+.welcome p{
+color:var(--muted);
+margin:0;
+}
+
+.message{
+display:flex;
+gap:12px;
+padding:8px;
+border-radius:6px;
+position:relative;
+}
+
+.message:hover{
+background:rgba(255,255,255,.03);
+}
+
+.avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:13px;
+font-weight:bold;
+flex-shrink:0;
+overflow:hidden;
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.message-content{
+min-width:0;
+flex:1;
+}
+
+.username{
+font-weight:bold;
+}
+
+.timestamp{
+margin-left:8px;
+color:#737b89;
+font-size:11px;
+}
+
+.message-text{
+margin-top:4px;
+color:#d5d9e0;
+line-height:1.5;
+overflow-wrap:anywhere;
+}
+
+.reactions{
+display:flex;
+gap:5px;
+margin-top:7px;
+flex-wrap:wrap;
+}
+
+.reaction{
+border:1px solid var(--border);
+background:#20242d;
+color:#d5d9e0;
+padding:4px 8px;
+border-radius:7px;
+font-size:12px;
+}
+
+.reaction:hover{
+border-color:var(--accent);
+background:#272c37;
+}
+
+.message-actions{
+display:none;
+position:absolute;
+right:8px;
+top:-5px;
+background:#20242d;
+border:1px solid var(--border);
+border-radius:7px;
+overflow:hidden;
+}
+
+.message:hover .message-actions{
+display:flex;
+}
+
+.message-action{
+border:0;
+background:transparent;
+padding:7px 9px;
+color:var(--muted);
+}
+
+.message-action:hover{
+background:var(--card-hover);
+color:#fff;
+}
+
+.message-action.delete:hover{
+color:var(--danger);
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.message-area{
+padding:12px 20px 18px;
+flex-shrink:0;
+background:var(--background);
+}
+
+.message-box{
+display:flex;
+align-items:center;
+background:var(--card);
+border-radius:9px;
+padding:5px 10px;
+}
+
+.message-box input{
+flex:1;
+min-width:0;
+border:0;
+outline:0;
+background:transparent;
+color:#fff;
+padding:12px;
+}
+
+.message-box button{
+border:0;
+background:var(--accent);
+color:#fff;
+padding:9px 14px;
+border-radius:7px;
+font-weight:bold;
+}
+
+/* =========================================================
+   MEMBERS
+========================================================= */
+
+.members{
+width:230px;
+height:100vh;
+background:var(--background-secondary);
+border-left:1px solid var(--border);
+padding:20px 12px;
+overflow-y:auto;
+flex-shrink:0;
+}
+
+.members-title{
+color:#8f96a3;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+margin:4px 8px 12px;
+}
+
+.member{
+display:flex;
+align-items:center;
+gap:10px;
+padding:8px;
+border-radius:6px;
+}
+
+.member:hover{
+background:var(--card);
+}
+
+.member-name{
+font-size:14px;
+}
+
+.member-status{
+color:var(--muted);
+font-size:11px;
+margin-top:2px;
+}
+
+.online{
+width:8px;
+height:8px;
+background:var(--success);
+border-radius:50%;
+margin-left:auto;
+}
+
+/* =========================================================
+   PROFILE PANEL
+========================================================= */
+
+.user-panel{
+position:fixed;
+bottom:70px;
+left:82px;
+width:250px;
+background:#1a1e27;
+border:1px solid var(--border);
+border-radius:12px;
+padding:14px;
+display:none;
+z-index:100;
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.user-panel.open{
+display:block;
+}
+
+.profile-header{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+}
+
+.profile-large-avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.profile-name{
+font-weight:bold;
+}
+
+.profile-status{
+color:var(--success);
+font-size:12px;
+margin-top:3px;
+}
+
+.profile-option{
+width:100%;
+border:0;
+background:transparent;
+color:#d5d9e0;
+text-align:left;
+padding:9px;
+border-radius:6px;
+}
+
+.profile-option:hover{
+background:var(--card);
+}
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+.notification-panel{
+position:fixed;
+top:70px;
+right:245px;
+width:300px;
+background:#1a1e27;
+border:1px solid var(--border);
+border-radius:12px;
+padding:14px;
+display:none;
+z-index:120;
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.notification-panel.open{
+display:block;
+}
+
+.notification-title{
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.notification-item{
+padding:10px;
+background:var(--card);
+border-radius:8px;
+color:#d5d9e0;
+font-size:13px;
+margin-bottom:8px;
+}
+
+/* =========================================================
+   SETTINGS FULL PAGE
+========================================================= */
+
+.settings-overlay{
+position:fixed;
+inset:0;
+z-index:500;
+background:#0f1116;
+display:none;
+}
+
+.settings-overlay.open{
+display:flex;
+}
+
+.settings-layout{
+width:100%;
+height:100%;
+display:flex;
+min-width:0;
+}
+
+.settings-sidebar{
+width:250px;
+background:#111318;
+padding:60px 18px 30px;
+overflow-y:auto;
+flex-shrink:0;
+}
+
+.settings-sidebar-title{
+font-size:11px;
+font-weight:bold;
+color:#737b89;
+text-transform:uppercase;
+padding:0 10px;
+margin-bottom:8px;
+}
+
+.settings-nav{
+display:flex;
+flex-direction:column;
+gap:2px;
+margin-bottom:25px;
+}
+
+.settings-nav button{
+border:0;
+background:transparent;
+color:#aeb4c0;
+text-align:left;
+padding:9px 10px;
+border-radius:6px;
+font-size:14px;
+}
+
+.settings-nav button:hover{
+background:#1b1f27;
+color:#fff;
+}
+
+.settings-nav button.active{
+background:#292e38;
+color:#fff;
+}
+
+.settings-close{
+margin-top:15px;
+width:100%;
+border:0;
+background:transparent;
+color:#aeb4c0;
+padding:9px 10px;
+text-align:left;
+border-radius:6px;
+}
+
+.settings-close:hover{
+background:#1b1f27;
+color:#fff;
+}
+
+.settings-main{
+flex:1;
+min-width:0;
+overflow-y:auto;
+padding:60px 50px;
+}
+
+.settings-content{
+width:min(760px,100%);
+}
+
+.settings-page-title{
+font-size:26px;
+font-weight:bold;
+margin:0 0 8px;
+}
+
+.settings-page-subtitle{
+color:var(--muted);
+font-size:14px;
+line-height:1.5;
+margin:0 0 30px;
+}
+
+.settings-section{
+margin-bottom:35px;
+}
+
+.settings-section h3{
+font-size:14px;
+margin:0 0 12px;
+text-transform:uppercase;
+color:#b9bec8;
+}
+
+.settings-card{
+background:#181b22;
+border:1px solid var(--border);
+border-radius:10px;
+overflow:hidden;
+}
+
+.settings-card-row{
+padding:18px;
+border-bottom:1px solid var(--border);
+}
+
+.settings-card-row:last-child{
+border-bottom:0;
+}
+
+.settings-card-title{
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.settings-card-description{
+color:var(--muted);
+font-size:13px;
+line-height:1.5;
+}
+
+.settings-control{
+margin-top:12px;
+}
+
+.settings-control input,
+.settings-control select{
+width:100%;
+background:#111318;
+color:#fff;
+border:1px solid var(--border);
+border-radius:7px;
+padding:10px;
+}
+
+.settings-button{
+margin-top:10px;
+border:0;
+background:var(--accent);
+color:#fff;
+padding:9px 14px;
+border-radius:7px;
+font-weight:bold;
+}
+
+.settings-button:hover{
+background:var(--accent-hover);
+}
+
+.settings-button.danger{
+background:var(--danger);
+}
+
+.file-input{
+display:none;
+}
+
+.file-upload{
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:var(--accent);
+color:#fff;
+padding:9px 13px;
+border-radius:7px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+}
+
+.file-upload:hover{
+background:var(--accent-hover);
+}
+
+.settings-profile{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.settings-avatar{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+background:var(--card);
+}
+
+.toggle-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+}
+
+.toggle{
+width:44px;
+height:24px;
+border:0;
+border-radius:20px;
+background:#303540;
+position:relative;
+padding:0;
+}
+
+.toggle::after{
+content:"";
+position:absolute;
+width:18px;
+height:18px;
+border-radius:50%;
+background:#fff;
+top:3px;
+left:3px;
+transition:.2s;
+}
+
+.toggle.active{
+background:var(--success);
+}
+
+.toggle.active::after{
+left:23px;
+}
+
+.role-layout{
+display:flex;
+gap:15px;
+min-height:400px;
+}
+
+.role-list{
+width:220px;
+background:#111318;
+border:1px solid var(--border);
+border-radius:9px;
+padding:8px;
+flex-shrink:0;
+}
+
+.role-list-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:7px;
+margin-bottom:5px;
+}
+
+.role-list-header strong{
+font-size:13px;
+}
+
+.role-add{
+border:0;
+background:var(--accent);
+color:#fff;
+width:25px;
+height:25px;
+border-radius:5px;
+font-weight:bold;
+}
+
+.role-item{
+width:100%;
+border:0;
+background:transparent;
+color:#aeb4c0;
+text-align:left;
+padding:10px;
+border-radius:6px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.role-item:hover{
+background:#1b1f27;
+color:#fff;
+}
+
+.role-item.active{
+background:#292e38;
+color:#fff;
+}
+
+.role-color{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--accent);
+flex-shrink:0;
+}
+
+.role-editor{
+flex:1;
+background:#181b22;
+border:1px solid var(--border);
+border-radius:9px;
+padding:18px;
+min-width:0;
+}
+
+.permission-list{
+display:flex;
+flex-direction:column;
+margin-top:15px;
+border:1px solid var(--border);
+border-radius:8px;
+overflow:hidden;
+}
+
+.permission{
+padding:13px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+border-bottom:1px solid var(--border);
+}
+
+.permission:last-child{
+border-bottom:0;
+}
+
+.permission-name{
+font-size:13px;
+font-weight:bold;
+}
+
+.permission-description{
+font-size:11px;
+color:var(--muted);
+margin-top:3px;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:600;
+}
+
+.modal.open{
+display:flex;
+}
+
+.modal-box{
+width:min(540px,100%);
+max-height:90vh;
+overflow-y:auto;
+background:#1a1e27;
+border:1px solid var(--border);
+border-radius:14px;
+padding:22px;
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.modal-header h2{
+margin:0;
+}
+
+.close-button{
+border:0;
+background:var(--card);
+color:#fff;
+border-radius:7px;
+padding:7px 10px;
+}
+
+/* =========================================================
+   VOICE
+========================================================= */
+
+.voice-modal-text{
+color:var(--muted);
+line-height:1.5;
+margin-top:12px;
+}
+
+.voice-status-box{
+margin-top:15px;
+padding:12px;
+border-radius:8px;
+background:var(--card);
+color:#d5d9e0;
+}
+
+.voice-controls{
+display:flex;
+gap:8px;
+margin-top:15px;
+flex-wrap:wrap;
+}
+
+.voice-control-button{
+border:0;
+background:var(--card);
+color:#fff;
+padding:9px 13px;
+border-radius:7px;
+font-weight:bold;
+}
+
+.voice-control-button.active,
+.voice-control-button.leave{
+background:var(--danger);
+}
+
+.voice-users{
+margin-top:15px;
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.voice-user{
+display:flex;
+align-items:center;
+gap:9px;
+padding:8px;
+background:var(--card);
+border-radius:8px;
+}
+
+.voice-user-icon{
+width:30px;
+height:30px;
+border-radius:50%;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:11px;
+font-weight:bold;
+}
+
+.voice-user-speaking{
+margin-left:auto;
+color:var(--success);
+font-size:12px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast-container{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:9000;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.toast{
+min-width:230px;
+max-width:350px;
+background:#1a1e27;
+border:1px solid var(--border);
+color:#fff;
+padding:12px 14px;
+border-radius:9px;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+animation:toastIn .2s ease;
+}
+
+@keyframes toastIn{
+from{
+opacity:0;
+transform:translateY(10px)
+}
+to{
+opacity:1;
+transform:translateY(0)
+}
+}
+
+.mobile-overlay{
+display:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+.members{
+display:none;
+}
+
+.notification-panel{
+right:15px;
+}
+}
+
+@media(max-width:700px){
+.channel-topic{
+display:none;
+}
+
+.settings-sidebar{
+width:190px;
+padding-left:10px;
+padding-right:10px;
+}
+
+.settings-main{
+padding:40px 20px;
+}
+}
+
 @media(max-width:650px){
-.servers{width:58px;padding:8px}.server{width:42px;height:42px;min-height:42px}
-.channels{position:fixed;left:58px;top:0;bottom:0;height:100vh;width:250px;transform:translateX(-110%);transition:transform .2s ease;box-shadow:20px 0 50px rgba(0,0,0,.5)}
-.channels.open{transform:translateX(0)}
-.mobile-menu{display:block}.mobile-overlay.show{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10}
-.messages{padding:15px}.message-area{padding:10px}.chat-header{padding:0 10px}
-.search-container{right:8px;width:calc(100vw - 80px)}
-.message-actions{display:flex;position:static;margin-left:auto;align-self:center}
-.user-panel{left:68px;bottom:70px;width:calc(100vw - 80px)}
-.notification-panel{top:64px;right:8px;width:calc(100vw - 75px)}
+
+.servers{
+width:58px;
+padding:8px;
+}
+
+.server{
+width:42px;
+height:42px;
+min-height:42px;
+}
+
+.channels{
+position:fixed;
+left:58px;
+top:0;
+bottom:0;
+height:100vh;
+width:250px;
+transform:translateX(-110%);
+transition:transform .2s ease;
+box-shadow:20px 0 50px rgba(0,0,0,.5);
+}
+
+.channels.open{
+transform:translateX(0);
+}
+
+.mobile-menu{
+display:block;
+}
+
+.mobile-overlay.show{
+display:block;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:10;
+}
+
+.messages{
+padding:15px;
+}
+
+.message-area{
+padding:10px;
+}
+
+.chat-header{
+padding:0 10px;
+}
+
+.search-container{
+right:8px;
+width:calc(100vw - 80px);
+}
+
+.message-actions{
+display:flex;
+position:static;
+margin-left:auto;
+align-self:center;
+}
+
+.user-panel{
+left:68px;
+bottom:70px;
+width:calc(100vw - 80px);
+}
+
+.notification-panel{
+top:64px;
+right:8px;
+width:calc(100vw - 75px);
+}
+
+.settings-layout{
+display:block;
+overflow-y:auto;
+}
+
+.settings-sidebar{
+width:100%;
+height:auto;
+padding:20px 15px;
+}
+
+.settings-nav{
+display:grid;
+grid-template-columns:1fr 1fr;
+}
+
+.settings-main{
+padding:25px 15px 60px;
+}
+
+.role-layout{
+flex-direction:column;
+}
+
+.role-list{
+width:100%;
+}
+
+.age-card{
+padding:24px;
+}
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- =========================================================
+     AGE VERIFICATION
+========================================================= -->
+
+<div class="age-gate" id="ageGate">
+
+<div class="age-card">
+
+<div class="age-logo">C</div>
+
+<h1>Welcome to Chorda</h1>
+
+<p>
+Before continuing, please confirm that you meet Chorda's minimum
+age requirement.
+</p>
+
+<label class="age-check">
+<input type="checkbox" id="ageConfirm">
+<span>
+I confirm that I am <strong>13 years old or older</strong> and will
+follow the Chorda community rules.
+</span>
+</label>
+
+<button class="age-enter" id="ageEnterButton" disabled>
+Continue to Chorda
+</button>
+
+<p class="age-note">
+This confirmation is stored only in this browser. It does not prove
+your age to a server or provide access to age-restricted content.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
+
+<div class="app" id="app">
 
 <aside class="servers" id="serverBar"></aside>
 
 <aside class="channels" id="channels">
 
 <div class="workspace">
+
 <div class="workspace-name-wrap">
-<img class="workspace-image" id="workspaceImage" src="" alt="">
+
+<img
+class="workspace-image"
+id="workspaceImage"
+src=""
+alt=""
+>
+
 <span id="workspaceName">Chorda</span>
+
 </div>
+
 <div class="workspace-actions">
-<button class="small-button" id="settingsButton" title="Settings">⚙</button>
+
+<button
+class="small-button"
+id="settingsButton"
+title="Settings"
+>
+⚙
+</button>
+
 </div>
+
 </div>
 
 <div class="channel-list" id="channelList"></div>
 
 <div class="plus">
+
 <div class="plus-title">✦ Chorda Plus</div>
-<div class="plus-text">Premium features are available in the future.</div>
-<button class="plus-button" id="plusButton">Learn More</button>
+
+<div class="plus-text">
+Premium features are available in the future.
+</div>
+
+<button class="plus-button" id="plusButton">
+Learn More
+</button>
+
 </div>
 
 <button class="small-button" id="profileButton">
-<img class="profile-mini-avatar" id="profileMiniAvatar" src="" alt="">
+
+<img
+class="profile-mini-avatar"
+id="profileMiniAvatar"
+src=""
+alt=""
+>
+
 <span class="profile-button-text">
-<span class="profile-button-name" id="profileButtonName">You</span>
-<span class="profile-button-status">● Online</span>
+
+<span
+class="profile-button-name"
+id="profileButtonName"
+>
+You
 </span>
+
+<span class="profile-button-status">
+● Online
+</span>
+
+</span>
+
 </button>
 
 </aside>
+
 
 <main class="chat">
 
 <header class="chat-header">
 
-<button class="mobile-menu" id="mobileMenu" aria-label="Open channels">☰</button>
+<button
+class="mobile-menu"
+id="mobileMenu"
+aria-label="Open channels"
+>
+☰
+</button>
+
 <span class="channel-icon">#</span>
-<span class="channel-name" id="channelName">general</span>
-<span class="channel-topic" id="channelTopic"></span>
+
+<span
+class="channel-name"
+id="channelName"
+>
+general
+</span>
+
+<span
+class="channel-topic"
+id="channelTopic"
+></span>
 
 <div class="header-actions">
-<button class="header-button" id="notificationButton" title="Notifications">🔔<span class="notification-dot" id="notificationDot"></span></button>
-<button class="header-button" id="searchButton" title="Search">🔎</button>
-<button class="header-button" id="headerSettingsButton" title="Settings">⚙</button>
+
+<button
+class="header-button"
+id="notificationButton"
+title="Notifications"
+>
+🔔
+<span
+class="notification-dot"
+id="notificationDot"
+></span>
+</button>
+
+<button
+class="header-button"
+id="searchButton"
+title="Search"
+>
+🔎
+</button>
+
+<button
+class="header-button"
+id="headerSettingsButton"
+title="Settings"
+>
+⚙
+</button>
+
 </div>
 
-<div class="search-container" id="searchContainer">
-<input id="searchInput" type="text" placeholder="Search this channel..." autocomplete="off">
+<div
+class="search-container"
+id="searchContainer"
+>
+
+<input
+id="searchInput"
+type="text"
+placeholder="Search this channel..."
+autocomplete="off"
+>
+
 </div>
 
 </header>
 
-<div class="messages" id="messages">
+
+<div
+class="messages"
+id="messages"
+>
 
 <div class="welcome">
-<h2 id="welcomeTitle">Welcome to #general 👋</h2>
-<p id="welcomeText">This is the beginning of this channel.</p>
+
+<h2 id="welcomeTitle">
+Welcome to #general 👋
+</h2>
+
+<p id="welcomeText">
+This is the beginning of this channel.
+</p>
+
 </div>
 
 <div id="messageList"></div>
 
 </div>
 
+
 <div class="message-area">
+
 <div class="message-box">
-<input id="messageInput" type="text" placeholder="Message #general" autocomplete="off" maxlength="2000">
-<button id="sendButton">Send</button>
+
+<input
+id="messageInput"
+type="text"
+placeholder="Message #general"
+autocomplete="off"
+maxlength="2000"
+>
+
+<button id="sendButton">
+Send
+</button>
+
 </div>
+
 </div>
 
 </main>
 
+
 <aside class="members">
 
-<div class="members-title">Online — 4</div>
-
-<div class="member">
-<div class="avatar">AX</div>
-<div><div class="member-name">Alex</div><div class="member-status">Building things</div></div>
-<div class="online"></div>
+<div class="members-title">
+Online — 4
 </div>
 
 <div class="member">
-<div class="avatar">SK</div>
-<div><div class="member-name">Sky</div><div class="member-status">Listening</div></div>
-<div class="online"></div>
+
+<div class="avatar">
+AX
 </div>
 
-<div class="member">
-<div class="avatar">JM</div>
-<div><div class="member-name">Jamie</div><div class="member-status">Playing</div></div>
-<div class="online"></div>
+<div>
+<div class="member-name">Alex</div>
+<div class="member-status">Building things</div>
 </div>
 
-<div class="member">
-<div class="avatar">RB</div>
-<div><div class="member-name">Riley</div><div class="member-status">Online</div></div>
 <div class="online"></div>
+
+</div>
+
+
+<div class="member">
+
+<div class="avatar">
+SK
+</div>
+
+<div>
+<div class="member-name">Sky</div>
+<div class="member-status">Listening</div>
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="member">
+
+<div class="avatar">
+JM
+</div>
+
+<div>
+<div class="member-name">Jamie</div>
+<div class="member-status">Playing</div>
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="member">
+
+<div class="avatar">
+RB
+</div>
+
+<div>
+<div class="member-name">Riley</div>
+<div class="member-status">Online</div>
+</div>
+
+<div class="online"></div>
+
 </div>
 
 </aside>
+
 </div>
 
-<div class="mobile-overlay" id="mobileOverlay"></div>
 
-<div class="user-panel" id="userPanel">
+<div
+class="mobile-overlay"
+id="mobileOverlay"
+></div>
+
+
+<!-- =========================================================
+     USER PANEL
+========================================================= -->
+
+<div
+class="user-panel"
+id="userPanel"
+>
 
 <div class="profile-header">
-<img class="profile-large-avatar" id="profileLargeAvatar" src="" alt="">
+
+<img
+class="profile-large-avatar"
+id="profileLargeAvatar"
+src=""
+alt=""
+>
+
 <div>
-<div class="profile-name" id="profilePanelName">You</div>
-<div class="profile-status">● Online</div>
-</div>
-</div>
 
-<button class="profile-option" id="editProfileButton">👤 Edit Profile</button>
-<button class="profile-option" id="profileSettingsButton">⚙ Settings</button>
-
+<div
+class="profile-name"
+id="profilePanelName"
+>
+You
 </div>
 
-<div class="notification-panel" id="notificationPanel">
-<div class="notification-title">Notifications</div>
-<div class="notification-item" id="notificationItem">Welcome to Chorda! Your notifications will appear here.</div>
-<button class="profile-option" id="clearNotificationsButton">Clear notifications</button>
+<div class="profile-status">
+● Online
 </div>
 
-<!-- SETTINGS -->
-<div class="modal" id="settingsModal">
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Chorda Settings</h2>
-<button class="close-button" id="closeSettingsButton">✕</button>
 </div>
 
-<div class="settings-row">
-<strong>Profile</strong>
-<span>Change your Chorda profile. Your name and picture are saved on this device.</span>
+</div>
+
+<button
+class="profile-option"
+id="editProfileButton"
+>
+👤 Edit Profile
+</button>
+
+<button
+class="profile-option"
+id="profileSettingsButton"
+>
+⚙ Settings
+</button>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
+<div
+class="notification-panel"
+id="notificationPanel"
+>
+
+<div class="notification-title">
+Notifications
+</div>
+
+<div
+class="notification-item"
+id="notificationItem"
+>
+Welcome to Chorda! Your notifications will appear here.
+</div>
+
+<button
+class="profile-option"
+id="clearNotificationsButton"
+>
+Clear notifications
+</button>
+
+</div>
+
+
+<!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+<div
+class="settings-overlay"
+id="settingsOverlay"
+>
+
+<div class="settings-layout">
+
+<aside class="settings-sidebar">
+
+<div class="settings-sidebar-title">
+User Settings
+</div>
+
+<nav class="settings-nav">
+
+<button
+class="active"
+data-settings-page="account"
+>
+My Account
+</button>
+
+<button data-settings-page="profile">
+Profile
+</button>
+
+<button data-settings-page="appearance">
+Appearance
+</button>
+
+<button data-settings-page="notifications">
+Notifications
+</button>
+
+<button data-settings-page="privacy">
+Privacy & Safety
+</button>
+
+<button data-settings-page="voice">
+Voice & Video
+</button>
+
+</nav>
+
+
+<div class="settings-sidebar-title">
+Server Settings
+</div>
+
+<nav class="settings-nav">
+
+<button data-settings-page="roles">
+Roles
+</button>
+
+<button data-settings-page="channels">
+Channels
+</button>
+
+<button data-settings-page="server">
+Server Overview
+</button>
+
+</nav>
+
+
+<div class="settings-sidebar-title">
+App Settings
+</div>
+
+<nav class="settings-nav">
+
+<button data-settings-page="advanced">
+Advanced
+</button>
+
+</nav>
+
+
+<button
+class="settings-close"
+id="closeSettingsPage"
+>
+← Back to Chorda
+</button>
+
+</aside>
+
+
+<main class="settings-main">
+
+<div class="settings-content">
+
+<!-- ACCOUNT -->
+
+<section
+class="settings-page"
+data-settings-content="account"
+>
+
+<h1 class="settings-page-title">
+My Account
+</h1>
+
+<p class="settings-page-subtitle">
+Manage your Chorda account information.
+</p>
+
+<div class="settings-section">
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-profile">
+
+<img
+class="settings-avatar"
+id="settingsAccountAvatar"
+src=""
+alt=""
+>
+
+<div>
+
+<div class="settings-card-title">
+<span id="accountDisplayName">You</span>
+</div>
+
+<div class="settings-card-description">
+Your local Chorda profile.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Display Name
+</div>
 
 <div class="settings-control">
-<input id="settingsName" type="text" placeholder="Display name" maxlength="30">
+
+<input
+id="settingsName"
+type="text"
+placeholder="Display name"
+maxlength="30"
+>
+
+</div>
+
+<button
+class="settings-button"
+id="saveAccountButton"
+>
+Save Changes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section
+class="settings-page"
+data-settings-content="profile"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Profile
+</h1>
+
+<p class="settings-page-subtitle">
+Customize how you appear to other members.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Profile Picture
+</div>
+
+<div class="settings-card-description">
+Choose an image directly from your device.
+</div>
+
+<label class="file-upload">
+
+📁 Choose Image
+
+<input
+class="file-input"
+type="file"
+id="profileImageFile"
+accept="image/png,image/jpeg,image/webp,image/gif"
+>
+
+</label>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Profile Preview
+</div>
+
+<div class="settings-profile">
+
+<img
+class="settings-avatar"
+id="profileSettingsPreview"
+src=""
+alt=""
+>
+
+<div>
+
+<strong id="profilePreviewName">
+You
+</strong>
+
+<div class="settings-card-description">
+This is how your profile picture will appear.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- APPEARANCE -->
+
+<section
+class="settings-page"
+data-settings-content="appearance"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Appearance
+</h1>
+
+<p class="settings-page-subtitle">
+Customize the way Chorda looks.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Theme
+</div>
+
+<div class="settings-card-description">
+Choose your preferred interface theme.
 </div>
 
 <div class="settings-control">
-<input id="avatarUrlInput" type="text" placeholder="Profile picture URL">
-</div>
 
-<button class="settings-button" id="saveProfileButton">Save Profile</button>
-</div>
-
-<div class="settings-row">
-<strong>Parental Controls</strong>
-<span>Optional on-device controls for limiting certain Chorda features.</span>
-
-<div class="settings-control">
-<select id="parentalControlSelect">
-<option value="off">Parental Controls Off</option>
-<option value="on">Parental Controls On</option>
-</select>
-</div>
-
-<div class="settings-control">
-<select id="messageFilterSelect">
-<option value="off">Message Filter Off</option>
-<option value="on">Message Filter On</option>
-</select>
-</div>
-
-<button class="settings-button" id="saveParentalButton">Save Parental Controls</button>
-</div>
-
-<div class="settings-row">
-<strong>Appearance</strong>
-<span>Choose the appearance of Chorda.</span>
-<div class="settings-control">
 <select id="appearanceSelect">
-<option value="dark">Dark</option>
-<option value="darker">Darker</option>
+
+<option value="dark">
+Dark
+</option>
+
+<option value="darker">
+Darker
+</option>
+
 </select>
-</div>
-</div>
 
-<div class="settings-row">
-<strong>Notifications</strong>
-<span>Control notification sounds and alerts.</span>
-<div class="settings-control">
-<select id="notificationSelect">
-<option value="on">Notifications On</option>
-<option value="off">Notifications Off</option>
-</select>
-</div>
-</div>
-
-<div class="settings-row">
-<strong>Server Images</strong>
-<span>Server images are displayed in the server bar.</span>
-</div>
-
-<div class="settings-row">
-<strong>Voice Channels</strong>
-<span>Voice channels use your browser microphone permission. Live communication between different users requires a WebRTC signaling/voice backend.</span>
-</div>
-
-<div class="settings-row">
-<strong>Privacy</strong>
-<span>Profile and local settings are stored in this browser. A real account/server system is required for cloud synchronization.</span>
 </div>
 
 </div>
-</div>
-
-<!-- CREATE SERVER -->
-<div class="modal" id="serverModal">
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Create Server</h2>
-<button class="close-button" id="closeServerButton">✕</button>
-</div>
-
-<div class="settings-row">
-<strong>Server Name</strong>
-<span>Choose a name for your new server.</span>
-<div class="settings-control">
-<input id="newServerName" type="text" maxlength="40" placeholder="My Server">
-</div>
-</div>
-
-<div class="settings-row">
-<strong>Server Image</strong>
-<span>Optional image URL.</span>
-<div class="settings-control">
-<input id="newServerImage" type="text" placeholder="Image URL">
-</div>
-</div>
-
-<button class="settings-button" id="createServerButton">Create Server</button>
 
 </div>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section
+class="settings-page"
+data-settings-content="notifications"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Notifications
+</h1>
+
+<p class="settings-page-subtitle">
+Choose how Chorda alerts you.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="toggle-row">
+
+<div>
+
+<div class="settings-card-title">
+Enable Notifications
 </div>
 
-<!-- CHANNEL MODAL -->
-<div class="modal" id="channelModal">
-<div class="modal-box">
-
-<div class="modal-header">
-<h2 id="channelModalTitle">Add Channel</h2>
-<button class="close-button" id="closeChannelButton">✕</button>
+<div class="settings-card-description">
+Allow Chorda notifications on this device.
 </div>
 
-<div class="settings-row">
-<strong>Channel Name</strong>
-<span>Choose a name for the channel.</span>
-<div class="settings-control">
-<input id="newChannelName" type="text" maxlength="40" placeholder="new-channel">
-</div>
 </div>
 
-<div class="settings-row">
-<strong>Channel Type</strong>
-<div class="settings-control">
-<select id="newChannelType">
-<option value="text"># Text Channel</option>
-<option value="voice">🔊 Voice Channel</option>
-</select>
-</div>
-</div>
-
-<div class="settings-row">
-<strong>Channel Topic</strong>
-<div class="settings-control">
-<input id="newChannelTopic" type="text" maxlength="100" placeholder="Channel topic">
-</div>
-</div>
-
-<button class="settings-button" id="createChannelButton">Create Channel</button>
+<button
+class="toggle"
+id="notificationToggle"
+></button>
 
 </div>
+
 </div>
+
+</div>
+
+</section>
+
+
+<!-- PRIVACY -->
+
+<section
+class="settings-page"
+data-settings-content="privacy"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Privacy & Safety
+</h1>
+
+<p class="settings-page-subtitle">
+Manage local safety controls.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="toggle-row">
+
+<div>
+
+<div class="settings-card-title">
+Parental Controls
+</div>
+
+<div class="settings-card-description">
+Enable additional local message filtering.
+</div>
+
+</div>
+
+<button
+class="toggle"
+id="parentalToggle"
+></button>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="toggle-row">
+
+<div>
+
+<div class="settings-card-title">
+Message Filter
+</div>
+
+<div class="settings-card-description">
+Filter messages containing configured blocked terms.
+</div>
+
+</div>
+
+<button
+class="toggle"
+id="messageFilterToggle"
+></button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
 
 <!-- VOICE -->
-<div class="modal" id="voiceModal">
+
+<section
+class="settings-page"
+data-settings-content="voice"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Voice & Video
+</h1>
+
+<p class="settings-page-subtitle">
+Configure browser voice features.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Microphone
+</div>
+
+<div class="settings-card-description">
+Voice channels use your browser's microphone permission.
+</div>
+
+<button
+class="settings-button"
+id="testMicrophoneButton"
+>
+Test Microphone
+</button>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Important
+</div>
+
+<div class="settings-card-description">
+The current single-file application can request microphone access.
+A real multi-user voice system requires a server and WebRTC
+signaling backend.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ROLES -->
+
+<section
+class="settings-page"
+data-settings-content="roles"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Roles
+</h1>
+
+<p class="settings-page-subtitle">
+Create roles and control what each role is allowed to do.
+</p>
+
+<div class="role-layout">
+
+<div class="role-list">
+
+<div class="role-list-header">
+
+<strong>
+Roles
+</strong>
+
+<button
+class="role-add"
+id="addRoleButton"
+>
++
+</button>
+
+</div>
+
+<div id="roleList"></div>
+
+</div>
+
+
+<div class="role-editor">
+
+<div id="roleEditorEmpty">
+
+<div class="settings-card-title">
+Select a role
+</div>
+
+<div class="settings-card-description">
+Choose a role from the list to edit its permissions.
+</div>
+
+</div>
+
+
+<div
+id="roleEditor"
+style="display:none"
+>
+
+<div class="settings-card-title">
+Role Name
+</div>
+
+<div class="settings-control">
+
+<input
+id="roleNameInput"
+maxlength="30"
+>
+
+</div>
+
+<div class="settings-card-title" style="margin-top:20px">
+Permissions
+</div>
+
+<div class="permission-list" id="permissionList"></div>
+
+<button
+class="settings-button"
+id="saveRoleButton"
+>
+Save Role
+</button>
+
+<button
+class="settings-button danger"
+id="deleteRoleButton"
+>
+Delete Role
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CHANNEL SETTINGS -->
+
+<section
+class="settings-page"
+data-settings-content="channels"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Channels
+</h1>
+
+<p class="settings-page-subtitle">
+Manage the channels in the current server.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Current Server
+</div>
+
+<div
+class="settings-card-description"
+id="channelSettingsServer"
+>
+Chorda
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Create Channel
+</div>
+
+<div class="settings-card-description">
+Create a new text or voice channel.
+</div>
+
+<button
+class="settings-button"
+id="settingsCreateChannelButton"
+>
+Create Channel
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SERVER -->
+
+<section
+class="settings-page"
+data-settings-content="server"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Server Overview
+</h1>
+
+<p class="settings-page-subtitle">
+Manage the current server.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Server Name
+</div>
+
+<div class="settings-control">
+
+<input
+id="serverNameInput"
+maxlength="40"
+>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Server Icon
+</div>
+
+<div class="settings-card-description">
+Select an image directly from your device.
+</div>
+
+<label class="file-upload">
+
+📁 Choose Server Image
+
+<input
+class="file-input"
+type="file"
+id="serverImageFile"
+accept="image/png,image/jpeg,image/webp,image/gif"
+>
+
+</label>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<button
+class="settings-button"
+id="saveServerButton"
+>
+Save Server
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ADVANCED -->
+
+<section
+class="settings-page"
+data-settings-content="advanced"
+style="display:none"
+>
+
+<h1 class="settings-page-title">
+Advanced
+</h1>
+
+<p class="settings-page-subtitle">
+Additional application controls.
+</p>
+
+<div class="settings-card">
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Local Storage
+</div>
+
+<div class="settings-card-description">
+Chorda stores profiles, servers, messages and settings locally
+in this browser.
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<div class="settings-card-title">
+Reset Chorda
+</div>
+
+<div class="settings-card-description">
+Delete the locally stored Chorda data and return to the defaults.
+</div>
+
+<button
+class="settings-button danger"
+id="resetChordaButton"
+>
+Reset Local Data
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     SERVER MODAL
+========================================================= -->
+
+<div
+class="modal"
+id="serverModal"
+>
+
 <div class="modal-box">
 
 <div class="modal-header">
-<h2 id="voiceModalTitle">Voice Channel</h2>
-<button class="close-button" id="closeVoiceButton">✕</button>
+
+<h2>
+Create Server
+</h2>
+
+<button
+class="close-button"
+id="closeServerButton"
+>
+✕
+</button>
+
 </div>
 
-<div class="voice-status-box" id="voiceStatusBox">🔊 You are not connected.</div>
-<div class="voice-users" id="voiceUsers"></div>
+
+<div class="settings-card-row">
+
+<strong>
+Server Name
+</strong>
+
+<div class="settings-control">
+
+<input
+id="newServerName"
+type="text"
+maxlength="40"
+placeholder="My Server"
+>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<strong>
+Server Image
+</strong>
+
+<div class="settings-card-description">
+Choose an image from your files.
+</div>
+
+<label class="file-upload">
+
+📁 Choose Image
+
+<input
+class="file-input"
+type="file"
+id="newServerImageFile"
+accept="image/png,image/jpeg,image/webp,image/gif"
+>
+
+</label>
+
+</div>
+
+<button
+class="settings-button"
+id="createServerButton"
+>
+Create Server
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     CHANNEL MODAL
+========================================================= -->
+
+<div
+class="modal"
+id="channelModal"
+>
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+Add Channel
+</h2>
+
+<button
+class="close-button"
+id="closeChannelButton"
+>
+✕
+</button>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<strong>
+Channel Name
+</strong>
+
+<div class="settings-control">
+
+<input
+id="newChannelName"
+type="text"
+maxlength="40"
+placeholder="new-channel"
+>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<strong>
+Channel Type
+</strong>
+
+<div class="settings-control">
+
+<select id="newChannelType">
+
+<option value="text">
+# Text Channel
+</option>
+
+<option value="voice">
+🔊 Voice Channel
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="settings-card-row">
+
+<strong>
+Channel Topic
+</strong>
+
+<div class="settings-control">
+
+<input
+id="newChannelTopic"
+type="text"
+maxlength="100"
+placeholder="Channel topic"
+>
+
+</div>
+
+</div>
+
+
+<button
+class="settings-button"
+id="createChannelButton"
+>
+Create Channel
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     VOICE MODAL
+========================================================= -->
+
+<div
+class="modal"
+id="voiceModal"
+>
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2 id="voiceModalTitle">
+Voice Channel
+</h2>
+
+<button
+class="close-button"
+id="closeVoiceButton"
+>
+✕
+</button>
+
+</div>
+
+<div
+class="voice-status-box"
+id="voiceStatusBox"
+>
+🔊 You are not connected.
+</div>
+
+<div
+class="voice-users"
+id="voiceUsers"
+></div>
 
 <p class="voice-modal-text">
-Joining a voice channel requests microphone access. This page can capture and mute your microphone locally. A WebRTC signaling/server backend is required for multiple users to hear each other.
+Joining a voice channel requests microphone access. A real
+multi-user voice system requires a WebRTC signaling/server backend.
 </p>
 
 <div class="voice-controls">
-<button class="voice-control-button" id="joinVoiceButton">🎙 Join Voice</button>
-<button class="voice-control-button" id="muteVoiceButton" disabled>🎤 Mute</button>
-<button class="voice-control-button leave" id="leaveVoiceButton" disabled>🚪 Leave</button>
+
+<button
+class="voice-control-button"
+id="joinVoiceButton"
+>
+🎙 Join Voice
+</button>
+
+<button
+class="voice-control-button"
+id="muteVoiceButton"
+disabled
+>
+🎤 Mute
+</button>
+
+<button
+class="voice-control-button leave"
+id="leaveVoiceButton"
+disabled
+>
+🚪 Leave
+</button>
+
 </div>
 
 </div>
+
 </div>
 
-<div class="toast-container" id="toastContainer"></div>
+
+<div
+class="toast-container"
+id="toastContainer"
+></div>
+
 
 <script>
+
 /* =========================================================
    STORAGE
 ========================================================= */
 
-const STORAGE_KEY="chorda_data_v2";
+const STORAGE_KEY="chorda_data_v3";
+
+const defaultAvatar =
+"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%235865f2'/%3E%3Ctext x='50' y='63' text-anchor='middle' font-size='35' font-family='Arial' fill='white'%3EYO%3C/text%3E%3C/svg%3E";
+
+const defaultServerImage =
+"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' rx='20' fill='%235865f2'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='55' font-family='Arial' fill='white'%3EC%3C/text%3E%3C/svg%3E";
 
 const defaultServerData={
 chorda:{
 name:"Chorda",
-image:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' rx='20' fill='%235865f2'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='55' font-family='Arial' fill='white'%3EC%3C/text%3E%3C/svg%3E",
+image:defaultServerImage,
 channels:{
-general:{name:"general",topic:"Welcome to your community."},
-announcements:{name:"announcements",topic:"Important Chorda announcements."},
-chat:{name:"chat",topic:"Talk with everyone."},
-memes:{name:"memes",topic:"Share your funniest stuff."},
-support:{name:"support",topic:"Get help from the community."}
+general:{
+name:"general",
+topic:"Welcome to your community.",
+default:true
+},
+announcements:{
+name:"announcements",
+topic:"Important Chorda announcements.",
+default:true
+},
+chat:{
+name:"chat",
+topic:"Talk with everyone.",
+default:true
+},
+memes:{
+name:"memes",
+topic:"Share your funniest stuff.",
+default:true
+},
+support:{
+name:"support",
+topic:"Get help from the community.",
+default:true
 }
 },
+voiceChannels:[
+{
+name:"Lounge",
+default:true
+}
+]
+},
+
 gaming:{
 name:"Gaming",
-image:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' rx='20' fill='%23e85d75'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='55' font-family='Arial' fill='white'%3EG%3C/text%3E%3C/svg%3E",
+image:defaultServerImage,
 channels:{
-general:{name:"general",topic:"Welcome to the Gaming server."},
-chat:{name:"chat",topic:"Talk about gaming."},
-games:{name:"games",topic:"Discuss your favourite games."},
-clips:{name:"clips",topic:"Share your gaming clips."}
+general:{
+name:"general",
+topic:"Welcome to the Gaming server.",
+default:true
+},
+chat:{
+name:"chat",
+topic:"Talk about gaming.",
+default:true
+},
+games:{
+name:"games",
+topic:"Discuss your favourite games.",
+default:true
+},
+clips:{
+name:"clips",
+topic:"Share your gaming clips.",
+default:true
 }
 },
+voiceChannels:[
+{
+name:"Gaming Lounge",
+default:true
+}
+]
+},
+
 study:{
 name:"Study",
-image:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' rx='20' fill='%2357d68a'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='55' font-family='Arial' fill='white'%3ES%3C/text%3E%3C/svg%3E",
+image:defaultServerImage,
 channels:{
-general:{name:"general",topic:"Welcome to the Study server."},
-homework:{name:"homework",topic:"Talk about homework."},
-resources:{name:"resources",topic:"Share useful study resources."},
-chat:{name:"chat",topic:"General study discussion."}
+general:{
+name:"general",
+topic:"Welcome to the Study server.",
+default:true
+},
+homework:{
+name:"homework",
+topic:"Talk about homework.",
+default:true
+},
+resources:{
+name:"resources",
+topic:"Share useful study resources.",
+default:true
+},
+chat:{
+name:"chat",
+topic:"General study discussion.",
+default:true
 }
+},
+voiceChannels:[
+{
+name:"Study Room",
+default:true
+}
+]
 }
 };
 
 const defaultMessages={
 chorda:{
 general:[
-{id:1,name:"Alex",avatar:"AX",text:"Welcome to Chorda!",time:"Today at 7:01 PM"},
-{id:2,name:"Sky",avatar:"SK",text:"This is the general channel.",time:"Today at 7:04 PM"}
+{
+id:1,
+name:"Alex",
+avatar:"AX",
+text:"Welcome to Chorda!",
+time:"Today at 7:01 PM"
+},
+{
+id:2,
+name:"Sky",
+avatar:"SK",
+text:"This is the general channel.",
+time:"Today at 7:04 PM"
+}
 ],
-announcements:[{id:3,name:"Alex",avatar:"AX",text:"Welcome to the announcements channel.",time:"Today at 6:55 PM"}],
-chat:[{id:4,name:"Jamie",avatar:"JM",text:"Hey everyone! What's happening?",time:"Today at 6:42 PM"}],
-memes:[{id:5,name:"Sky",avatar:"SK",text:"This channel is ready for memes 😂",time:"Today at 6:30 PM"}],
-support:[{id:6,name:"Riley",avatar:"RB",text:"Need help? Ask your question here.",time:"Today at 6:15 PM"}]
+
+announcements:[
+{
+id:3,
+name:"Alex",
+avatar:"AX",
+text:"Welcome to the announcements channel.",
+time:"Today at 6:55 PM"
+}
+],
+
+chat:[
+{
+id:4,
+name:"Jamie",
+avatar:"JM",
+text:"Hey everyone! What's happening?",
+time:"Today at 6:42 PM"
+}
+],
+
+memes:[
+{
+id:5,
+name:"Sky",
+avatar:"SK",
+text:"This channel is ready for memes 😂",
+time:"Today at 6:30 PM"
+}
+],
+
+support:[
+{
+id:6,
+name:"Riley",
+avatar:"RB",
+text:"Need help? Ask your question here.",
+time:"Today at 6:15 PM"
+}
+]
 },
+
 gaming:{
-general:[{id:7,name:"Alex",avatar:"AX",text:"Welcome to Gaming!",time:"Today at 7:10 PM"}],
-chat:[{id:8,name:"Jamie",avatar:"JM",text:"What games are everyone playing?",time:"Today at 7:12 PM"}],
-games:[{id:9,name:"Sky",avatar:"SK",text:"Let's talk about games!",time:"Today at 7:14 PM"}],
-clips:[{id:10,name:"Riley",avatar:"RB",text:"Share your best clips here.",time:"Today at 7:16 PM"}]
+general:[
+{
+id:7,
+name:"Alex",
+avatar:"AX",
+text:"Welcome to Gaming!",
+time:"Today at 7:10 PM"
+}
+],
+
+chat:[
+{
+id:8,
+name:"Jamie",
+avatar:"JM",
+text:"What games are everyone playing?",
+time:"Today at 7:12 PM"
+}
+],
+
+games:[
+{
+id:9,
+name:"Sky",
+avatar:"SK",
+text:"Let's talk about games!",
+time:"Today at 7:14 PM"
+}
+],
+
+clips:[
+{
+id:10,
+name:"Riley",
+avatar:"RB",
+text:"Share your best clips here.",
+time:"Today at 7:16 PM"
+}
+]
 },
+
 study:{
-general:[{id:11,name:"Alex",avatar:"AX",text:"Welcome to the Study server!",time:"Today at 7:20 PM"}],
-homework:[{id:12,name:"Sky",avatar:"SK",text:"Anyone working on homework?",time:"Today at 7:22 PM"}],
-resources:[{id:13,name:"Riley",avatar:"RB",text:"This channel is for useful resources.",time:"Today at 7:24 PM"}],
-chat:[{id:14,name:"Jamie",avatar:"JM",text:"How is everyone's studying going?",time:"Today at 7:26 PM"}]
+general:[
+{
+id:11,
+name:"Alex",
+avatar:"AX",
+text:"Welcome to the Study server!",
+time:"Today at 7:20 PM"
+}
+],
+
+homework:[
+{
+id:12,
+name:"Sky",
+avatar:"SK",
+text:"Anyone working on homework?",
+time:"Today at 7:22 PM"
+}
+],
+
+resources:[
+{
+id:13,
+name:"Riley",
+avatar:"RB",
+text:"This channel is for useful resources.",
+time:"Today at 7:24 PM"
+}
+],
+
+chat:[
+{
+id:14,
+name:"Jamie",
+avatar:"JM",
+text:"How is everyone's studying going?",
+time:"Today at 7:26 PM"
+}
+]
 }
 };
+
+
+/* =========================================================
+   ROLE DATA
+========================================================= */
+
+const defaultRoles=[
+{
+id:"everyone",
+name:"@everyone",
+color:"#99aab5",
+permissions:{
+viewChannels:true,
+sendMessages:true,
+readHistory:true,
+addReactions:true,
+connect:true,
+speak:true,
+mentionEveryone:false,
+manageMessages:false,
+manageChannels:false,
+manageRoles:false,
+kickMembers:false,
+banMembers:false,
+administrator:false
+}
+},
+
+{
+id:"member",
+name:"Member",
+color:"#5865f2",
+permissions:{
+viewChannels:true,
+sendMessages:true,
+readHistory:true,
+addReactions:true,
+connect:true,
+speak:true,
+mentionEveryone:false,
+manageMessages:false,
+manageChannels:false,
+manageRoles:false,
+kickMembers:false,
+banMembers:false,
+administrator:false
+}
+},
+
+{
+id:"moderator",
+name:"Moderator",
+color:"#57d68a",
+permissions:{
+viewChannels:true,
+sendMessages:true,
+readHistory:true,
+addReactions:true,
+connect:true,
+speak:true,
+mentionEveryone:true,
+manageMessages:true,
+manageChannels:true,
+manageRoles:false,
+kickMembers:true,
+banMembers:false,
+administrator:false
+}
+},
+
+{
+id:"admin",
+name:"Admin",
+color:"#ed5c68",
+permissions:{
+viewChannels:true,
+sendMessages:true,
+readHistory:true,
+addReactions:true,
+connect:true,
+speak:true,
+mentionEveryone:true,
+manageMessages:true,
+manageChannels:true,
+manageRoles:true,
+kickMembers:true,
+banMembers:true,
+administrator:true
+}
+}
+];
+
+const permissionDefinitions={
+
+viewChannels:{
+name:"View Channels",
+description:"Allow members to see available channels."
+},
+
+sendMessages:{
+name:"Send Messages",
+description:"Allow members to send messages."
+},
+
+readHistory:{
+name:"Read Message History",
+description:"Allow members to read previous messages."
+},
+
+addReactions:{
+name:"Add Reactions",
+description:"Allow members to react to messages."
+},
+
+connect:{
+name:"Connect",
+description:"Allow members to join voice channels."
+},
+
+speak:{
+name:"Speak",
+description:"Allow members to speak in voice channels."
+},
+
+mentionEveryone:{
+name:"Mention Everyone",
+description:"Allow @everyone and @here mentions."
+},
+
+manageMessages:{
+name:"Manage Messages",
+description:"Allow members to remove messages."
+},
+
+manageChannels:{
+name:"Manage Channels",
+description:"Allow members to create and manage channels."
+},
+
+manageRoles:{
+name:"Manage Roles",
+description:"Allow members to manage server roles."
+},
+
+kickMembers:{
+name:"Kick Members",
+description:"Allow members to remove members from the server."
+},
+
+banMembers:{
+name:"Ban Members",
+description:"Allow members to ban members."
+},
+
+administrator:{
+name:"Administrator",
+description:"Grant all available server permissions."
+}
+
+};
+
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
 
 let saved=null;
 
 try{
 saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
-}catch(e){saved=null}
+}catch(error){
+saved=null;
+}
 
 const serverData=saved?.serverData||structuredClone(defaultServerData);
 const messagesData=saved?.messagesData||structuredClone(defaultMessages);
 
 let profileData=saved?.profileData||{
 name:"You",
-avatar:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%235865f2'/%3E%3Ctext x='50' y='63' text-anchor='middle' font-size='35' font-family='Arial' fill='white'%3EYO%3C/text%3E%3C/svg%3E"
+avatar:defaultAvatar
 };
 
 let settingsData=saved?.settingsData||{
@@ -584,152 +3467,346 @@ messageFilter:false,
 appearance:"dark"
 };
 
+let rolesData=saved?.rolesData||structuredClone(defaultRoles);
+
+let selectedRoleId="everyone";
+
 let selectedChannel=saved?.selectedChannel||{};
 let currentServer=saved?.currentServer||"chorda";
+
 let messageIdCounter=saved?.messageIdCounter||100;
+
 let notificationCount=1;
 
 let currentVoiceChannel=null;
 let voiceStream=null;
 let voiceMuted=false;
 
+
 /* =========================================================
    SAVE
 ========================================================= */
 
 function saveData(){
+
 try{
-localStorage.setItem(STORAGE_KEY,JSON.stringify({
-serverData,messagesData,profileData,settingsData,
-selectedChannel,currentServer,messageIdCounter
-}));
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify({
+serverData,
+messagesData,
+profileData,
+settingsData,
+rolesData,
+selectedChannel,
+currentServer,
+messageIdCounter
+})
+);
+
 }catch(error){
-console.error("Could not save Chorda data:",error);
+
+console.error(
+"Could not save Chorda data:",
+error
+);
+
 }
+
 }
+
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
+const ageGate=document.getElementById("ageGate");
+const ageConfirm=document.getElementById("ageConfirm");
+const ageEnterButton=document.getElementById("ageEnterButton");
+
 const serverBar=document.getElementById("serverBar");
 const channelList=document.getElementById("channelList");
+
 const workspaceName=document.getElementById("workspaceName");
 const workspaceImage=document.getElementById("workspaceImage");
+
 const channelName=document.getElementById("channelName");
 const channelTopic=document.getElementById("channelTopic");
+
 const welcomeTitle=document.getElementById("welcomeTitle");
 const welcomeText=document.getElementById("welcomeText");
+
 const messageList=document.getElementById("messageList");
 const messages=document.getElementById("messages");
+
 const input=document.getElementById("messageInput");
 const sendButton=document.getElementById("sendButton");
+
 const channelsPanel=document.getElementById("channels");
 const mobileMenu=document.getElementById("mobileMenu");
 const mobileOverlay=document.getElementById("mobileOverlay");
+
 const searchContainer=document.getElementById("searchContainer");
 const searchInput=document.getElementById("searchInput");
+
 const profileButton=document.getElementById("profileButton");
 const userPanel=document.getElementById("userPanel");
+
 const profileMiniAvatar=document.getElementById("profileMiniAvatar");
 const profileLargeAvatar=document.getElementById("profileLargeAvatar");
+
 const profileButtonName=document.getElementById("profileButtonName");
 const profilePanelName=document.getElementById("profilePanelName");
-const settingsModal=document.getElementById("settingsModal");
+
 const notificationPanel=document.getElementById("notificationPanel");
 const notificationDot=document.getElementById("notificationDot");
+
 const toastContainer=document.getElementById("toastContainer");
+
+const settingsOverlay=document.getElementById("settingsOverlay");
+
 const voiceModal=document.getElementById("voiceModal");
 const voiceStatusBox=document.getElementById("voiceStatusBox");
 const voiceUsers=document.getElementById("voiceUsers");
+
 const joinVoiceButton=document.getElementById("joinVoiceButton");
 const muteVoiceButton=document.getElementById("muteVoiceButton");
 const leaveVoiceButton=document.getElementById("leaveVoiceButton");
+
+
+/* =========================================================
+   AGE VERIFICATION
+========================================================= */
+
+function ageHasBeenVerified(){
+
+return localStorage.getItem("chorda_age_verified")==="true";
+
+}
+
+if(ageHasBeenVerified()){
+
+ageGate.classList.add("hidden");
+
+}
+
+ageConfirm.addEventListener("change",()=>{
+
+ageEnterButton.disabled=!ageConfirm.checked;
+
+});
+
+ageEnterButton.addEventListener("click",()=>{
+
+if(!ageConfirm.checked)return;
+
+localStorage.setItem(
+"chorda_age_verified",
+"true"
+);
+
+ageGate.classList.add("hidden");
+
+showToast("Welcome to Chorda!");
+
+});
+
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
+function showToast(text){
+
+const toast=document.createElement("div");
+
+toast.className="toast";
+toast.textContent=text;
+
+toastContainer.appendChild(toast);
+
+setTimeout(
+()=>toast.remove(),
+3000
+);
+
+}
+
 function slugify(value){
-return value.toLowerCase().trim().replace(/[^a-z0-9-_ ]/g,"").replace(/\s+/g,"-").replace(/-+/g,"-")||"channel";
+
+return value
+.toLowerCase()
+.trim()
+.replace(/[^a-z0-9-_ ]/g,"")
+.replace(/\s+/g,"-")
+.replace(/-+/g,"-")
+||"channel";
+
 }
 
 function makeUniqueId(object,name){
+
 let id=slugify(name);
 let number=2;
+
 while(object[id]){
+
 id=slugify(name)+"-"+number++;
-}
-return id;
+
 }
 
-function showToast(text){
-const toast=document.createElement("div");
-toast.className="toast";
-toast.textContent=text;
-toastContainer.appendChild(toast);
-setTimeout(()=>toast.remove(),3000);
+return id;
+
 }
+
+function readImageFile(file,callback){
+
+if(!file){
+return;
+}
+
+if(!file.type.startsWith("image/")){
+
+showToast("Please choose an image file.");
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+callback(event.target.result);
+
+};
+
+reader.onerror=function(){
+
+showToast("Could not read that image.");
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
 
 /* =========================================================
-   PROFILE
+   PROFILE UI
 ========================================================= */
 
 function updateProfileUI(){
+
 profileMiniAvatar.src=profileData.avatar;
+
 profileLargeAvatar.src=profileData.avatar;
-profileButtonName.textContent=profileData.name;
-profilePanelName.textContent=profileData.name;
+
+profileButtonName.textContent=
+profileData.name;
+
+profilePanelName.textContent=
+profileData.name;
+
+document.getElementById(
+"settingsAccountAvatar"
+).src=profileData.avatar;
+
+document.getElementById(
+"profileSettingsPreview"
+).src=profileData.avatar;
+
+document.getElementById(
+"accountDisplayName"
+).textContent=profileData.name;
+
+document.getElementById(
+"profilePreviewName"
+).textContent=profileData.name;
+
+document.getElementById(
+"settingsName"
+).value=profileData.name;
+
 }
 
-updateProfileUI();
 
 /* =========================================================
-   SERVERS
+   SERVER BAR
 ========================================================= */
 
 function renderServers(){
 
 serverBar.innerHTML="";
 
-Object.keys(serverData).forEach(function(serverId){
+Object.keys(serverData).forEach(serverId=>{
 
 const server=serverData[serverId];
 
 const button=document.createElement("button");
+
 button.className="server";
+
 button.dataset.server=serverId;
+
 button.title=server.name;
 
-if(serverId===currentServer)button.classList.add("active");
+if(serverId===currentServer){
 
-if(server.image){
-const img=document.createElement("img");
-img.className="server-image";
-img.src=server.image;
-img.alt=server.name;
-button.appendChild(img);
-}else{
-button.textContent=server.name.substring(0,1).toUpperCase();
+button.classList.add("active");
+
 }
 
-button.addEventListener("click",()=>loadServer(serverId));
+if(server.image){
+
+const img=document.createElement("img");
+
+img.className="server-image";
+
+img.src=server.image;
+
+img.alt=server.name;
+
+button.appendChild(img);
+
+}else{
+
+button.textContent=
+server.name.substring(0,1)
+.toUpperCase();
+
+}
+
+button.addEventListener(
+"click",
+()=>loadServer(serverId)
+);
 
 serverBar.appendChild(button);
 
 });
 
+
 const add=document.createElement("button");
+
 add.className="server add";
-add.id="addServerButton";
+
 add.title="Create server";
+
 add.textContent="+";
-add.addEventListener("click",openServerModal);
+
+add.addEventListener(
+"click",
+openServerModal
+);
+
 serverBar.appendChild(add);
+
 }
 
+
 /* =========================================================
-   SERVER LOADING
+   LOAD SERVER
 ========================================================= */
 
 function loadServer(serverId){
@@ -740,23 +3817,37 @@ currentServer=serverId;
 
 const server=serverData[serverId];
 
-workspaceName.textContent=server.name;
-workspaceImage.src=server.image;
-workspaceImage.alt=server.name;
+workspaceName.textContent=
+server.name;
+
+workspaceImage.src=
+server.image;
+
+workspaceImage.alt=
+server.name;
 
 renderServers();
+
 renderChannels();
 
-const firstChannel=Object.keys(server.channels)[0];
+const firstChannel=
+Object.keys(server.channels)[0];
+
+const preferred=
+selectedChannel[serverId];
 
 loadChannel(
-selectedChannel[serverId]&&server.channels[selectedChannel[serverId]]
-?selectedChannel[serverId]
+preferred&&server.channels[preferred]
+?preferred
 :firstChannel
 );
 
+updateServerSettingsUI();
+
 saveData();
+
 }
+
 
 /* =========================================================
    CHANNELS
@@ -765,21 +3856,31 @@ saveData();
 function createCategory(title,type){
 
 const category=document.createElement("div");
+
 category.className="category";
 
 const label=document.createElement("span");
+
 label.textContent=title;
 
 const add=document.createElement("button");
+
 add.className="category-add";
+
 add.textContent="+";
+
 add.title="Add channel";
-add.addEventListener("click",()=>openChannelModal(type));
+
+add.addEventListener(
+"click",
+()=>openChannelModal(type)
+);
 
 category.appendChild(label);
 category.appendChild(add);
 
 return category;
+
 }
 
 function renderChannels(){
@@ -790,127 +3891,262 @@ if(!server)return;
 
 channelList.innerHTML="";
 
-channelList.appendChild(createCategory("Text Channels","text"));
+channelList.appendChild(
+createCategory("Text Channels","text")
+);
 
-Object.keys(server.channels).forEach(function(channelId){
+Object.keys(server.channels).forEach(channelId=>{
 
-const channel=server.channels[channelId];
+const channel=
+server.channels[channelId];
 
-const element=document.createElement("div");
+const element=
+document.createElement("div");
+
 element.className="channel";
-element.dataset.channel=channelId;
 
-if(selectedChannel[currentServer]===channelId)
+if(
+selectedChannel[currentServer]===
+channelId
+){
+
 element.classList.add("active");
 
-const icon=document.createElement("span");
-icon.className="channel-icon-small";
+}
+
+const icon=
+document.createElement("span");
+
+icon.className=
+"channel-icon-small";
+
 icon.textContent="#";
 
-const name=document.createElement("span");
-name.textContent=channel.name;
+const name=
+document.createElement("span");
+
+name.textContent=
+channel.name;
 
 element.appendChild(icon);
 element.appendChild(name);
 
 if(!channel.default){
 
-const del=document.createElement("button");
-del.className="channel-delete";
-del.textContent="×";
-del.title="Delete channel";
+const del=
+document.createElement("button");
 
-del.addEventListener("click",function(event){
+del.className=
+"channel-delete";
+
+del.textContent="×";
+
+del.title=
+"Delete channel";
+
+del.addEventListener(
+"click",
+event=>{
+
 event.stopPropagation();
 
-if(confirm("Delete #"+channel.name+"?")){
-delete server.channels[channelId];
+if(
+confirm(
+"Delete #"+channel.name+"?"
+)
+){
 
-if(messagesData[currentServer])
-delete messagesData[currentServer][channelId];
+delete server.channels[
+channelId
+];
 
-const remaining=Object.keys(server.channels);
+if(messagesData[currentServer]){
+
+delete messagesData[
+currentServer
+][channelId];
+
+}
+
+const remaining=
+Object.keys(server.channels);
 
 if(remaining.length){
-selectedChannel[currentServer]=remaining[0];
-loadChannel(remaining[0]);
-}else{
-selectedChannel[currentServer]=null;
+
+selectedChannel[
+currentServer
+]=remaining[0];
+
+loadChannel(
+remaining[0]
+);
+
 }
 
 saveData();
+
 renderChannels();
+
 }
-});
+
+}
+);
 
 element.appendChild(del);
+
 }
 
-element.addEventListener("click",function(){
-selectedChannel[currentServer]=channelId;
+element.addEventListener(
+"click",
+()=>{
+
+selectedChannel[
+currentServer
+]=channelId;
+
 loadChannel(channelId);
+
 renderChannels();
+
 closeMobileMenu();
+
 saveData();
-});
+
+}
+);
 
 channelList.appendChild(element);
 
 });
 
-channelList.appendChild(createCategory("Voice Channels","voice"));
 
-(server.voiceChannels||[]).forEach(function(channel,index){
+channelList.appendChild(
+createCategory(
+"Voice Channels",
+"voice"
+)
+);
 
-const voice=document.createElement("div");
-voice.className="channel voice-channel";
 
-if(currentVoiceChannel===channel.name)
+(server.voiceChannels||[]).forEach(
+(channel,index)=>{
+
+const voice=
+document.createElement("div");
+
+voice.className=
+"channel voice-channel";
+
+if(
+currentVoiceChannel===
+channel.name
+){
+
 voice.classList.add("joined");
 
-const icon=document.createElement("span");
-icon.className="channel-icon-small";
+}
+
+const icon=
+document.createElement("span");
+
+icon.className=
+"channel-icon-small";
+
 icon.textContent="🔊";
 
-const label=document.createElement("span");
-label.textContent=channel.name;
+const label=
+document.createElement("span");
+
+label.textContent=
+channel.name;
 
 voice.appendChild(icon);
 voice.appendChild(label);
 
-if(currentVoiceChannel===channel.name){
-const status=document.createElement("span");
-status.className="voice-status connected";
-status.textContent="Connected";
+if(
+currentVoiceChannel===
+channel.name
+){
+
+const status=
+document.createElement("span");
+
+status.className=
+"voice-status connected";
+
+status.textContent=
+"Connected";
+
 voice.appendChild(status);
+
 }else{
-const status=document.createElement("span");
-status.className="voice-status";
-status.textContent="Join";
+
+const status=
+document.createElement("span");
+
+status.className=
+"voice-status";
+
+status.textContent=
+"Join";
+
 voice.appendChild(status);
+
 }
 
 if(!channel.default){
-const del=document.createElement("button");
-del.className="channel-delete";
-del.textContent="×";
-del.title="Delete voice channel";
 
-del.addEventListener("click",function(event){
+const del=
+document.createElement("button");
+
+del.className=
+"channel-delete";
+
+del.textContent="×";
+
+del.addEventListener(
+"click",
+event=>{
+
 event.stopPropagation();
 
-if(confirm("Delete voice channel "+channel.name+"?")){
-if(currentVoiceChannel===channel.name)leaveVoiceChannel();
-server.voiceChannels.splice(index,1);
-saveData();
-renderChannels();
+if(
+confirm(
+"Delete voice channel "+channel.name+"?"
+)
+){
+
+if(
+currentVoiceChannel===
+channel.name
+){
+
+leaveVoiceChannel();
+
 }
-});
+
+server.voiceChannels
+.splice(index,1);
+
+saveData();
+
+renderChannels();
+
+}
+
+}
+);
 
 voice.appendChild(del);
+
 }
 
-voice.addEventListener("click",()=>openVoiceChannel(channel.name));
+voice.addEventListener(
+"click",
+()=>openVoiceChannel(
+channel.name
+)
+);
 
 channelList.appendChild(voice);
 
@@ -918,155 +4154,317 @@ channelList.appendChild(voice);
 
 }
 
+
 /* =========================================================
-   LOAD TEXT CHANNEL
+   LOAD CHANNEL
 ========================================================= */
 
 function loadChannel(channelId){
 
-const server=serverData[currentServer];
-if(!server||!server.channels[channelId])return;
+const server=
+serverData[currentServer];
 
-selectedChannel[currentServer]=channelId;
+if(
+!server||
+!server.channels[channelId]
+)return;
 
-const channel=server.channels[channelId];
+selectedChannel[
+currentServer
+]=channelId;
 
-channelName.textContent=channel.name;
-channelTopic.textContent=channel.topic||"";
+const channel=
+server.channels[channelId];
 
-welcomeTitle.textContent="Welcome to #"+channel.name+" 👋";
-welcomeText.textContent=channel.topic||"This is the beginning of this channel.";
-input.placeholder="Message #"+channel.name;
+channelName.textContent=
+channel.name;
 
-if(!messagesData[currentServer])
+channelTopic.textContent=
+channel.topic||"";
+
+welcomeTitle.textContent=
+"Welcome to #"+
+channel.name+
+" 👋";
+
+welcomeText.textContent=
+channel.topic||
+"This is the beginning of this channel.";
+
+input.placeholder=
+"Message #"+
+channel.name;
+
+if(!messagesData[currentServer]){
+
 messagesData[currentServer]={};
 
-if(!messagesData[currentServer][channelId])
-messagesData[currentServer][channelId]=[];
+}
+
+if(
+!messagesData[currentServer][channelId]
+){
+
+messagesData[
+currentServer
+][channelId]=[];
+
+}
 
 messageList.innerHTML="";
 
-messagesData[currentServer][channelId].forEach(message=>createMessage(message,false));
+messagesData[
+currentServer
+][channelId
+].forEach(
+message=>
+createMessage(
+message,
+false
+)
+);
 
-searchInput.value="";
-
-requestAnimationFrame(()=>messages.scrollTop=messages.scrollHeight);
+requestAnimationFrame(
+()=>messages.scrollTop=
+messages.scrollHeight
+);
 
 }
+
 
 /* =========================================================
    MESSAGE FILTER
 ========================================================= */
 
-const blockedWords=["slur","threat"];
+const blockedWords=[
+"slur",
+"threat"
+];
 
 function messageAllowed(text){
 
-if(!settingsData.parentalControls||!settingsData.messageFilter)
+if(
+!settingsData.parentalControls||
+!settingsData.messageFilter
+){
+
 return true;
 
-const lower=text.toLowerCase();
-
-return !blockedWords.some(word=>lower.includes(word));
 }
 
+const lower=
+text.toLowerCase();
+
+return !blockedWords.some(
+word=>lower.includes(word)
+);
+
+}
+
+
 /* =========================================================
-   CREATE MESSAGE
+   MESSAGE CREATION
 ========================================================= */
 
-function createMessage(item,shouldScroll=true){
+function createMessage(
+item,
+shouldScroll=true
+){
 
-const message=document.createElement("div");
+const message=
+document.createElement("div");
+
 message.className="message";
-message.dataset.messageId=item.id;
 
-const avatar=document.createElement("div");
+message.dataset.messageId=
+item.id;
+
+const avatar=
+document.createElement("div");
+
 avatar.className="avatar";
 
 if(item.avatarUrl){
-const img=document.createElement("img");
-img.src=item.avatarUrl;
-img.alt=item.name;
+
+const img=
+document.createElement("img");
+
+img.src=
+item.avatarUrl;
+
+img.alt=
+item.name;
+
 avatar.appendChild(img);
+
 }else{
-avatar.textContent=item.avatar||item.name.substring(0,2).toUpperCase();
+
+avatar.textContent=
+item.avatar||
+item.name
+.substring(0,2)
+.toUpperCase();
+
 }
 
-const content=document.createElement("div");
-content.className="message-content";
+const content=
+document.createElement("div");
 
-const header=document.createElement("div");
+content.className=
+"message-content";
 
-const username=document.createElement("span");
-username.className="username";
-username.textContent=item.name;
+const header=
+document.createElement("div");
 
-const timestamp=document.createElement("span");
-timestamp.className="timestamp";
-timestamp.textContent=item.time;
+const username=
+document.createElement("span");
+
+username.className=
+"username";
+
+username.textContent=
+item.name;
+
+const timestamp=
+document.createElement("span");
+
+timestamp.className=
+"timestamp";
+
+timestamp.textContent=
+item.time;
 
 header.appendChild(username);
 header.appendChild(timestamp);
 
-const text=document.createElement("div");
-text.className="message-text";
-text.textContent=item.text;
+const text=
+document.createElement("div");
 
-const reactions=document.createElement("div");
-reactions.className="reactions";
+text.className=
+"message-text";
+
+text.textContent=
+item.text;
+
+const reactions=
+document.createElement("div");
+
+reactions.className=
+"reactions";
 
 let likes=item.likes||0;
 
-const like=document.createElement("button");
-like.className="reaction";
-like.textContent="👍 "+likes;
+const like=
+document.createElement("button");
 
-like.addEventListener("click",function(){
+like.className="reaction";
+
+like.textContent=
+"👍 "+likes;
+
+like.addEventListener(
+"click",
+()=>{
+
 likes++;
+
 item.likes=likes;
-like.textContent="👍 "+likes;
+
+like.textContent=
+"👍 "+likes;
+
 saveData();
-});
+
+}
+);
 
 reactions.appendChild(like);
 
-const actions=document.createElement("div");
-actions.className="message-actions";
+const actions=
+document.createElement("div");
 
-const react=document.createElement("button");
-react.className="message-action";
+actions.className=
+"message-actions";
+
+const react=
+document.createElement("button");
+
+react.className=
+"message-action";
+
 react.textContent="😀";
-react.title="React";
-react.addEventListener("click",()=>{
+
+react.addEventListener(
+"click",
+()=>{
+
 likes++;
+
 item.likes=likes;
-like.textContent="👍 "+likes;
+
+like.textContent=
+"👍 "+likes;
+
 saveData();
-});
 
-const del=document.createElement("button");
-del.className="message-action delete";
+}
+);
+
+const del=
+document.createElement("button");
+
+del.className=
+"message-action delete";
+
 del.textContent="🗑";
-del.title="Delete message";
 
-del.addEventListener("click",function(){
+del.addEventListener(
+"click",
+()=>{
 
-if(item.name!==profileData.name){
-showToast("You can only delete your own messages.");
+if(
+item.name!==profileData.name
+){
+
+showToast(
+"You can only delete your own messages."
+);
+
 return;
+
 }
 
-const channelMessages=messagesData[currentServer][selectedChannel[currentServer]];
+const channelMessages=
+messagesData[
+currentServer
+][
+selectedChannel[currentServer]
+];
 
-const index=channelMessages.findIndex(x=>x.id===item.id);
+const index=
+channelMessages.findIndex(
+x=>x.id===item.id
+);
 
-if(index!==-1)channelMessages.splice(index,1);
+if(index!==-1){
+
+channelMessages.splice(
+index,
+1
+);
+
+}
 
 message.remove();
-saveData();
-showToast("Message deleted.");
 
-});
+saveData();
+
+showToast(
+"Message deleted."
+);
+
+}
+);
 
 actions.appendChild(react);
 actions.appendChild(del);
@@ -1081,9 +4479,15 @@ message.appendChild(actions);
 
 messageList.appendChild(message);
 
-if(shouldScroll)
-messages.scrollTop=messages.scrollHeight;
+if(shouldScroll){
+
+messages.scrollTop=
+messages.scrollHeight;
+
 }
+
+}
+
 
 /* =========================================================
    SEND MESSAGE
@@ -1091,29 +4495,50 @@ messages.scrollTop=messages.scrollHeight;
 
 function sendMessage(){
 
-const text=input.value.trim();
+const text=
+input.value.trim();
 
 if(!text)return;
 
 if(!messageAllowed(text)){
-showToast("That message was blocked by the current parental controls.");
+
+showToast(
+"That message was blocked by the current message filter."
+);
+
 return;
+
 }
 
-const channelId=selectedChannel[currentServer];
+const channelId=
+selectedChannel[currentServer];
 
-if(!messagesData[currentServer])
+if(!messagesData[currentServer]){
+
 messagesData[currentServer]={};
 
-if(!messagesData[currentServer][channelId])
-messagesData[currentServer][channelId]=[];
+}
+
+if(
+!messagesData[currentServer][channelId]
+){
+
+messagesData[
+currentServer
+][channelId]=[];
+
+}
 
 const now=new Date();
 
-const time=now.toLocaleTimeString([],{
+const time=
+now.toLocaleTimeString(
+[],
+{
 hour:"numeric",
 minute:"2-digit"
-});
+}
+);
 
 const item={
 id:++messageIdCounter,
@@ -1125,284 +4550,692 @@ time:"Today at "+time,
 likes:0
 };
 
-messagesData[currentServer][channelId].push(item);
+messagesData[
+currentServer
+][channelId
+].push(item);
 
-createMessage(item,true);
+createMessage(
+item,
+true
+);
 
 input.value="";
+
 input.focus();
 
 saveData();
+
 }
 
-sendButton.addEventListener("click",sendMessage);
+sendButton.addEventListener(
+"click",
+sendMessage
+);
 
-input.addEventListener("keydown",event=>{
+input.addEventListener(
+"keydown",
+event=>{
+
 if(event.key==="Enter"){
+
 event.preventDefault();
+
 sendMessage();
+
 }
-});
+
+}
+);
+
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-mobileMenu.addEventListener("click",()=>{
-channelsPanel.classList.add("open");
-mobileOverlay.classList.add("show");
-});
+mobileMenu.addEventListener(
+"click",
+()=>{
+
+channelsPanel.classList.add(
+"open"
+);
+
+mobileOverlay.classList.add(
+"show"
+);
+
+}
+);
 
 function closeMobileMenu(){
-channelsPanel.classList.remove("open");
-mobileOverlay.classList.remove("show");
+
+channelsPanel.classList.remove(
+"open"
+);
+
+mobileOverlay.classList.remove(
+"show"
+);
+
 }
 
-mobileOverlay.addEventListener("click",closeMobileMenu);
+mobileOverlay.addEventListener(
+"click",
+closeMobileMenu
+);
+
 
 /* =========================================================
    SEARCH
 ========================================================= */
 
-document.getElementById("searchButton").addEventListener("click",()=>{
-searchContainer.classList.toggle("open");
-if(searchContainer.classList.contains("open"))searchInput.focus();
+document
+.getElementById("searchButton")
+.addEventListener(
+"click",
+()=>{
+
+searchContainer.classList.toggle(
+"open"
+);
+
+if(
+searchContainer.classList.contains(
+"open"
+)
+){
+
+searchInput.focus();
+
+}
+
+}
+);
+
+searchInput.addEventListener(
+"input",
+()=>{
+
+const query=
+searchInput.value
+.toLowerCase()
+.trim();
+
+document
+.querySelectorAll(".message")
+.forEach(message=>{
+
+const text=
+message.textContent
+.toLowerCase();
+
+message.style.display=
+!query||
+text.includes(query)
+?"flex"
+:"none";
+
 });
 
-searchInput.addEventListener("input",()=>{
-const query=searchInput.value.toLowerCase().trim();
+}
+);
 
-document.querySelectorAll(".message").forEach(message=>{
-const text=message.textContent.toLowerCase();
-message.style.display=!query||text.includes(query)?"flex":"none";
-});
-});
 
 /* =========================================================
-   PANELS
+   PROFILE PANEL
 ========================================================= */
 
-profileButton.addEventListener("click",event=>{
+profileButton.addEventListener(
+"click",
+event=>{
+
 event.stopPropagation();
-userPanel.classList.toggle("open");
-notificationPanel.classList.remove("open");
-});
 
-document.addEventListener("click",event=>{
+userPanel.classList.toggle(
+"open"
+);
 
-if(!userPanel.contains(event.target)&&event.target!==profileButton)
-userPanel.classList.remove("open");
+notificationPanel.classList.remove(
+"open"
+);
 
-if(!notificationPanel.contains(event.target)&&event.target!==document.getElementById("notificationButton"))
-notificationPanel.classList.remove("open");
+}
+);
 
-});
+document.addEventListener(
+"click",
+event=>{
+
+if(
+!userPanel.contains(event.target)&&
+event.target!==profileButton
+){
+
+userPanel.classList.remove(
+"open"
+);
+
+}
+
+if(
+!notificationPanel.contains(event.target)&&
+event.target!==document
+.getElementById(
+"notificationButton"
+)
+){
+
+notificationPanel.classList.remove(
+"open"
+);
+
+}
+
+}
+);
+
 
 /* =========================================================
-   SETTINGS
+   SETTINGS OPEN
 ========================================================= */
 
 function openSettings(){
 
-userPanel.classList.remove("open");
-notificationPanel.classList.remove("open");
+userPanel.classList.remove(
+"open"
+);
 
-document.getElementById("settingsName").value=profileData.name;
+notificationPanel.classList.remove(
+"open"
+);
 
-document.getElementById("avatarUrlInput").value=
-profileData.avatar.startsWith("data:")?"":profileData.avatar;
+settingsOverlay.classList.add(
+"open"
+);
 
-document.getElementById("parentalControlSelect").value=
-settingsData.parentalControls?"on":"off";
+updateSettingsUI();
 
-document.getElementById("messageFilterSelect").value=
-settingsData.messageFilter?"on":"off";
+showSettingsPage("account");
 
-document.getElementById("appearanceSelect").value=settingsData.appearance;
-
-document.getElementById("notificationSelect").value=
-settingsData.notificationEnabled?"on":"off";
-
-settingsModal.classList.add("open");
 }
 
 function closeSettings(){
-settingsModal.classList.remove("open");
+
+settingsOverlay.classList.remove(
+"open"
+);
+
 }
 
-document.getElementById("settingsButton").addEventListener("click",openSettings);
-document.getElementById("headerSettingsButton").addEventListener("click",openSettings);
-document.getElementById("profileSettingsButton").addEventListener("click",openSettings);
-document.getElementById("closeSettingsButton").addEventListener("click",closeSettings);
+document
+.getElementById("settingsButton")
+.addEventListener(
+"click",
+openSettings
+);
 
-settingsModal.addEventListener("click",event=>{
-if(event.target===settingsModal)closeSettings();
-});
+document
+.getElementById("headerSettingsButton")
+.addEventListener(
+"click",
+openSettings
+);
+
+document
+.getElementById("profileSettingsButton")
+.addEventListener(
+"click",
+openSettings
+);
+
+document
+.getElementById("editProfileButton")
+.addEventListener(
+"click",
+openSettings
+);
+
+document
+.getElementById("closeSettingsPage")
+.addEventListener(
+"click",
+closeSettings
+);
+
 
 /* =========================================================
-   SAVE PROFILE
+   SETTINGS NAVIGATION
 ========================================================= */
 
-document.getElementById("saveProfileButton").addEventListener("click",()=>{
+document
+.querySelectorAll("[data-settings-page]")
+.forEach(button=>{
 
-const name=document.getElementById("settingsName").value.trim();
-const avatar=document.getElementById("avatarUrlInput").value.trim();
+button.addEventListener(
+"click",
+()=>{
 
-if(name)profileData.name=name;
+showSettingsPage(
+button.dataset.settingsPage
+);
 
-if(avatar)profileData.avatar=avatar;
+}
+);
+
+});
+
+function showSettingsPage(page){
+
+document
+.querySelectorAll("[data-settings-page]")
+.forEach(button=>{
+
+button.classList.toggle(
+"active",
+button.dataset.settingsPage===page
+);
+
+});
+
+document
+.querySelectorAll("[data-settings-content]")
+.forEach(content=>{
+
+content.style.display=
+content.dataset.settingsContent===page
+?"block"
+:"none";
+
+});
+
+if(page==="roles"){
+
+renderRoles();
+
+}
+
+}
+
+
+/* =========================================================
+   SETTINGS UI
+========================================================= */
+
+function updateSettingsUI(){
 
 updateProfileUI();
-saveData();
 
-closeSettings();
+document.getElementById(
+"appearanceSelect"
+).value=
+settingsData.appearance;
 
-showToast("Profile saved.");
+setToggle(
+"notificationToggle",
+settingsData.notificationEnabled
+);
 
-loadChannel(selectedChannel[currentServer]);
+setToggle(
+"parentalToggle",
+settingsData.parentalControls
+);
 
-});
+setToggle(
+"messageFilterToggle",
+settingsData.messageFilter
+);
+
+updateServerSettingsUI();
+
+}
+
+
+function setToggle(id,value){
+
+const element=
+document.getElementById(id);
+
+element.classList.toggle(
+"active",
+!!value
+);
+
+}
+
 
 /* =========================================================
-   PARENTAL CONTROLS
+   ACCOUNT
 ========================================================= */
 
-document.getElementById("saveParentalButton").addEventListener("click",()=>{
+document
+.getElementById("saveAccountButton")
+.addEventListener(
+"click",
+()=>{
 
-settingsData.parentalControls=
-document.getElementById("parentalControlSelect").value==="on";
+const name=
+document
+.getElementById("settingsName")
+.value
+.trim();
 
-settingsData.messageFilter=
-document.getElementById("messageFilterSelect").value==="on";
+if(!name){
+
+showToast(
+"Enter a display name."
+);
+
+return;
+
+}
+
+profileData.name=name;
+
+updateProfileUI();
 
 saveData();
 
 showToast(
-settingsData.parentalControls
-?"Parental controls enabled."
-:"Parental controls disabled."
+"Account updated."
 );
 
-});
+}
+);
+
+
+/* =========================================================
+   PROFILE FILE UPLOAD
+========================================================= */
+
+document
+.getElementById("profileImageFile")
+.addEventListener(
+"change",
+event=>{
+
+const file=
+event.target.files[0];
+
+readImageFile(
+file,
+data=>{
+
+profileData.avatar=data;
+
+updateProfileUI();
+
+saveData();
+
+showToast(
+"Profile picture updated."
+);
+
+}
+);
+
+}
+);
+
 
 /* =========================================================
    APPEARANCE
 ========================================================= */
 
-document.getElementById("appearanceSelect").addEventListener("change",event=>{
+document
+.getElementById("appearanceSelect")
+.addEventListener(
+"change",
+event=>{
 
-settingsData.appearance=event.target.value;
+settingsData.appearance=
+event.target.value;
 
-document.documentElement.style.setProperty(
+applyAppearance();
+
+saveData();
+
+}
+);
+
+function applyAppearance(){
+
+document.documentElement
+.style
+.setProperty(
 "--background",
-event.target.value==="darker"?"#0b0d10":"#111318"
+settingsData.appearance==="darker"
+?"#0b0d10"
+:"#111318"
+);
+
+}
+
+
+/* =========================================================
+   NOTIFICATION TOGGLE
+========================================================= */
+
+document
+.getElementById("notificationToggle")
+.addEventListener(
+"click",
+()=>{
+
+settingsData.notificationEnabled=
+!settingsData.notificationEnabled;
+
+setToggle(
+"notificationToggle",
+settingsData.notificationEnabled
 );
 
 saveData();
-});
+
+}
+);
+
 
 /* =========================================================
-   NOTIFICATIONS
+   PRIVACY TOGGLES
 ========================================================= */
 
-document.getElementById("notificationButton").addEventListener("click",event=>{
+document
+.getElementById("parentalToggle")
+.addEventListener(
+"click",
+()=>{
+
+settingsData.parentalControls=
+!settingsData.parentalControls;
+
+setToggle(
+"parentalToggle",
+settingsData.parentalControls
+);
+
+saveData();
+
+}
+);
+
+
+document
+.getElementById("messageFilterToggle")
+.addEventListener(
+"click",
+()=>{
+
+settingsData.messageFilter=
+!settingsData.messageFilter;
+
+setToggle(
+"messageFilterToggle",
+settingsData.messageFilter
+);
+
+saveData();
+
+}
+);
+
+
+/* =========================================================
+   NOTIFICATIONS PANEL
+========================================================= */
+
+document
+.getElementById("notificationButton")
+.addEventListener(
+"click",
+event=>{
 
 event.stopPropagation();
 
-notificationPanel.classList.toggle("open");
-userPanel.classList.remove("open");
-
-notificationCount=0;
-updateNotificationDot();
-
-});
-
-function updateNotificationDot(){
-notificationDot.classList.toggle("show",notificationCount>0);
-}
-
-document.getElementById("clearNotificationsButton").addEventListener("click",()=>{
-
-document.getElementById("notificationItem").textContent="No new notifications.";
-
-notificationCount=0;
-updateNotificationDot();
-
-showToast("Notifications cleared.");
-
-});
-
-document.getElementById("notificationSelect").addEventListener("change",event=>{
-
-settingsData.notificationEnabled=event.target.value==="on";
-saveData();
-
-showToast(
-settingsData.notificationEnabled
-?"Notifications enabled."
-:"Notifications disabled."
+notificationPanel.classList.toggle(
+"open"
 );
 
-});
+userPanel.classList.remove(
+"open"
+);
 
-/* =========================================================
-   PROFILE EDIT
-========================================================= */
+notificationCount=0;
 
-document.getElementById("editProfileButton").addEventListener("click",()=>{
-userPanel.classList.remove("open");
-openSettings();
-});
+updateNotificationDot();
 
-/* =========================================================
-   PLUS
-========================================================= */
+}
+);
 
-document.getElementById("plusButton").addEventListener("click",()=>{
-showToast("Chorda Plus is not available yet.");
-});
+function updateNotificationDot(){
+
+notificationDot.classList.toggle(
+"show",
+notificationCount>0
+);
+
+}
+
+document
+.getElementById("clearNotificationsButton")
+.addEventListener(
+"click",
+()=>{
+
+document
+.getElementById("notificationItem")
+.textContent=
+"No new notifications.";
+
+notificationCount=0;
+
+updateNotificationDot();
+
+showToast(
+"Notifications cleared."
+);
+
+}
+);
+
 
 /* =========================================================
    SERVER CREATION
 ========================================================= */
 
-const serverModal=document.getElementById("serverModal");
+const serverModal=
+document.getElementById("serverModal");
+
+let newServerImageData="";
 
 function openServerModal(){
 
-document.getElementById("newServerName").value="";
-document.getElementById("newServerImage").value="";
+document
+.getElementById("newServerName")
+.value="";
 
-serverModal.classList.add("open");
+newServerImageData="";
 
-setTimeout(()=>document.getElementById("newServerName").focus(),50);
+document
+.getElementById("newServerImageFile")
+.value="";
+
+serverModal.classList.add(
+"open"
+);
+
 }
 
 function closeServerModal(){
-serverModal.classList.remove("open");
+
+serverModal.classList.remove(
+"open"
+);
+
 }
 
-document.getElementById("closeServerButton").addEventListener("click",closeServerModal);
+document
+.getElementById("closeServerButton")
+.addEventListener(
+"click",
+closeServerModal
+);
 
-serverModal.addEventListener("click",event=>{
-if(event.target===serverModal)closeServerModal();
-});
+document
+.getElementById("newServerImageFile")
+.addEventListener(
+"change",
+event=>{
 
-document.getElementById("createServerButton").addEventListener("click",()=>{
+readImageFile(
+event.target.files[0],
+data=>{
 
-const name=document.getElementById("newServerName").value.trim();
-const image=document.getElementById("newServerImage").value.trim();
+newServerImageData=data;
+
+showToast(
+"Server image selected."
+);
+
+}
+);
+
+}
+);
+
+document
+.getElementById("createServerButton")
+.addEventListener(
+"click",
+()=>{
+
+const name=
+document
+.getElementById("newServerName")
+.value
+.trim();
 
 if(!name){
-showToast("Enter a server name.");
+
+showToast(
+"Enter a server name."
+);
+
 return;
+
 }
 
-const id=makeUniqueId(serverData,name);
+const id=
+makeUniqueId(
+serverData,
+name
+);
 
 serverData[id]={
 name,
-image:image||"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' rx='20' fill='%235865f2'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='55' font-family='Arial' fill='white'%3E"+encodeURIComponent(name.substring(0,1).toUpperCase())+"%3C/text%3E%3C/svg%3E",
+image:
+newServerImageData||
+defaultServerImage,
 channels:{
 general:{
 name:"general",
@@ -1435,89 +5268,285 @@ selectedChannel[id]="general";
 saveData();
 
 closeServerModal();
+
 renderServers();
+
 loadServer(id);
 
-showToast("Server created.");
+showToast(
+"Server created."
+);
 
-});
+}
+);
+
+
+/* =========================================================
+   SERVER SETTINGS
+========================================================= */
+
+let serverImageData="";
+
+function updateServerSettingsUI(){
+
+const server=
+serverData[currentServer];
+
+if(!server)return;
+
+document
+.getElementById("serverNameInput")
+.value=
+server.name;
+
+document
+.getElementById("channelSettingsServer")
+.textContent=
+server.name;
+
+serverImageData="";
+
+}
+
+document
+.getElementById("serverImageFile")
+.addEventListener(
+"change",
+event=>{
+
+readImageFile(
+event.target.files[0],
+data=>{
+
+serverImageData=data;
+
+showToast(
+"Server image selected."
+);
+
+}
+);
+
+}
+);
+
+document
+.getElementById("saveServerButton")
+.addEventListener(
+"click",
+()=>{
+
+const server=
+serverData[currentServer];
+
+const name=
+document
+.getElementById("serverNameInput")
+.value
+.trim();
+
+if(!name){
+
+showToast(
+"Server name cannot be empty."
+);
+
+return;
+
+}
+
+server.name=name;
+
+if(serverImageData){
+
+server.image=
+serverImageData;
+
+}
+
+workspaceName.textContent=
+server.name;
+
+workspaceImage.src=
+server.image;
+
+renderServers();
+
+updateServerSettingsUI();
+
+saveData();
+
+showToast(
+"Server updated."
+);
+
+}
+);
+
 
 /* =========================================================
    CHANNEL CREATION
 ========================================================= */
 
-const channelModal=document.getElementById("channelModal");
+const channelModal=
+document.getElementById("channelModal");
 
 function openChannelModal(type){
 
-document.getElementById("newChannelName").value="";
-document.getElementById("newChannelTopic").value="";
-document.getElementById("newChannelType").value=type||"text";
+document
+.getElementById("newChannelName")
+.value="";
 
-channelModal.classList.add("open");
+document
+.getElementById("newChannelTopic")
+.value="";
 
-setTimeout(()=>document.getElementById("newChannelName").focus(),50);
+document
+.getElementById("newChannelType")
+.value=
+type||"text";
+
+channelModal.classList.add(
+"open"
+);
+
 }
 
 function closeChannelModal(){
-channelModal.classList.remove("open");
+
+channelModal.classList.remove(
+"open"
+);
+
 }
 
-document.getElementById("closeChannelButton").addEventListener("click",closeChannelModal);
+document
+.getElementById("closeChannelButton")
+.addEventListener(
+"click",
+closeChannelModal
+);
 
-channelModal.addEventListener("click",event=>{
-if(event.target===channelModal)closeChannelModal();
-});
+document
+.getElementById("settingsCreateChannelButton")
+.addEventListener(
+"click",
+()=>{
 
-document.getElementById("createChannelButton").addEventListener("click",()=>{
+closeSettings();
 
-const name=document.getElementById("newChannelName").value.trim();
-const topic=document.getElementById("newChannelTopic").value.trim();
-const type=document.getElementById("newChannelType").value;
+openChannelModal("text");
+
+}
+);
+
+document
+.getElementById("createChannelButton")
+.addEventListener(
+"click",
+()=>{
+
+const name=
+document
+.getElementById("newChannelName")
+.value
+.trim();
+
+const topic=
+document
+.getElementById("newChannelTopic")
+.value
+.trim();
+
+const type=
+document
+.getElementById("newChannelType")
+.value;
 
 if(!name){
-showToast("Enter a channel name.");
+
+showToast(
+"Enter a channel name."
+);
+
 return;
+
 }
 
-const server=serverData[currentServer];
+const server=
+serverData[currentServer];
 
 if(type==="text"){
 
-const id=makeUniqueId(server.channels,name);
+const id=
+makeUniqueId(
+server.channels,
+name
+);
 
 server.channels[id]={
-name:name.replace(/\s+/g,"-").toLowerCase(),
-topic:topic||"A new Chorda channel.",
+name:
+name
+.replace(/\s+/g,"-")
+.toLowerCase(),
+
+topic:
+topic||
+"A new Chorda channel.",
+
 default:false
 };
 
-if(!messagesData[currentServer])
+if(!messagesData[currentServer]){
+
 messagesData[currentServer]={};
 
-messagesData[currentServer][id]=[];
+}
 
-selectedChannel[currentServer]=id;
+messagesData[
+currentServer
+][id]=[];
+
+selectedChannel[
+currentServer
+]=id;
 
 closeChannelModal();
+
 saveData();
+
 renderChannels();
+
 loadChannel(id);
 
-showToast("Text channel created.");
+showToast(
+"Text channel created."
+);
 
 }else{
 
-if(!server.voiceChannels)
+if(!server.voiceChannels){
+
 server.voiceChannels=[];
 
-const duplicate=server.voiceChannels.some(
-channel=>channel.name.toLowerCase()===name.toLowerCase()
+}
+
+const duplicate=
+server.voiceChannels.some(
+channel=>
+channel.name
+.toLowerCase()===
+name.toLowerCase()
 );
 
 if(duplicate){
-showToast("A voice channel with that name already exists.");
+
+showToast(
+"A voice channel with that name already exists."
+);
+
 return;
+
 }
 
 server.voiceChannels.push({
@@ -1527,13 +5556,411 @@ default:false
 });
 
 closeChannelModal();
+
 saveData();
+
 renderChannels();
 
-showToast("Voice channel created.");
+showToast(
+"Voice channel created."
+);
+
 }
 
+}
+);
+
+
+/* =========================================================
+   ROLES
+========================================================= */
+
+function renderRoles(){
+
+const list=
+document.getElementById("roleList");
+
+list.innerHTML="";
+
+rolesData.forEach(role=>{
+
+const button=
+document.createElement("button");
+
+button.className="role-item";
+
+if(
+role.id===selectedRoleId
+){
+
+button.classList.add(
+"active"
+);
+
+}
+
+const dot=
+document.createElement("span");
+
+dot.className="role-color";
+
+dot.style.background=
+role.color||
+"var(--accent)";
+
+const name=
+document.createElement("span");
+
+name.textContent=
+role.name;
+
+button.appendChild(dot);
+button.appendChild(name);
+
+button.addEventListener(
+"click",
+()=>{
+
+selectedRoleId=role.id;
+
+renderRoles();
+
+renderRoleEditor();
+
+}
+);
+
+list.appendChild(button);
+
 });
+
+renderRoleEditor();
+
+}
+
+
+function renderRoleEditor(){
+
+const role=
+rolesData.find(
+r=>r.id===selectedRoleId
+);
+
+const empty=
+document.getElementById(
+"roleEditorEmpty"
+);
+
+const editor=
+document.getElementById(
+"roleEditor"
+);
+
+if(!role){
+
+empty.style.display="block";
+editor.style.display="none";
+
+return;
+
+}
+
+empty.style.display="none";
+editor.style.display="block";
+
+document
+.getElementById("roleNameInput")
+.value=
+role.name;
+
+const permissionList=
+document.getElementById(
+"permissionList"
+);
+
+permissionList.innerHTML="";
+
+Object.keys(
+permissionDefinitions
+).forEach(
+permissionId=>{
+
+const definition=
+permissionDefinitions[
+permissionId
+];
+
+const row=
+document.createElement("div");
+
+row.className=
+"permission";
+
+const text=
+document.createElement("div");
+
+const title=
+document.createElement("div");
+
+title.className=
+"permission-name";
+
+title.textContent=
+definition.name;
+
+const description=
+document.createElement("div");
+
+description.className=
+"permission-description";
+
+description.textContent=
+definition.description;
+
+text.appendChild(title);
+text.appendChild(description);
+
+const toggle=
+document.createElement("button");
+
+toggle.className="toggle";
+
+toggle.dataset.permission=
+permissionId;
+
+if(
+role.permissions[
+permissionId
+]
+){
+
+toggle.classList.add(
+"active"
+);
+
+}
+
+toggle.addEventListener(
+"click",
+()=>{
+
+role.permissions[
+permissionId
+]=
+!role.permissions[
+permissionId
+];
+
+if(permissionId==="administrator"&&
+role.permissions.administrator
+){
+
+Object.keys(
+permissionDefinitions
+).forEach(
+permission=>
+role.permissions[
+permission
+]=true
+);
+
+}
+
+setToggle(
+"roleToggle_"+permissionId,
+role.permissions[
+permissionId
+]
+);
+
+renderRoleEditor();
+
+}
+);
+
+text.appendChild(description);
+
+row.appendChild(text);
+row.appendChild(toggle);
+
+permissionList.appendChild(row);
+
+}
+);
+
+}
+
+
+document
+.getElementById("addRoleButton")
+.addEventListener(
+"click",
+()=>{
+
+let number=1;
+
+while(
+rolesData.some(
+role=>
+role.name===
+"New Role"+
+(number===1?"":` ${number}`)
+)
+){
+
+number++;
+
+}
+
+const role={
+id:
+"role-"+Date.now(),
+
+name:
+"New Role"+
+(number===1?"":` ${number}`),
+
+color:"#5865f2",
+
+permissions:{
+viewChannels:true,
+sendMessages:true,
+readHistory:true,
+addReactions:true,
+connect:true,
+speak:true,
+mentionEveryone:false,
+manageMessages:false,
+manageChannels:false,
+manageRoles:false,
+kickMembers:false,
+banMembers:false,
+administrator:false
+}
+
+};
+
+rolesData.push(role);
+
+selectedRoleId=role.id;
+
+saveData();
+
+renderRoles();
+
+showToast(
+"Role created."
+);
+
+}
+);
+
+
+document
+.getElementById("saveRoleButton")
+.addEventListener(
+"click",
+()=>{
+
+const role=
+rolesData.find(
+r=>r.id===selectedRoleId
+);
+
+if(!role)return;
+
+const name=
+document
+.getElementById("roleNameInput")
+.value
+.trim();
+
+if(!name){
+
+showToast(
+"Role name cannot be empty."
+);
+
+return;
+
+}
+
+role.name=name;
+
+saveData();
+
+renderRoles();
+
+showToast(
+"Role saved."
+);
+
+}
+);
+
+
+document
+.getElementById("deleteRoleButton")
+.addEventListener(
+"click",
+()=>{
+
+const role=
+rolesData.find(
+r=>r.id===selectedRoleId
+);
+
+if(!role)return;
+
+if(
+role.id==="everyone"
+){
+
+showToast(
+"The @everyone role cannot be deleted."
+);
+
+return;
+
+}
+
+if(
+!confirm(
+"Delete the "+role.name+" role?"
+)
+){
+
+return;
+
+}
+
+const index=
+rolesData.findIndex(
+r=>r.id===selectedRoleId
+);
+
+if(index!==-1){
+
+rolesData.splice(
+index,
+1
+);
+
+}
+
+selectedRoleId="everyone";
+
+saveData();
+
+renderRoles();
+
+showToast(
+"Role deleted."
+);
+
+}
+);
+
 
 /* =========================================================
    VOICE
@@ -1541,21 +5968,33 @@ showToast("Voice channel created.");
 
 function openVoiceChannel(name){
 
-document.getElementById("voiceModalTitle").textContent="🔊 "+name;
+document
+.getElementById("voiceModalTitle")
+.textContent=
+"🔊 "+name;
 
-if(currentVoiceChannel===name){
+if(
+currentVoiceChannel===name
+){
 
 voiceStatusBox.textContent=
-"🟢 You are connected to "+name+".";
+"🟢 You are connected to "+
+name+".";
 
 }else{
 
 voiceStatusBox.textContent=
-"🔊 You are not connected to "+name+".";
+"🔊 You are not connected to "+
+name+".";
+
 }
 
 renderVoiceUsers();
-voiceModal.classList.add("open");
+
+voiceModal.classList.add(
+"open"
+);
+
 }
 
 function renderVoiceUsers(){
@@ -1564,39 +6003,71 @@ voiceUsers.innerHTML="";
 
 if(!currentVoiceChannel)return;
 
-const user=document.createElement("div");
-user.className="voice-user";
+const user=
+document.createElement("div");
 
-const icon=document.createElement("div");
-icon.className="voice-user-icon";
-icon.textContent=profileData.name.substring(0,2).toUpperCase();
+user.className=
+"voice-user";
 
-const name=document.createElement("span");
-name.textContent=profileData.name;
+const icon=
+document.createElement("div");
 
-const status=document.createElement("span");
-status.className="voice-user-speaking";
-status.textContent=voiceMuted?"Muted":"Connected";
+icon.className=
+"voice-user-icon";
+
+icon.textContent=
+profileData.name
+.substring(0,2)
+.toUpperCase();
+
+const name=
+document.createElement("span");
+
+name.textContent=
+profileData.name;
+
+const status=
+document.createElement("span");
+
+status.className=
+"voice-user-speaking";
+
+status.textContent=
+voiceMuted
+?"Muted"
+:"Connected";
 
 user.appendChild(icon);
 user.appendChild(name);
 user.appendChild(status);
 
 voiceUsers.appendChild(user);
+
 }
+
 
 async function joinVoiceChannel(){
 
 if(currentVoiceChannel)return;
 
-if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-showToast("Your browser does not support microphone access.");
+if(
+!navigator.mediaDevices||
+!navigator.mediaDevices.getUserMedia
+){
+
+showToast(
+"Your browser does not support microphone access."
+);
+
 return;
+
 }
 
 try{
 
-voiceStream=await navigator.mediaDevices.getUserMedia({
+voiceStream=
+await navigator.mediaDevices
+.getUserMedia({
 audio:{
 echoCancellation:true,
 noiseSuppression:true,
@@ -1605,32 +6076,52 @@ autoGainControl:true
 video:false
 });
 
-const title=document.getElementById("voiceModalTitle").textContent;
+const title=
+document
+.getElementById(
+"voiceModalTitle"
+)
+.textContent;
 
-currentVoiceChannel=title.replace("🔊 ","").trim();
+currentVoiceChannel=
+title
+.replace("🔊 ","")
+.trim();
+
 voiceMuted=false;
 
 voiceStatusBox.textContent=
-"🟢 Connected to "+currentVoiceChannel+". Microphone is active.";
+"🟢 Connected to "+
+currentVoiceChannel+
+". Microphone is active.";
 
 joinVoiceButton.disabled=true;
+
 muteVoiceButton.disabled=false;
+
 leaveVoiceButton.disabled=false;
 
-muteVoiceButton.textContent="🎤 Mute";
-
 renderVoiceUsers();
+
 renderChannels();
 
-showToast("Joined "+currentVoiceChannel+".");
+showToast(
+"Joined "+
+currentVoiceChannel+"."
+);
 
 }catch(error){
 
 console.error(error);
-showToast("Microphone access was not granted.");
+
+showToast(
+"Microphone access was not granted."
+);
 
 }
+
 }
+
 
 function toggleVoiceMute(){
 
@@ -1638,12 +6129,18 @@ if(!voiceStream)return;
 
 voiceMuted=!voiceMuted;
 
-voiceStream.getAudioTracks().forEach(track=>{
+voiceStream
+.getAudioTracks()
+.forEach(
+track=>{
 track.enabled=!voiceMuted;
-});
+}
+);
 
 muteVoiceButton.textContent=
-voiceMuted?"🔇 Unmute":"🎤 Mute";
+voiceMuted
+?"🔇 Unmute"
+:"🎤 Mute";
 
 voiceStatusBox.textContent=
 voiceMuted
@@ -1651,71 +6148,216 @@ voiceMuted
 :"🟢 Connected — microphone active.";
 
 renderVoiceUsers();
+
 }
+
 
 function leaveVoiceChannel(){
 
 if(voiceStream){
 
-voiceStream.getTracks().forEach(track=>track.stop());
+voiceStream
+.getTracks()
+.forEach(
+track=>track.stop()
+);
 
 }
 
 voiceStream=null;
+
 currentVoiceChannel=null;
+
 voiceMuted=false;
 
-voiceStatusBox.textContent="🔊 You are not connected.";
+voiceStatusBox.textContent=
+"🔊 You are not connected.";
 
 joinVoiceButton.disabled=false;
+
 muteVoiceButton.disabled=true;
+
 leaveVoiceButton.disabled=true;
-muteVoiceButton.textContent="🎤 Mute";
+
+muteVoiceButton.textContent=
+"🎤 Mute";
 
 voiceUsers.innerHTML="";
 
 renderChannels();
 
-showToast("You left the voice channel.");
+showToast(
+"You left the voice channel."
+);
+
 }
 
-joinVoiceButton.addEventListener("click",joinVoiceChannel);
-muteVoiceButton.addEventListener("click",toggleVoiceMute);
-leaveVoiceButton.addEventListener("click",leaveVoiceChannel);
 
-document.getElementById("closeVoiceButton").addEventListener("click",()=>{
-voiceModal.classList.remove("open");
+joinVoiceButton.addEventListener(
+"click",
+joinVoiceChannel
+);
+
+muteVoiceButton.addEventListener(
+"click",
+toggleVoiceMute
+);
+
+leaveVoiceButton.addEventListener(
+"click",
+leaveVoiceChannel
+);
+
+document
+.getElementById("closeVoiceButton")
+.addEventListener(
+"click",
+()=>voiceModal.classList.remove("open")
+);
+
+
+/* =========================================================
+   MICROPHONE TEST
+========================================================= */
+
+document
+.getElementById("testMicrophoneButton")
+.addEventListener(
+"click",
+async()=>{
+
+if(
+!navigator.mediaDevices||
+!navigator.mediaDevices.getUserMedia
+){
+
+showToast(
+"Microphone access is not supported."
+);
+
+return;
+
+}
+
+try{
+
+const stream=
+await navigator.mediaDevices
+.getUserMedia({
+audio:true
 });
 
-voiceModal.addEventListener("click",event=>{
-if(event.target===voiceModal)
-voiceModal.classList.remove("open");
-});
+stream
+.getTracks()
+.forEach(
+track=>track.stop()
+);
+
+showToast(
+"Microphone permission works."
+);
+
+}catch(error){
+
+showToast(
+"Microphone permission was not granted."
+);
+
+}
+
+}
+);
+
+
+/* =========================================================
+   PLUS
+========================================================= */
+
+document
+.getElementById("plusButton")
+.addEventListener(
+"click",
+()=>showToast(
+"Chorda Plus is not available yet."
+)
+);
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document
+.getElementById("resetChordaButton")
+.addEventListener(
+"click",
+()=>{
+
+if(
+!confirm(
+"Reset all locally stored Chorda data?"
+)
+){
+
+return;
+
+}
+
+localStorage.removeItem(
+STORAGE_KEY
+);
+
+localStorage.removeItem(
+"chorda_age_verified"
+);
+
+location.reload();
+
+}
+);
+
 
 /* =========================================================
    KEYBOARD
 ========================================================= */
 
-document.addEventListener("keydown",event=>{
+document.addEventListener(
+"keydown",
+event=>{
 
 if(event.key!=="Escape")return;
 
-closeSettings();
 closeServerModal();
+
 closeChannelModal();
 
-voiceModal.classList.remove("open");
-searchContainer.classList.remove("open");
-notificationPanel.classList.remove("open");
-userPanel.classList.remove("open");
+voiceModal.classList.remove(
+"open"
+);
 
-});
+searchContainer.classList.remove(
+"open"
+);
+
+notificationPanel.classList.remove(
+"open"
+);
+
+userPanel.classList.remove(
+"open"
+);
+
+}
+);
+
 
 /* =========================================================
    START
 ========================================================= */
 
-Object.values(serverData).forEach(server=>{
+Object.values(serverData)
+.forEach(
+server=>{
 
 if(!server.voiceChannels){
 
@@ -1728,16 +6370,30 @@ default:true
 
 }
 
-Object.values(server.channels).forEach(channel=>{
+Object.values(
+server.channels
+)
+.forEach(
+channel=>{
 
-if(channel.default===undefined){
+if(
+channel.default===undefined
+){
 
 const protectedNames=[
-"general","announcements","chat","memes",
-"support","games","clips","homework","resources"
+"general",
+"announcements",
+"chat",
+"memes",
+"support",
+"games",
+"clips",
+"homework",
+"resources"
 ];
 
-channel.default=protectedNames.includes(
+channel.default=
+protectedNames.includes(
 channel.name.toLowerCase()
 );
 
@@ -1745,7 +6401,12 @@ channel.name.toLowerCase()
 
 });
 
-});
+}
+);
+
+applyAppearance();
+
+updateProfileUI();
 
 renderServers();
 
@@ -1755,14 +6416,8 @@ serverData[currentServer]
 :Object.keys(serverData)[0]
 );
 
-document.documentElement.style.setProperty(
-"--background",
-settingsData.appearance==="darker"
-?"#0b0d10"
-:"#111318"
-);
-
 updateNotificationDot();
+
 saveData();
 
 </script>
