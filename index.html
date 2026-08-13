@@ -6,753 +6,788 @@
 <title>Chorda</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+    --background:#111318;
+    --sidebar:#171a21;
+    --sidebar-dark:#0b0d10;
+    --card:#20242d;
+    --card-hover:#292e38;
+    --border:#303540;
+    --text:#fff;
+    --muted:#9ca3af;
+    --accent:#5865f2;
+    --success:#57d68a;
+    --danger:#ed4245;
 }
 
-:root {
-    --background: #111318;
-    --sidebar: #171a21;
-    --sidebar-dark: #0b0d10;
-    --card: #20242d;
-    --card-hover: #292e38;
-    --border: #303540;
-    --text: #ffffff;
-    --muted: #9ca3af;
-    --accent: #5865f2;
-    --success: #57d68a;
-    --danger: #ed4245;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    background:var(--background);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--background);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-}
+body{overflow:hidden}
 
-body {
-    overflow: hidden;
-}
-
-button,
-input {
-    font-family: inherit;
-}
-
-button {
-    cursor: pointer;
-}
+button,input{font-family:inherit}
+button{cursor:pointer}
 
 button:focus-visible,
-input:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+input:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
 }
 
-/* APP */
-
-.app {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    min-height: 0;
+.app{
+    width:100%;
+    height:100vh;
+    display:flex;
 }
 
 /* SERVERS */
 
-.servers {
-    width: 72px;
-    height: 100vh;
-    background: var(--sidebar-dark);
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-    overflow-y: auto;
-    z-index: 30;
+.servers{
+    width:72px;
+    height:100vh;
+    background:var(--sidebar-dark);
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    flex-shrink:0;
+    overflow-y:auto;
+    z-index:30;
 }
 
-.server {
-    width: 48px;
-    height: 48px;
-    min-height: 48px;
-    border: 0;
-    border-radius: 16px;
-    background: #242833;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: .2s;
+.server{
+    width:48px;
+    height:48px;
+    min-height:48px;
+    border:0;
+    border-radius:16px;
+    background:#242833;
+    color:#fff;
+    font-weight:bold;
+    font-size:18px;
+    transition:.2s;
 }
 
 .server:hover,
-.server.active {
-    background: var(--accent);
-    border-radius: 13px;
+.server.active{
+    background:var(--accent);
+    border-radius:13px;
 }
 
-.server.add {
-    color: #6ee7a0;
-    font-size: 24px;
+.server.add{
+    color:#6ee7a0;
+    font-size:24px;
 }
 
 /* CHANNELS */
 
-.channels {
-    width: 250px;
-    height: 100vh;
-    background: var(--sidebar);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    min-height: 0;
-    z-index: 20;
+.channels{
+    width:250px;
+    height:100vh;
+    background:var(--sidebar);
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
+    min-height:0;
+    z-index:20;
 }
 
-.workspace {
-    height: 64px;
-    min-height: 64px;
-    padding: 0 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    font-size: 18px;
-    font-weight: bold;
+.workspace{
+    height:64px;
+    min-height:64px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    font-size:18px;
+    font-weight:bold;
 }
 
-.workspace-actions {
-    display: flex;
-    gap: 5px;
+.workspace-actions{
+    display:flex;
+    gap:5px;
 }
 
-.small-button {
-    border: 0;
-    background: transparent;
-    color: var(--muted);
-    font-size: 17px;
-    padding: 5px;
-    border-radius: 6px;
+.small-button{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-size:17px;
+    padding:5px;
+    border-radius:6px;
 }
 
-.small-button:hover {
-    background: var(--card);
-    color: white;
+.small-button:hover{
+    background:var(--card);
+    color:#fff;
 }
 
-.channel-list {
-    flex: 1;
-    min-height: 0;
-    padding: 14px 10px;
-    overflow-y: auto;
+.channel-list{
+    flex:1;
+    min-height:0;
+    padding:14px 10px;
+    overflow-y:auto;
 }
 
-.category {
-    color: #8f96a3;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 12px 8px 8px;
+.category{
+    color:#8f96a3;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    margin:12px 8px 8px;
 }
 
-.channel {
-    padding: 10px;
-    border-radius: 6px;
-    color: var(--muted);
-    cursor: pointer;
-    margin-bottom: 2px;
+.channel{
+    padding:10px;
+    border-radius:6px;
+    color:var(--muted);
+    cursor:pointer;
+    margin-bottom:2px;
 }
 
 .channel:hover,
-.channel.active {
-    background: var(--card);
-    color: white;
+.channel.active{
+    background:var(--card);
+    color:#fff;
 }
 
 /* PLUS */
 
-.plus {
-    margin: 10px;
-    padding: 14px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #292e4a, #202432);
-    border: 1px solid #3a4168;
-    flex-shrink: 0;
+.plus{
+    margin:10px;
+    padding:14px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#292e4a,#202432);
+    border:1px solid #3a4168;
+    flex-shrink:0;
 }
 
-.plus-title {
-    font-weight: bold;
-    margin-bottom: 5px;
+.plus-title{
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
-.plus-text {
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.4;
-    margin-bottom: 10px;
+.plus-text{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.4;
+    margin-bottom:10px;
 }
 
-.plus-button {
-    width: 100%;
-    border: 0;
-    padding: 8px;
-    border-radius: 7px;
-    background: var(--accent);
-    color: white;
-    font-weight: bold;
+.plus-button{
+    width:100%;
+    border:0;
+    padding:8px;
+    border-radius:7px;
+    background:var(--accent);
+    color:#fff;
+    font-weight:bold;
 }
 
-.plus-button:hover {
-    filter: brightness(1.1);
+.plus-button:hover{
+    filter:brightness(1.1);
 }
 
-/* PROFILE BUTTON */
-
-#profileButton {
-    width: calc(100% - 16px);
-    margin: 8px;
-    flex-shrink: 0;
-    text-align: left;
+#profileButton{
+    width:calc(100% - 16px);
+    margin:8px;
+    flex-shrink:0;
+    text-align:left;
 }
 
 /* CHAT */
 
-.chat {
-    flex: 1;
-    min-width: 0;
-    min-height: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+.chat{
+    flex:1;
+    min-width:0;
+    min-height:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 
-.chat-header {
-    height: 64px;
-    min-height: 64px;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--sidebar);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    position: relative;
+.chat-header{
+    height:64px;
+    min-height:64px;
+    padding:0 15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--sidebar);
+    border-bottom:1px solid var(--border);
+    flex-shrink:0;
+    position:relative;
 }
 
-.channel-icon {
-    color: #8f96a3;
-    font-size: 21px;
+.channel-icon{
+    color:#8f96a3;
+    font-size:21px;
 }
 
-.channel-name {
-    font-weight: bold;
+.channel-name{
+    font-weight:bold;
 }
 
-.channel-topic {
-    color: var(--muted);
-    font-size: 13px;
-    margin-left: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.channel-topic{
+    color:var(--muted);
+    font-size:13px;
+    margin-left:5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.header-actions {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.header-actions{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:5px;
 }
 
-.header-button {
-    width: 38px;
-    height: 38px;
-    border: 0;
-    background: transparent;
-    color: var(--muted);
-    border-radius: 7px;
-    font-size: 18px;
+.header-button{
+    width:38px;
+    height:38px;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    border-radius:7px;
+    font-size:18px;
 }
 
-.header-button:hover {
-    background: var(--card);
-    color: white;
+.header-button:hover{
+    background:var(--card);
+    color:#fff;
 }
 
-.mobile-menu {
-    display: none;
+.mobile-menu{
+    display:none;
 }
 
 /* SEARCH */
 
-.search-container {
-    display: none;
-    position: absolute;
-    top: 58px;
-    right: 15px;
-    width: 280px;
-    padding: 10px;
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    z-index: 100;
-    box-shadow: 0 15px 40px rgba(0,0,0,.45);
+.search-container{
+    display:none;
+    position:absolute;
+    top:58px;
+    right:15px;
+    width:280px;
+    padding:10px;
+    background:#1a1e27;
+    border:1px solid var(--border);
+    border-radius:10px;
+    z-index:100;
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
 }
 
-.search-container.open {
-    display: block;
+.search-container.open{
+    display:block;
 }
 
-.search-container input {
-    width: 100%;
-    border: 0;
-    outline: 0;
-    background: var(--card);
-    color: white;
-    padding: 10px;
-    border-radius: 7px;
+.search-container input{
+    width:100%;
+    border:0;
+    outline:0;
+    background:var(--card);
+    color:#fff;
+    padding:10px;
+    border-radius:7px;
 }
 
 /* MESSAGES */
 
-.messages {
-    flex: 1;
-    min-height: 0;
-    padding: 25px;
-    overflow-y: auto;
+.messages{
+    flex:1;
+    min-height:0;
+    padding:25px;
+    overflow-y:auto;
 }
 
-.welcome {
-    padding: 20px;
-    border-radius: 10px;
-    background: #1d222b;
-    margin-bottom: 25px;
+.welcome{
+    padding:20px;
+    border-radius:10px;
+    background:#1d222b;
+    margin-bottom:25px;
 }
 
-.welcome h2 {
-    margin: 0 0 8px;
+.welcome h2{
+    margin:0 0 8px;
 }
 
-.welcome p {
-    color: var(--muted);
-    margin: 0;
+.welcome p{
+    color:var(--muted);
+    margin:0;
 }
 
-.message {
-    display: flex;
-    gap: 12px;
-    padding: 8px;
-    border-radius: 6px;
-    position: relative;
+.message{
+    display:flex;
+    gap:12px;
+    padding:8px;
+    border-radius:6px;
+    position:relative;
 }
 
-.message:hover {
-    background: rgba(255,255,255,.03);
+.message:hover{
+    background:rgba(255,255,255,.03);
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: bold;
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:bold;
+    flex-shrink:0;
 }
 
-.message-content {
-    min-width: 0;
+.message-content{
+    min-width:0;
 }
 
-.username {
-    font-weight: bold;
+.username{
+    font-weight:bold;
 }
 
-.timestamp {
-    margin-left: 8px;
-    color: #737b89;
-    font-size: 11px;
+.timestamp{
+    margin-left:8px;
+    color:#737b89;
+    font-size:11px;
 }
 
-.message-text {
-    margin-top: 4px;
-    color: #d5d9e0;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
+.message-text{
+    margin-top:4px;
+    color:#d5d9e0;
+    line-height:1.5;
+    overflow-wrap:anywhere;
 }
 
-.reactions {
-    display: flex;
-    gap: 5px;
-    margin-top: 7px;
-    flex-wrap: wrap;
+.reactions{
+    display:flex;
+    gap:5px;
+    margin-top:7px;
+    flex-wrap:wrap;
 }
 
-.reaction {
-    border: 1px solid var(--border);
-    background: #20242d;
-    color: #d5d9e0;
-    padding: 4px 8px;
-    border-radius: 7px;
-    font-size: 12px;
+.reaction{
+    border:1px solid var(--border);
+    background:#20242d;
+    color:#d5d9e0;
+    padding:4px 8px;
+    border-radius:7px;
+    font-size:12px;
 }
 
-.reaction:hover {
-    border-color: var(--accent);
+.reaction:hover{
+    border-color:var(--accent);
 }
 
-.message-actions {
-    display: none;
-    position: absolute;
-    right: 8px;
-    top: -5px;
-    background: #20242d;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    overflow: hidden;
+.message-actions{
+    display:none;
+    position:absolute;
+    right:8px;
+    top:-5px;
+    background:#20242d;
+    border:1px solid var(--border);
+    border-radius:7px;
+    overflow:hidden;
 }
 
-.message:hover .message-actions {
-    display: flex;
+.message:hover .message-actions{
+    display:flex;
 }
 
-.message-action {
-    border: 0;
-    background: transparent;
-    padding: 7px 9px;
-    color: var(--muted);
+.message-action{
+    border:0;
+    background:transparent;
+    padding:7px 9px;
+    color:var(--muted);
 }
 
-.message-action:hover {
-    background: var(--card-hover);
-    color: white;
+.message-action:hover{
+    background:var(--card-hover);
+    color:#fff;
 }
 
-/* INPUT */
+/* MESSAGE INPUT */
 
-.message-area {
-    padding: 12px 20px 18px;
-    flex-shrink: 0;
-    background: var(--background);
+.message-area{
+    padding:12px 20px 18px;
+    flex-shrink:0;
+    background:var(--background);
 }
 
-.message-box {
-    display: flex;
-    align-items: center;
-    background: var(--card);
-    border-radius: 9px;
-    padding: 5px 10px;
+.message-box{
+    display:flex;
+    align-items:center;
+    background:var(--card);
+    border-radius:9px;
+    padding:5px 10px;
 }
 
-.message-box input {
-    flex: 1;
-    min-width: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    color: white;
-    padding: 12px;
+.message-box input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#fff;
+    padding:12px;
 }
 
-.message-box button {
-    border: 0;
-    background: var(--accent);
-    color: white;
-    padding: 9px 14px;
-    border-radius: 7px;
-    font-weight: bold;
+.message-box button{
+    border:0;
+    background:var(--accent);
+    color:#fff;
+    padding:9px 14px;
+    border-radius:7px;
+    font-weight:bold;
 }
 
-.message-box button:hover {
-    filter: brightness(1.1);
+.message-box button:hover{
+    filter:brightness(1.1);
 }
 
 /* MEMBERS */
 
-.members {
-    width: 230px;
-    height: 100vh;
-    background: var(--sidebar);
-    border-left: 1px solid var(--border);
-    padding: 20px 12px;
-    overflow-y: auto;
-    flex-shrink: 0;
+.members{
+    width:230px;
+    height:100vh;
+    background:var(--sidebar);
+    border-left:1px solid var(--border);
+    padding:20px 12px;
+    overflow-y:auto;
+    flex-shrink:0;
 }
 
-.members-title {
-    color: #8f96a3;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 4px 8px 12px;
+.members-title{
+    color:#8f96a3;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    margin:4px 8px 12px;
 }
 
-.member {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px;
-    border-radius: 6px;
+.member{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px;
+    border-radius:6px;
 }
 
-.member:hover {
-    background: var(--card);
+.member:hover{
+    background:var(--card);
 }
 
-.member-name {
-    font-size: 14px;
+.member-name{
+    font-size:14px;
 }
 
-.member-status {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 2px;
+.member-status{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:2px;
 }
 
-.online {
-    width: 8px;
-    height: 8px;
-    background: var(--success);
-    border-radius: 50%;
-    margin-left: auto;
+.online{
+    width:8px;
+    height:8px;
+    background:var(--success);
+    border-radius:50%;
+    margin-left:auto;
 }
 
-/* USER PANEL */
+/* PROFILE */
 
-.user-panel {
-    position: fixed;
-    bottom: 70px;
-    left: 82px;
-    width: 220px;
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    display: none;
-    z-index: 100;
-    box-shadow: 0 15px 40px rgba(0,0,0,.5);
+.user-panel{
+    position:fixed;
+    bottom:70px;
+    left:82px;
+    width:220px;
+    background:#1a1e27;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+    display:none;
+    z-index:100;
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
 }
 
-.user-panel.open {
-    display: block;
+.user-panel.open{
+    display:block;
 }
 
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
 }
 
-.profile-name {
-    font-weight: bold;
+.profile-name{
+    font-weight:bold;
 }
 
-.profile-status {
-    color: var(--success);
-    font-size: 12px;
-    margin-top: 3px;
+.profile-status{
+    color:var(--success);
+    font-size:12px;
+    margin-top:3px;
 }
 
-.profile-option {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: #d5d9e0;
-    text-align: left;
-    padding: 9px;
-    border-radius: 6px;
+.profile-option{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#d5d9e0;
+    text-align:left;
+    padding:9px;
+    border-radius:6px;
 }
 
-.profile-option:hover {
-    background: var(--card);
+.profile-option:hover{
+    background:var(--card);
 }
 
-/* MODAL */
+/* MODALS */
 
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 200;
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:200;
 }
 
-.modal.open {
-    display: flex;
+.modal.open{
+    display:flex;
 }
 
-.modal-box {
-    width: min(520px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px;
+.modal-box{
+    width:min(520px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#1a1e27;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px;
 }
 
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
-.modal-header h2 {
-    margin: 0;
+.modal-header h2{
+    margin:0;
 }
 
-.close-button {
-    border: 0;
-    background: var(--card);
-    color: white;
-    border-radius: 7px;
-    padding: 7px 10px;
+.close-button{
+    border:0;
+    background:var(--card);
+    color:#fff;
+    border-radius:7px;
+    padding:7px 10px;
 }
 
-.settings-row {
-    margin-top: 18px;
-    padding: 14px;
-    background: var(--card);
-    border-radius: 9px;
+.settings-row{
+    margin-top:18px;
+    padding:14px;
+    background:var(--card);
+    border-radius:9px;
 }
 
-.settings-row strong {
-    display: block;
+.settings-row strong{
+    display:block;
 }
 
-.settings-row span {
-    color: var(--muted);
-    font-size: 13px;
+.settings-row span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* SETTINGS BUTTONS */
+
+.setting-button{
+    margin-top:10px;
+    border:0;
+    background:var(--accent);
+    color:#fff;
+    padding:8px 12px;
+    border-radius:7px;
+    font-weight:bold;
+}
+
+.setting-button:hover{
+    filter:brightness(1.1);
+}
+
+/* NOTIFICATION POPUP */
+
+.notification-panel{
+    position:fixed;
+    top:70px;
+    right:90px;
+    width:300px;
+    background:#1a1e27;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    display:none;
+    z-index:150;
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.notification-panel.open{
+    display:block;
+}
+
+.notification-panel h3{
+    margin:0 0 8px;
+}
+
+.notification-panel p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
 }
 
 /* TOAST */
 
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: 25px;
-    transform: translate(-50%, 20px);
-    background: #20242d;
-    border: 1px solid var(--border);
-    color: white;
-    padding: 12px 18px;
-    border-radius: 9px;
-    opacity: 0;
-    pointer-events: none;
-    transition: .2s;
-    z-index: 500;
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(20px);
+    background:#20242d;
+    border:1px solid var(--border);
+    color:#fff;
+    padding:12px 18px;
+    border-radius:9px;
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
+    z-index:500;
 }
 
-.toast.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 
 /* MOBILE */
 
-.mobile-overlay {
-    display: none;
+.mobile-overlay{
+    display:none;
 }
 
-@media(max-width:1050px) {
-    .members {
-        display: none;
-    }
-}
-
-@media(max-width:700px) {
-    .channel-topic {
-        display: none;
+@media(max-width:1050px){
+    .members{
+        display:none;
     }
 }
 
-@media(max-width:650px) {
+@media(max-width:700px){
+    .channel-topic{
+        display:none;
+    }
+}
 
-    .servers {
-        width: 58px;
-        padding: 8px;
+@media(max-width:650px){
+
+    .servers{
+        width:58px;
+        padding:8px;
     }
 
-    .server {
-        width: 42px;
-        height: 42px;
-        min-height: 42px;
+    .server{
+        width:42px;
+        height:42px;
+        min-height:42px;
     }
 
-    .channels {
-        position: fixed;
-        left: 58px;
-        top: 0;
-        bottom: 0;
-        height: 100vh;
-        width: 250px;
-        transform: translateX(-110%);
-        transition: transform .2s ease;
-        box-shadow: 20px 0 50px rgba(0,0,0,.5);
+    .channels{
+        position:fixed;
+        left:58px;
+        top:0;
+        bottom:0;
+        height:100vh;
+        width:250px;
+        transform:translateX(-110%);
+        transition:transform .2s ease;
+        box-shadow:20px 0 50px rgba(0,0,0,.5);
     }
 
-    .channels.open {
-        transform: translateX(0);
+    .channels.open{
+        transform:translateX(0);
     }
 
-    .mobile-menu {
-        display: block;
-        border: 0;
-        background: transparent;
-        color: white;
-        font-size: 22px;
-        padding: 5px;
+    .mobile-menu{
+        display:block;
+        border:0;
+        background:transparent;
+        color:#fff;
+        font-size:22px;
+        padding:5px;
     }
 
-    .mobile-overlay.show {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.55);
-        z-index: 10;
+    .mobile-overlay.show{
+        display:block;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.55);
+        z-index:10;
     }
 
-    .messages {
-        padding: 15px;
+    .messages{
+        padding:15px;
     }
 
-    .message-area {
-        padding: 10px;
+    .message-area{
+        padding:10px;
     }
 
-    .chat-header {
-        padding: 0 10px;
+    .chat-header{
+        padding:0 10px;
     }
 
-    .search-container {
-        right: 8px;
-        width: calc(100vw - 80px);
+    .search-container{
+        right:8px;
+        width:calc(100vw - 80px);
     }
 
-    .message-actions {
-        display: flex;
-        position: static;
-        margin-left: auto;
-        align-self: center;
+    .message-actions{
+        display:flex;
+        position:static;
+        margin-left:auto;
+        align-self:center;
     }
 
-    .user-panel {
-        left: 68px;
-        bottom: 70px;
-        width: calc(100vw - 80px);
+    .user-panel{
+        left:68px;
+        bottom:70px;
+        width:calc(100vw - 80px);
+    }
+
+    .notification-panel{
+        right:10px;
+        width:calc(100vw - 80px);
     }
 }
 </style>
@@ -762,24 +797,16 @@ input:focus-visible {
 
 <div class="app">
 
-    <!-- SERVERS -->
-
     <aside class="servers">
 
-        <button class="server active" data-server="chorda">C</button>
-        <button class="server" data-server="gaming">G</button>
-        <button class="server" data-server="study">S</button>
+        <button class="server active" data-server="chorda" title="Chorda">C</button>
+        <button class="server" data-server="gaming" title="Gaming">G</button>
+        <button class="server" data-server="study" title="Study">S</button>
 
-        <button
-            class="server add"
-            id="addServerButton"
-            title="Create server"
-        >+</button>
+        <button class="server add" id="addServerButton" title="Create a server">+</button>
 
     </aside>
 
-
-    <!-- CHANNEL SIDEBAR -->
 
     <aside class="channels" id="channels">
 
@@ -789,11 +816,7 @@ input:focus-visible {
 
             <div class="workspace-actions">
 
-                <button
-                    class="small-button"
-                    id="settingsButton"
-                    title="Settings"
-                >⚙</button>
+                <button class="small-button" id="settingsButton" title="Settings">⚙</button>
 
             </div>
 
@@ -805,87 +828,51 @@ input:focus-visible {
 
         <div class="plus">
 
-            <div class="plus-title">
-                ✦ Chorda Plus
-            </div>
+            <div class="plus-title">✦ Chorda Plus</div>
 
             <div class="plus-text">
-                Premium features are coming soon.
+                Unlock extra features and customise your Chorda experience.
             </div>
 
-            <button
-                class="plus-button"
-                id="plusButton"
-            >
-                Coming Soon
+            <button class="plus-button" id="plusButton">
+                Explore Plus
             </button>
 
         </div>
 
 
-        <button
-            class="small-button"
-            id="profileButton"
-        >
+        <button class="small-button" id="profileButton">
             👤 You — Online
         </button>
 
     </aside>
 
 
-    <!-- CHAT -->
-
     <main class="chat">
 
         <header class="chat-header">
 
-            <button
-                class="mobile-menu"
-                id="mobileMenu"
-            >☰</button>
+            <button class="mobile-menu" id="mobileMenu" aria-label="Open channels">☰</button>
 
             <span class="channel-icon">#</span>
 
-            <span
-                class="channel-name"
-                id="channelName"
-            >
-                general
-            </span>
+            <span class="channel-name" id="channelName">general</span>
 
-            <span
-                class="channel-topic"
-                id="channelTopic"
-            ></span>
+            <span class="channel-topic" id="channelTopic"></span>
 
 
             <div class="header-actions">
 
-                <button
-                    class="header-button"
-                    id="notificationButton"
-                    title="Notifications"
-                >🔔</button>
+                <button class="header-button" id="notificationButton" title="Notifications">🔔</button>
 
-                <button
-                    class="header-button"
-                    id="searchButton"
-                    title="Search"
-                >🔎</button>
+                <button class="header-button" id="searchButton" title="Search">🔎</button>
 
-                <button
-                    class="header-button"
-                    id="headerSettingsButton"
-                    title="Settings"
-                >⚙</button>
+                <button class="header-button" id="headerSettingsButton" title="Settings">⚙</button>
 
             </div>
 
 
-            <div
-                class="search-container"
-                id="searchContainer"
-            >
+            <div class="search-container" id="searchContainer">
 
                 <input
                     id="searchInput"
@@ -902,9 +889,7 @@ input:focus-visible {
 
             <div class="welcome">
 
-                <h2 id="welcomeTitle">
-                    Welcome to #general 👋
-                </h2>
+                <h2 id="welcomeTitle">Welcome to #general 👋</h2>
 
                 <p id="welcomeText">
                     This is the beginning of this channel.
@@ -928,9 +913,7 @@ input:focus-visible {
                     autocomplete="off"
                 >
 
-                <button id="sendButton">
-                    Send
-                </button>
+                <button id="sendButton">Send</button>
 
             </div>
 
@@ -938,8 +921,6 @@ input:focus-visible {
 
     </main>
 
-
-    <!-- MEMBERS -->
 
     <aside class="members">
 
@@ -988,69 +969,55 @@ input:focus-visible {
 </div>
 
 
-<!-- MOBILE OVERLAY -->
-
-<div
-    class="mobile-overlay"
-    id="mobileOverlay"
-></div>
+<div class="mobile-overlay" id="mobileOverlay"></div>
 
 
 <!-- PROFILE -->
 
-<div
-    class="user-panel"
-    id="userPanel"
->
+<div class="user-panel" id="userPanel">
 
     <div class="profile-header">
 
         <div class="avatar">YO</div>
 
         <div>
-
-            <div class="profile-name">
-                You
-            </div>
-
-            <div class="profile-status">
-                ● Online
-            </div>
-
+            <div class="profile-name">You</div>
+            <div class="profile-status">● Online</div>
         </div>
 
     </div>
 
-    <button
-        class="profile-option"
-        id="editProfileButton"
-    >
+    <button class="profile-option" id="editProfileButton">
         👤 Edit Profile
     </button>
 
-    <button
-        class="profile-option"
-        id="profileSettingsButton"
-    >
+    <button class="profile-option" id="profileSettingsButton">
         ⚙ Settings
     </button>
 
-    <button
-        class="profile-option"
-        id="switchAccountButton"
-    >
+    <button class="profile-option" id="switchAccountButton">
         ⇄ Switch Account
     </button>
 
 </div>
 
 
+<!-- NOTIFICATIONS -->
+
+<div class="notification-panel" id="notificationPanel">
+
+    <h3>Notifications</h3>
+
+    <p id="notificationText">
+        You're all caught up! 🎉
+    </p>
+
+</div>
+
+
 <!-- SETTINGS -->
 
-<div
-    class="modal"
-    id="settingsModal"
->
+<div class="modal" id="settingsModal">
 
     <div class="modal-box">
 
@@ -1058,38 +1025,95 @@ input:focus-visible {
 
             <h2>Chorda Settings</h2>
 
-            <button
-                class="close-button"
-                id="closeSettingsButton"
-            >
+            <button class="close-button" id="closeSettingsButton">
                 ✕
             </button>
 
         </div>
 
+
         <div class="settings-row">
+
             <strong>Account</strong>
-            <span>Account management is coming soon.</span>
+
+            <span>
+                Manage your Chorda profile.
+            </span>
+
+            <br>
+
+            <button class="setting-button" id="settingsAccountButton">
+                Edit Account
+            </button>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Appearance</strong>
-            <span>Dark mode is currently enabled.</span>
+
+            <span>
+                Switch between Chorda themes.
+            </span>
+
+            <br>
+
+            <button class="setting-button" id="themeButton">
+                Change Theme
+            </button>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Notifications</strong>
-            <span>Notification controls are coming soon.</span>
+
+            <span>
+                Control notification behaviour.
+            </span>
+
+            <br>
+
+            <button class="setting-button" id="settingsNotificationsButton">
+                Notification Settings
+            </button>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Privacy</strong>
-            <span>Privacy controls will be added later.</span>
+
+            <span>
+                Control your privacy preferences.
+            </span>
+
+            <br>
+
+            <button class="setting-button" id="privacyButton">
+                Privacy Options
+            </button>
+
         </div>
 
+
         <div class="settings-row">
+
             <strong>Chorda Plus</strong>
-            <span>Premium features are coming soon.</span>
+
+            <span>
+                Explore premium features.
+            </span>
+
+            <br>
+
+            <button class="setting-button" id="settingsPlusButton">
+                Explore Plus
+            </button>
+
         </div>
 
     </div>
@@ -1097,12 +1121,40 @@ input:focus-visible {
 </div>
 
 
-<!-- TOAST -->
+<!-- SIMPLE ACTION MODAL -->
 
-<div
-    class="toast"
-    id="toast"
-></div>
+<div class="modal" id="actionModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="actionTitle">Chorda</h2>
+
+            <button class="close-button" id="closeActionButton">
+                ✕
+            </button>
+
+        </div>
+
+        <div class="settings-row">
+
+            <strong id="actionHeading">
+                Chorda
+            </strong>
+
+            <span id="actionText">
+                Something happened.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
 
 
 <script>
@@ -1113,72 +1165,85 @@ input:focus-visible {
 
 const serverData = {
 
-    chorda: {
-        name: "Chorda",
-        channels: {
-            general: {
-                name: "general",
-                topic: "Welcome to your community."
+    chorda:{
+        name:"Chorda",
+
+        channels:{
+            general:{
+                name:"general",
+                topic:"Welcome to your community."
             },
-            announcements: {
-                name: "announcements",
-                topic: "Important Chorda announcements."
+
+            announcements:{
+                name:"announcements",
+                topic:"Important Chorda announcements."
             },
-            chat: {
-                name: "chat",
-                topic: "Talk with everyone."
+
+            chat:{
+                name:"chat",
+                topic:"Talk with everyone."
             },
-            memes: {
-                name: "memes",
-                topic: "Share your funniest stuff."
+
+            memes:{
+                name:"memes",
+                topic:"Share your funniest stuff."
             },
-            support: {
-                name: "support",
-                topic: "Get help from the community."
+
+            support:{
+                name:"support",
+                topic:"Get help from the community."
             }
         }
     },
 
-    gaming: {
-        name: "Gaming",
-        channels: {
-            general: {
-                name: "general",
-                topic: "Welcome to the Gaming server."
+    gaming:{
+        name:"Gaming",
+
+        channels:{
+            general:{
+                name:"general",
+                topic:"Welcome to the Gaming server."
             },
-            chat: {
-                name: "chat",
-                topic: "Talk about gaming."
+
+            chat:{
+                name:"chat",
+                topic:"Talk about gaming."
             },
-            games: {
-                name: "games",
-                topic: "Discuss your favourite games."
+
+            games:{
+                name:"games",
+                topic:"Discuss your favourite games."
             },
-            clips: {
-                name: "clips",
-                topic: "Share your gaming clips."
+
+            clips:{
+                name:"clips",
+                topic:"Share your gaming clips."
             }
         }
     },
 
-    study: {
-        name: "Study",
-        channels: {
-            general: {
-                name: "general",
-                topic: "Welcome to the Study server."
+    study:{
+        name:"Study",
+
+        channels:{
+            general:{
+                name:"general",
+                topic:"Welcome to the Study server."
             },
-            homework: {
-                name: "homework",
-                topic: "Talk about homework."
+
+            homework:{
+                name:"homework",
+                topic:"Talk about homework."
             },
-            resources: {
-                name: "resources",
-                topic: "Share useful study resources."
+
+            resources:{
+                name:"resources",
+                topic:"Share useful study resources."
             },
-            chat: {
-                name: "chat",
-                topic: "General study discussion."
+
+            chat:{
+                name:"chat",
+                topic:"General study discussion."
             }
         }
     }
@@ -1187,158 +1252,147 @@ const serverData = {
 
 
 const selectedChannel = {
-    chorda: "general",
-    gaming: "general",
-    study: "general"
+    chorda:"general",
+    gaming:"general",
+    study:"general"
 };
 
 
 const messagesData = {
 
-    chorda: {
-
-        general: [
+    chorda:{
+        general:[
             {
-                name: "Alex",
-                avatar: "AX",
-                text: "Welcome to Chorda!",
-                time: "Today at 7:01 PM"
+                name:"Alex",
+                avatar:"AX",
+                text:"Welcome to Chorda!",
+                time:"Today at 7:01 PM"
             },
             {
-                name: "Sky",
-                avatar: "SK",
-                text: "This is the general channel.",
-                time: "Today at 7:04 PM"
+                name:"Sky",
+                avatar:"SK",
+                text:"This is the general channel.",
+                time:"Today at 7:04 PM"
             }
         ],
 
-        announcements: [
+        announcements:[
             {
-                name: "Alex",
-                avatar: "AX",
-                text: "Welcome to the announcements channel.",
-                time: "Today at 6:55 PM"
+                name:"Alex",
+                avatar:"AX",
+                text:"Welcome to the announcements channel.",
+                time:"Today at 6:55 PM"
             }
         ],
 
-        chat: [
+        chat:[
             {
-                name: "Jamie",
-                avatar: "JM",
-                text: "Hey everyone! What's happening?",
-                time: "Today at 6:42 PM"
+                name:"Jamie",
+                avatar:"JM",
+                text:"Hey everyone! What's happening?",
+                time:"Today at 6:42 PM"
             }
         ],
 
-        memes: [
+        memes:[
             {
-                name: "Sky",
-                avatar: "SK",
-                text: "This channel is ready for memes 😂",
-                time: "Today at 6:30 PM"
+                name:"Sky",
+                avatar:"SK",
+                text:"This channel is ready for memes 😂",
+                time:"Today at 6:30 PM"
             }
         ],
 
-        support: [
+        support:[
             {
-                name: "Riley",
-                avatar: "RB",
-                text: "Need help? Ask your question here.",
-                time: "Today at 6:15 PM"
+                name:"Riley",
+                avatar:"RB",
+                text:"Need help? Ask your question here.",
+                time:"Today at 6:15 PM"
             }
         ]
-
     },
 
-    gaming: {
-
-        general: [
+    gaming:{
+        general:[
             {
-                name: "Alex",
-                avatar: "AX",
-                text: "Welcome to Gaming!",
-                time: "Today at 7:10 PM"
+                name:"Alex",
+                avatar:"AX",
+                text:"Welcome to Gaming!",
+                time:"Today at 7:10 PM"
             }
         ],
 
-        chat: [
+        chat:[
             {
-                name: "Jamie",
-                avatar: "JM",
-                text: "What games are everyone playing?",
-                time: "Today at 7:12 PM"
+                name:"Jamie",
+                avatar:"JM",
+                text:"What games are everyone playing?",
+                time:"Today at 7:12 PM"
             }
         ],
 
-        games: [
+        games:[
             {
-                name: "Sky",
-                avatar: "SK",
-                text: "Let's talk about games!",
-                time: "Today at 7:14 PM"
+                name:"Sky",
+                avatar:"SK",
+                text:"Let's talk about games!",
+                time:"Today at 7:14 PM"
             }
         ],
 
-        clips: [
+        clips:[
             {
-                name: "Riley",
-                avatar: "RB",
-                text: "Share your best clips here.",
-                time: "Today at 7:16 PM"
+                name:"Riley",
+                avatar:"RB",
+                text:"Share your best clips here.",
+                time:"Today at 7:16 PM"
             }
         ]
-
     },
 
-    study: {
-
-        general: [
+    study:{
+        general:[
             {
-                name: "Alex",
-                avatar: "AX",
-                text: "Welcome to the Study server!",
-                time: "Today at 7:20 PM"
+                name:"Alex",
+                avatar:"AX",
+                text:"Welcome to the Study server!",
+                time:"Today at 7:20 PM"
             }
         ],
 
-        homework: [
+        homework:[
             {
-                name: "Sky",
-                avatar: "SK",
-                text: "Anyone working on homework?",
-                time: "Today at 7:22 PM"
+                name:"Sky",
+                avatar:"SK",
+                text:"Anyone working on homework?",
+                time:"Today at 7:22 PM"
             }
         ],
 
-        resources: [
+        resources:[
             {
-                name: "Riley",
-                avatar: "RB",
-                text: "This channel is for useful resources.",
-                time: "Today at 7:24 PM"
+                name:"Riley",
+                avatar:"RB",
+                text:"This channel is for useful resources.",
+                time:"Today at 7:24 PM"
             }
         ],
 
-        chat: [
+        chat:[
             {
-                name: "Jamie",
-                avatar: "JM",
-                text: "How is everyone's studying going?",
-                time: "Today at 7:26 PM"
+                name:"Jamie",
+                avatar:"JM",
+                text:"How is everyone's studying going?",
+                time:"Today at 7:26 PM"
             }
         ]
-
     }
 
 };
 
 
-/* =====================================================
-   STATE
-===================================================== */
-
 let currentServer = "chorda";
-let toastTimer = null;
 
 
 /* =====================================================
@@ -1402,6 +1456,21 @@ const userPanel =
 const settingsModal =
     document.getElementById("settingsModal");
 
+const notificationPanel =
+    document.getElementById("notificationPanel");
+
+const actionModal =
+    document.getElementById("actionModal");
+
+const actionTitle =
+    document.getElementById("actionTitle");
+
+const actionHeading =
+    document.getElementById("actionHeading");
+
+const actionText =
+    document.getElementById("actionText");
+
 const toast =
     document.getElementById("toast");
 
@@ -1410,36 +1479,76 @@ const toast =
    TOAST
 ===================================================== */
 
-function showToast(text) {
+let toastTimer;
+
+function showToast(text){
+
+    clearTimeout(toastTimer);
 
     toast.textContent = text;
 
     toast.classList.add("show");
 
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(function() {
+    toastTimer = setTimeout(function(){
 
         toast.classList.remove("show");
 
-    }, 2500);
+    },2200);
 
 }
 
 
 /* =====================================================
-   SERVER
+   ACTION MODAL
 ===================================================== */
 
-function loadServer(serverId) {
+function showAction(title,heading,text){
 
-    if (!serverData[serverId]) {
-        return;
+    actionTitle.textContent = title;
+
+    actionHeading.textContent = heading;
+
+    actionText.textContent = text;
+
+    actionModal.classList.add("open");
+
+}
+
+
+function closeAction(){
+
+    actionModal.classList.remove("open");
+
+}
+
+
+document
+    .getElementById("closeActionButton")
+    .addEventListener("click",closeAction);
+
+
+actionModal.addEventListener("click",function(event){
+
+    if(event.target === actionModal){
+
+        closeAction();
+
     }
+
+});
+
+
+/* =====================================================
+   LOAD SERVER
+===================================================== */
+
+function loadServer(serverId){
+
+    if(!serverData[serverId]) return;
 
     currentServer = serverId;
 
-    serverButtons.forEach(function(button) {
+    serverButtons.forEach(function(button){
 
         button.classList.toggle(
             "active",
@@ -1464,10 +1573,12 @@ function loadServer(serverId) {
    CHANNELS
 ===================================================== */
 
-function renderChannels() {
+function renderChannels(){
 
     const server =
         serverData[currentServer];
+
+    if(!server) return;
 
     channelList.innerHTML = "";
 
@@ -1480,7 +1591,7 @@ function renderChannels() {
     channelList.appendChild(category);
 
 
-    Object.keys(server.channels).forEach(function(channelId) {
+    Object.keys(server.channels).forEach(function(channelId){
 
         const channel =
             server.channels[channelId];
@@ -1490,19 +1601,19 @@ function renderChannels() {
 
         element.className = "channel";
 
+        element.dataset.channel = channelId;
+
         element.textContent =
             "# " + channel.name;
 
-        if (
-            selectedChannel[currentServer] ===
-            channelId
-        ) {
+        if(selectedChannel[currentServer] === channelId){
 
             element.classList.add("active");
 
         }
 
-        element.addEventListener("click", function() {
+
+        element.addEventListener("click",function(){
 
             selectedChannel[currentServer] =
                 channelId;
@@ -1514,6 +1625,7 @@ function renderChannels() {
             closeMobileMenu();
 
         });
+
 
         channelList.appendChild(element);
 
@@ -1529,7 +1641,7 @@ function renderChannels() {
     channelList.appendChild(voiceCategory);
 
 
-    ["Lounge", "Gaming"].forEach(function(name) {
+    ["Lounge","Gaming"].forEach(function(name){
 
         const voice =
             document.createElement("div");
@@ -1539,10 +1651,12 @@ function renderChannels() {
         voice.textContent =
             "🔊 " + name;
 
-        voice.addEventListener("click", function() {
+        voice.addEventListener("click",function(){
 
-            showToast(
-                "Voice channels are coming soon."
+            showAction(
+                "Voice Channel",
+                name,
+                "Voice channels are not connected to a live voice system yet."
             );
 
         });
@@ -1555,20 +1669,20 @@ function renderChannels() {
 
 
 /* =====================================================
-   CHANNEL
+   LOAD CHANNEL
 ===================================================== */
 
-function loadChannel(channelId) {
+function loadChannel(channelId){
 
     const server =
         serverData[currentServer];
 
+    if(!server) return;
+
     const channel =
         server.channels[channelId];
 
-    if (!channel) {
-        return;
-    }
+    if(!channel) return;
 
     selectedChannel[currentServer] =
         channelId;
@@ -1580,28 +1694,26 @@ function loadChannel(channelId) {
         channel.topic;
 
     welcomeTitle.textContent =
-        "Welcome to #" +
-        channel.name +
-        " 👋";
+        "Welcome to #" + channel.name + " 👋";
 
     welcomeText.textContent =
         channel.topic;
 
     input.placeholder =
-        "Message #" +
-        channel.name;
+        "Message #" + channel.name;
 
     messageList.innerHTML = "";
 
-    if (!messagesData[currentServer][channelId]) {
+    if(!messagesData[currentServer]){
+        messagesData[currentServer] = {};
+    }
 
-        messagesData[currentServer][channelId] =
-            [];
-
+    if(!messagesData[currentServer][channelId]){
+        messagesData[currentServer][channelId] = [];
     }
 
     messagesData[currentServer][channelId]
-        .forEach(function(message) {
+        .forEach(function(message){
 
             createMessage(
                 message.name,
@@ -1615,9 +1727,15 @@ function loadChannel(channelId) {
 
     searchInput.value = "";
 
-    filterMessages("");
+    document
+        .querySelectorAll(".message")
+        .forEach(function(message){
 
-    requestAnimationFrame(function() {
+            message.style.display = "flex";
+
+        });
+
+    requestAnimationFrame(function(){
 
         messages.scrollTop =
             messages.scrollHeight;
@@ -1628,7 +1746,7 @@ function loadChannel(channelId) {
 
 
 /* =====================================================
-   MESSAGE
+   CREATE MESSAGE
 ===================================================== */
 
 function createMessage(
@@ -1636,8 +1754,8 @@ function createMessage(
     avatar,
     text,
     time,
-    shouldScroll = true
-) {
+    shouldScroll=true
+){
 
     const message =
         document.createElement("div");
@@ -1655,8 +1773,7 @@ function createMessage(
     const content =
         document.createElement("div");
 
-    content.className =
-        "message-content";
+    content.className = "message-content";
 
 
     const header =
@@ -1694,9 +1811,6 @@ function createMessage(
     reactions.className = "reactions";
 
 
-    let likes = 0;
-
-
     const likeButton =
         document.createElement("button");
 
@@ -1704,7 +1818,10 @@ function createMessage(
     likeButton.textContent = "👍 0";
 
 
-    likeButton.addEventListener("click", function() {
+    let likes = 0;
+
+
+    likeButton.addEventListener("click",function(){
 
         likes++;
 
@@ -1725,24 +1842,16 @@ function createMessage(
     const actions =
         document.createElement("div");
 
-    actions.className =
-        "message-actions";
+    actions.className = "message-actions";
 
 
     const reactButton =
         document.createElement("button");
 
-    reactButton.className =
-        "message-action";
+    reactButton.className = "message-action";
+    reactButton.textContent = "😀";
 
-    reactButton.textContent =
-        "😀";
-
-    reactButton.title =
-        "React";
-
-
-    reactButton.addEventListener("click", function() {
+    reactButton.addEventListener("click",function(){
 
         likes++;
 
@@ -1755,38 +1864,26 @@ function createMessage(
     const copyButton =
         document.createElement("button");
 
-    copyButton.className =
-        "message-action";
-
-    copyButton.textContent =
-        "📋";
-
-    copyButton.title =
-        "Copy";
+    copyButton.className = "message-action";
+    copyButton.textContent = "📋";
+    copyButton.title = "Copy message";
 
 
-    copyButton.addEventListener("click", function() {
+    copyButton.addEventListener("click",function(){
 
-        if (
-            navigator.clipboard &&
-            navigator.clipboard.writeText
-        ) {
+        if(navigator.clipboard){
 
-            navigator.clipboard.writeText(text)
-                .then(function() {
+            navigator.clipboard
+                .writeText(text)
+                .then(function(){
 
-                    showToast("Message copied.");
-
-                })
-                .catch(function() {
-
-                    showToast("Could not copy message.");
+                    showToast("Message copied");
 
                 });
 
-        } else {
+        }else{
 
-            showToast("Copy is not supported here.");
+            showToast("Copy is not available");
 
         }
 
@@ -1805,7 +1902,7 @@ function createMessage(
     messageList.appendChild(message);
 
 
-    if (shouldScroll) {
+    if(shouldScroll){
 
         messages.scrollTop =
             messages.scrollHeight;
@@ -1819,46 +1916,46 @@ function createMessage(
    SEND
 ===================================================== */
 
-function sendMessage() {
+function sendMessage(){
 
     const text =
         input.value.trim();
 
-    if (!text) {
-        return;
-    }
+    if(!text) return;
 
     const channelId =
         selectedChannel[currentServer];
 
 
-    const now =
-        new Date();
+    if(!messagesData[currentServer]){
+        messagesData[currentServer] = {};
+    }
 
+    if(!messagesData[currentServer][channelId]){
+        messagesData[currentServer][channelId] = [];
+    }
+
+
+    const now = new Date();
 
     const time =
-        now.toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit"
+        now.toLocaleTimeString([],{
+            hour:"numeric",
+            minute:"2-digit"
         });
 
 
     const newMessage = {
 
-        name: "You",
-        avatar: "YO",
-        text: text,
-        time: "Today at " + time
+        name:"You",
+
+        avatar:"YO",
+
+        text:text,
+
+        time:"Today at " + time
 
     };
-
-
-    if (!messagesData[currentServer][channelId]) {
-
-        messagesData[currentServer][channelId] =
-            [];
-
-    }
 
 
     messagesData[currentServer][channelId]
@@ -1888,9 +1985,9 @@ sendButton.addEventListener(
 
 input.addEventListener(
     "keydown",
-    function(event) {
+    function(event){
 
-        if (event.key === "Enter") {
+        if(event.key === "Enter"){
 
             event.preventDefault();
 
@@ -1903,16 +2000,14 @@ input.addEventListener(
 
 
 /* =====================================================
-   SERVERS
+   SERVER BUTTONS
 ===================================================== */
 
-serverButtons.forEach(function(button) {
+serverButtons.forEach(function(button){
 
-    button.addEventListener("click", function() {
+    button.addEventListener("click",function(){
 
-        loadServer(
-            button.dataset.server
-        );
+        loadServer(button.dataset.server);
 
     });
 
@@ -1923,17 +2018,19 @@ serverButtons.forEach(function(button) {
    MOBILE
 ===================================================== */
 
-mobileMenu.addEventListener("click", function() {
+mobileMenu.addEventListener("click",function(){
 
     channelsPanel.classList.add("open");
+
     mobileOverlay.classList.add("show");
 
 });
 
 
-function closeMobileMenu() {
+function closeMobileMenu(){
 
     channelsPanel.classList.remove("open");
+
     mobileOverlay.classList.remove("show");
 
 }
@@ -1949,86 +2046,93 @@ mobileOverlay.addEventListener(
    SEARCH
 ===================================================== */
 
-function toggleSearch() {
+document
+    .getElementById("searchButton")
+    .addEventListener("click",function(){
 
-    searchContainer.classList.toggle("open");
+        searchContainer.classList.toggle("open");
 
-    if (
-        searchContainer.classList.contains("open")
-    ) {
+        if(searchContainer.classList.contains("open")){
 
-        searchInput.focus();
+            searchInput.focus();
 
-    } else {
+        }
 
-        searchInput.value = "";
-
-        filterMessages("");
-
-    }
-
-}
+    });
 
 
-function filterMessages(query) {
+searchInput.addEventListener("input",function(){
 
-    const cleanQuery =
-        query.toLowerCase().trim();
+    const query =
+        searchInput.value.toLowerCase().trim();
 
 
     document
-        .querySelectorAll("#messageList .message")
-        .forEach(function(message) {
+        .querySelectorAll(".message")
+        .forEach(function(message){
 
             const text =
                 message.textContent.toLowerCase();
 
             message.style.display =
-                !cleanQuery ||
-                text.includes(cleanQuery)
+                !query || text.includes(query)
                     ? "flex"
                     : "none";
 
         });
 
-}
+});
 
 
-searchInput.addEventListener(
-    "input",
-    function() {
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
 
-        filterMessages(
-            searchInput.value
-        );
+document
+    .getElementById("notificationButton")
+    .addEventListener("click",function(){
+
+        notificationPanel.classList.toggle("open");
+
+    });
+
+
+document.addEventListener("click",function(event){
+
+    const notificationButton =
+        document.getElementById("notificationButton");
+
+    if(
+        notificationPanel.classList.contains("open") &&
+        !notificationPanel.contains(event.target) &&
+        !notificationButton.contains(event.target)
+    ){
+
+        notificationPanel.classList.remove("open");
 
     }
-);
+
+});
 
 
 /* =====================================================
    PROFILE
 ===================================================== */
 
-profileButton.addEventListener(
-    "click",
-    function(event) {
+profileButton.addEventListener("click",function(){
 
-        event.stopPropagation();
+    userPanel.classList.toggle("open");
 
-        userPanel.classList.toggle("open");
-
-    }
-);
+});
 
 
-document.addEventListener("click", function(event) {
+document.addEventListener("click",function(event){
 
-    if (
+    if(
         userPanel.classList.contains("open") &&
         !userPanel.contains(event.target) &&
-        event.target !== profileButton
-    ) {
+        !profileButton.contains(event.target)
+    ){
 
         userPanel.classList.remove("open");
 
@@ -2041,7 +2145,7 @@ document.addEventListener("click", function(event) {
    SETTINGS
 ===================================================== */
 
-function openSettings() {
+function openSettings(){
 
     userPanel.classList.remove("open");
 
@@ -2050,7 +2154,7 @@ function openSettings() {
 }
 
 
-function closeSettings() {
+function closeSettings(){
 
     settingsModal.classList.remove("open");
 
@@ -2059,154 +2163,194 @@ function closeSettings() {
 
 document
     .getElementById("settingsButton")
-    .addEventListener(
-        "click",
-        openSettings
-    );
+    .addEventListener("click",openSettings);
 
 
 document
     .getElementById("headerSettingsButton")
-    .addEventListener(
-        "click",
-        openSettings
-    );
+    .addEventListener("click",openSettings);
 
 
 document
     .getElementById("profileSettingsButton")
-    .addEventListener(
-        "click",
-        openSettings
-    );
+    .addEventListener("click",openSettings);
 
 
 document
     .getElementById("closeSettingsButton")
-    .addEventListener(
-        "click",
-        closeSettings
-    );
+    .addEventListener("click",closeSettings);
 
 
-settingsModal.addEventListener(
-    "click",
-    function(event) {
+settingsModal.addEventListener("click",function(event){
 
-        if (event.target === settingsModal) {
+    if(event.target === settingsModal){
 
-            closeSettings();
-
-        }
+        closeSettings();
 
     }
-);
+
+});
 
 
 /* =====================================================
-   OTHER BUTTONS
+   SETTINGS ACTIONS
 ===================================================== */
 
 document
-    .getElementById("notificationButton")
-    .addEventListener(
-        "click",
-        function() {
+    .getElementById("settingsAccountButton")
+    .addEventListener("click",function(){
 
-            showToast(
-                "You have no new notifications."
-            );
+        showAction(
+            "Account",
+            "Your Account",
+            "Your account information can be managed here."
+        );
 
-        }
-    );
-
-
-document
-    .getElementById("plusButton")
-    .addEventListener(
-        "click",
-        function() {
-
-            showToast(
-                "Chorda Plus is coming soon!"
-            );
-
-        }
-    );
+    });
 
 
 document
-    .getElementById("addServerButton")
-    .addEventListener(
-        "click",
-        function() {
+    .getElementById("themeButton")
+    .addEventListener("click",function(){
 
-            showToast(
-                "Server creation is coming soon."
-            );
+        document.body.classList.toggle("light-theme");
+
+        if(document.body.classList.contains("light-theme")){
+
+            showToast("Light theme enabled");
+
+        }else{
+
+            showToast("Dark theme enabled");
 
         }
-    );
 
+    });
+
+
+document
+    .getElementById("settingsNotificationsButton")
+    .addEventListener("click",function(){
+
+        closeSettings();
+
+        notificationPanel.classList.add("open");
+
+    });
+
+
+document
+    .getElementById("privacyButton")
+    .addEventListener("click",function(){
+
+        showAction(
+            "Privacy",
+            "Privacy Options",
+            "Your privacy controls will appear here."
+        );
+
+    });
+
+
+document
+    .getElementById("settingsPlusButton")
+    .addEventListener("click",function(){
+
+        closeSettings();
+
+        showAction(
+            "Chorda Plus",
+            "Premium Features",
+            "Chorda Plus features can be added here."
+        );
+
+    });
+
+
+/* =====================================================
+   PROFILE ACTIONS
+===================================================== */
 
 document
     .getElementById("editProfileButton")
-    .addEventListener(
-        "click",
-        function() {
+    .addEventListener("click",function(){
 
-            showToast(
-                "Profile editing is coming soon."
-            );
+        showAction(
+            "Edit Profile",
+            "Your Profile",
+            "Profile editing is ready for us to build next."
+        );
 
-        }
-    );
+    });
 
 
 document
     .getElementById("switchAccountButton")
-    .addEventListener(
-        "click",
-        function() {
+    .addEventListener("click",function(){
 
-            showToast(
-                "Account switching is coming soon."
-            );
+        showAction(
+            "Switch Account",
+            "Accounts",
+            "Account switching can be connected here."
+        );
 
-        }
-    );
+    });
 
+
+/* =====================================================
+   PLUS
+===================================================== */
 
 document
-    .getElementById("searchButton")
-    .addEventListener(
-        "click",
-        toggleSearch
-    );
+    .getElementById("plusButton")
+    .addEventListener("click",function(){
+
+        showAction(
+            "Chorda Plus",
+            "Premium Features",
+            "This is where Chorda Plus features will be displayed."
+        );
+
+    });
+
+
+/* =====================================================
+   CREATE SERVER
+===================================================== */
+
+document
+    .getElementById("addServerButton")
+    .addEventListener("click",function(){
+
+        showAction(
+            "Create Server",
+            "Create a Server",
+            "The server creation screen can be built here next."
+        );
+
+    });
 
 
 /* =====================================================
    ESCAPE KEY
 ===================================================== */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+document.addEventListener("keydown",function(event){
 
-        if (event.key !== "Escape") {
-            return;
-        }
+    if(event.key === "Escape"){
 
         closeSettings();
+        closeAction();
+
+        searchContainer.classList.remove("open");
+        notificationPanel.classList.remove("open");
+        userPanel.classList.remove("open");
 
         closeMobileMenu();
 
-        searchContainer.classList.remove("open");
-
-        userPanel.classList.remove("open");
-
     }
-);
+
+});
 
 
 /* =====================================================
