@@ -39,8 +39,7 @@ body {
 }
 
 button,
-input,
-textarea {
+input {
     font-family: inherit;
 }
 
@@ -49,8 +48,7 @@ button {
 }
 
 button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
+input:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }
@@ -63,7 +61,7 @@ textarea:focus-visible {
     width: 100%;
     height: 100vh;
     display: flex;
-    min-height: 0;
+    overflow: hidden;
 }
 
 /* =========================
@@ -88,50 +86,43 @@ textarea:focus-visible {
     width: 48px;
     height: 48px;
     min-height: 48px;
+    padding: 0;
     border: 0;
     border-radius: 16px;
     background: #242833;
     color: #fff;
     font-weight: bold;
     font-size: 18px;
+    overflow: hidden;
     transition: .2s;
+    position: relative;
 }
 
 .server:hover,
 .server.active {
-    background: var(--accent);
     border-radius: 13px;
+    transform: translateY(-1px);
+}
+
+.server.active {
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+.server img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .server.add {
     color: #6ee7a0;
-    font-size: 24px;
+    font-size: 25px;
+    background: #20242d;
 }
 
-/* =========================
-   AVATARS
-========================= */
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: bold;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.server.add:hover {
+    background: #29302d;
 }
 
 /* =========================
@@ -152,18 +143,34 @@ textarea:focus-visible {
 .workspace {
     height: 64px;
     min-height: 64px;
-    padding: 0 18px;
+    padding: 0 14px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     border-bottom: 1px solid var(--border);
     font-size: 18px;
     font-weight: bold;
 }
 
+.workspace-image {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.workspace-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .workspace-actions {
+    margin-left: auto;
     display: flex;
-    gap: 5px;
+    gap: 4px;
 }
 
 .small-button {
@@ -179,6 +186,10 @@ textarea:focus-visible {
     background: var(--card);
     color: #fff;
 }
+
+/* =========================
+   CHANNEL LIST
+========================= */
 
 .channel-list {
     flex: 1;
@@ -196,12 +207,15 @@ textarea:focus-visible {
 }
 
 .channel {
-    padding: 10px;
+    padding: 9px 10px;
     border-radius: 6px;
     color: var(--muted);
     cursor: pointer;
     margin-bottom: 2px;
-    transition: .15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
 }
 
 .channel:hover,
@@ -210,13 +224,24 @@ textarea:focus-visible {
     color: #fff;
 }
 
-.channel.voice-disabled {
+.channel-icon {
+    width: 20px;
+    text-align: center;
+    color: #8f96a3;
+}
+
+.channel-name-small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.voice-disabled {
     opacity: .55;
 }
 
-.channel.voice-disabled:hover {
+.voice-disabled:hover {
     background: transparent;
-    color: var(--muted);
 }
 
 /* =========================
@@ -259,33 +284,49 @@ textarea:focus-visible {
 }
 
 /* =========================
-   USER BUTTON
+   PROFILE BUTTON
 ========================= */
 
-#profileButton {
+.profile-button {
     width: calc(100% - 16px);
     margin: 8px;
+    padding: 8px;
     flex-shrink: 0;
-    text-align: left;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
     display: flex;
     align-items: center;
     gap: 9px;
-    padding: 8px;
-    border: 0;
-    background: transparent;
-    color: #fff;
-    border-radius: 8px;
+    text-align: left;
 }
 
-#profileButton:hover {
+.profile-button:hover {
     background: var(--card);
 }
 
-.profile-mini-avatar {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    font-size: 10px;
+.profile-picture {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.profile-button-text {
+    min-width: 0;
+}
+
+.profile-button-name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.profile-button-status {
+    color: var(--success);
+    font-size: 11px;
+    margin-top: 2px;
 }
 
 /* =========================
@@ -314,7 +355,7 @@ textarea:focus-visible {
     position: relative;
 }
 
-.channel-icon {
+.channel-header-icon {
     color: #8f96a3;
     font-size: 21px;
 }
@@ -356,6 +397,10 @@ textarea:focus-visible {
 
 .mobile-menu {
     display: none;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 22px;
 }
 
 /* =========================
@@ -388,42 +433,6 @@ textarea:focus-visible {
     color: #fff;
     padding: 10px;
     border-radius: 7px;
-}
-
-/* =========================
-   NOTIFICATIONS
-========================= */
-
-.notification-panel {
-    position: absolute;
-    top: 58px;
-    right: 60px;
-    width: 300px;
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    display: none;
-    z-index: 110;
-    box-shadow: 0 15px 40px rgba(0,0,0,.5);
-}
-
-.notification-panel.open {
-    display: block;
-}
-
-.notification-title {
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.notification-item {
-    background: var(--card);
-    padding: 10px;
-    border-radius: 8px;
-    color: #d5d9e0;
-    font-size: 13px;
-    margin-bottom: 7px;
 }
 
 /* =========================
@@ -463,6 +472,15 @@ textarea:focus-visible {
 
 .message:hover {
     background: rgba(255,255,255,.03);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--accent);
+    flex-shrink: 0;
 }
 
 .message-content {
@@ -603,11 +621,22 @@ textarea:focus-visible {
     gap: 10px;
     padding: 8px;
     border-radius: 6px;
-    cursor: pointer;
 }
 
 .member:hover {
     background: var(--card);
+}
+
+.member-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.member-info {
+    min-width: 0;
 }
 
 .member-name {
@@ -618,6 +647,9 @@ textarea:focus-visible {
     color: var(--muted);
     font-size: 11px;
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .online {
@@ -626,6 +658,7 @@ textarea:focus-visible {
     background: var(--success);
     border-radius: 50%;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 /* =========================
@@ -636,7 +669,7 @@ textarea:focus-visible {
     position: fixed;
     bottom: 70px;
     left: 82px;
-    width: 260px;
+    width: 240px;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -655,6 +688,13 @@ textarea:focus-visible {
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+}
+
+.profile-header img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-name {
@@ -682,79 +722,7 @@ textarea:focus-visible {
 }
 
 /* =========================
-   PROFILE VIEW
-========================= */
-
-.profile-view {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 240;
-}
-
-.profile-view.open {
-    display: flex;
-}
-
-.profile-card {
-    width: min(400px, 100%);
-    background: #1a1e27;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-}
-
-.profile-banner {
-    height: 90px;
-    background: linear-gradient(135deg, #5865f2, #7c3aed);
-}
-
-.profile-main {
-    padding: 0 20px 20px;
-}
-
-.profile-large-avatar {
-    width: 80px;
-    height: 80px;
-    margin-top: -40px;
-    border: 5px solid #1a1e27;
-    font-size: 20px;
-}
-
-.profile-card-name {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.profile-card-status {
-    color: var(--success);
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-.profile-bio {
-    color: var(--muted);
-    margin-top: 15px;
-    line-height: 1.5;
-}
-
-.profile-close {
-    margin-top: 15px;
-    width: 100%;
-    border: 0;
-    background: var(--card);
-    color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-/* =========================
-   MODALS
+   MODAL
 ========================= */
 
 .modal {
@@ -765,7 +733,7 @@ textarea:focus-visible {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    z-index: 200;
+    z-index: 300;
 }
 
 .modal.open {
@@ -773,13 +741,14 @@ textarea:focus-visible {
 }
 
 .modal-box {
-    width: min(520px, 100%);
+    width: min(560px, 100%);
     max-height: 90vh;
     overflow-y: auto;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 22px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.55);
 }
 
 .modal-header {
@@ -800,6 +769,10 @@ textarea:focus-visible {
     padding: 7px 10px;
 }
 
+.close-button:hover {
+    background: var(--card-hover);
+}
+
 .settings-row {
     margin-top: 18px;
     padding: 14px;
@@ -814,98 +787,58 @@ textarea:focus-visible {
 .settings-row span {
     color: var(--muted);
     font-size: 13px;
+    display: block;
+    margin-top: 4px;
 }
 
-.modal-button {
-    margin-top: 12px;
+.settings-button {
+    margin-top: 10px;
     border: 0;
     background: var(--accent);
     color: #fff;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-radius: 7px;
     font-weight: bold;
 }
 
-/* =========================
-   EDIT PROFILE
-========================= */
-
-.profile-input {
-    width: 100%;
-    margin-top: 7px;
-    padding: 11px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: #fff;
-    border-radius: 7px;
-}
-
-.profile-label {
-    display: block;
-    margin-top: 15px;
-    font-size: 13px;
-    color: #d5d9e0;
+.settings-button:hover {
+    filter: brightness(1.1);
 }
 
 /* =========================
-   PLUS MODAL
+   VOICE NOTICE
 ========================= */
 
-.plus-feature {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
-    background: var(--card);
-    border-radius: 8px;
-    margin-top: 9px;
-}
-
-.plus-feature-icon {
-    font-size: 20px;
-}
-
-.plus-feature-text strong {
-    display: block;
-}
-
-.plus-feature-text span {
-    color: var(--muted);
-    font-size: 12px;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-.toast {
+.voice-notice {
     position: fixed;
     left: 50%;
     bottom: 25px;
-    transform: translate(-50%, 20px);
-    background: #20242d;
+    transform: translateX(-50%);
+    background: #1a1e27;
     border: 1px solid var(--border);
-    color: #fff;
+    color: #d5d9e0;
     padding: 11px 16px;
-    border-radius: 8px;
-    opacity: 0;
-    pointer-events: none;
-    transition: .2s;
+    border-radius: 9px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    display: none;
     z-index: 500;
 }
 
-.toast.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
+.voice-notice.show {
+    display: block;
 }
 
 /* =========================
-   MOBILE
+   MOBILE OVERLAY
 ========================= */
 
 .mobile-overlay {
     display: none;
 }
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:1050px) {
 
@@ -954,11 +887,6 @@ textarea:focus-visible {
 
     .mobile-menu {
         display: block;
-        border: 0;
-        background: transparent;
-        color: #fff;
-        font-size: 22px;
-        padding: 5px;
     }
 
     .mobile-overlay.show {
@@ -986,11 +914,6 @@ textarea:focus-visible {
         width: calc(100vw - 80px);
     }
 
-    .notification-panel {
-        right: 8px;
-        width: calc(100vw - 80px);
-    }
-
     .message-actions {
         display: flex;
         position: static;
@@ -1005,6 +928,7 @@ textarea:focus-visible {
     }
 
 }
+
 </style>
 </head>
 
@@ -1012,45 +936,77 @@ textarea:focus-visible {
 
 <div class="app">
 
-    <!-- SERVER BAR -->
+    <!-- =========================
+         SERVER BAR
+    ========================== -->
 
     <aside class="servers">
 
-        <button class="server active" data-server="chorda" title="Chorda">C</button>
-        <button class="server" data-server="gaming" title="Gaming">G</button>
-        <button class="server" data-server="study" title="Study">S</button>
+        <button class="server active"
+                data-server="chorda"
+                title="Chorda">
+            <img src="https://ui-avatars.com/api/?name=Chorda&background=5865f2&color=fff&bold=true" alt="Chorda">
+        </button>
 
-        <button
-            class="server add"
-            onclick="showToast('Server creation is not available yet.')"
-            title="Create a server"
-        >+</button>
+        <button class="server"
+                data-server="gaming"
+                title="Gaming">
+            <img src="https://ui-avatars.com/api/?name=Gaming&background=ed4245&color=fff&bold=true" alt="Gaming">
+        </button>
+
+        <button class="server"
+                data-server="study"
+                title="Study">
+            <img src="https://ui-avatars.com/api/?name=Study&background=57d68a&color=111318&bold=true" alt="Study">
+        </button>
+
+        <button class="server add"
+                id="addServerButton"
+                title="Create a server">
+            +
+        </button>
 
     </aside>
 
 
-    <!-- CHANNEL SIDEBAR -->
+    <!-- =========================
+         CHANNEL SIDEBAR
+    ========================== -->
 
     <aside class="channels" id="channels">
 
         <div class="workspace">
 
-            <span id="workspaceName">Chorda</span>
+            <img
+                id="workspaceImage"
+                class="workspace-image"
+                src="https://ui-avatars.com/api/?name=Chorda&background=5865f2&color=fff&bold=true"
+                alt="Server">
+
+            <span
+                class="workspace-name"
+                id="workspaceName">
+                Chorda
+            </span>
 
             <div class="workspace-actions">
 
                 <button
                     class="small-button"
-                    onclick="openSettings()"
-                    title="Settings"
-                >⚙</button>
+                    id="settingsButton"
+                    title="Settings">
+                    ⚙
+                </button>
 
             </div>
 
         </div>
 
 
-        <div class="channel-list" id="channelList"></div>
+        <div
+            class="channel-list"
+            id="channelList">
+        </div>
 
 
         <div class="plus">
@@ -1060,42 +1016,47 @@ textarea:focus-visible {
             </div>
 
             <div class="plus-text">
-                Unlock future premium features.
+                Premium features are coming soon.
             </div>
 
             <button
                 class="plus-button"
-                onclick="openPlus()"
-            >
-                View Chorda Plus
+                id="plusButton">
+                Coming Soon
             </button>
 
         </div>
 
 
         <button
-            class="small-button"
-            id="profileButton"
-        >
+            class="profile-button"
+            id="profileButton">
 
-            <div class="avatar profile-mini-avatar">
-                <img
-                    id="miniProfileImage"
-                    src="https://i.pravatar.cc/100?img=12"
-                    alt="Profile"
-                >
+            <img
+                class="profile-picture"
+                src="https://ui-avatars.com/api/?name=You&background=5865f2&color=fff&bold=true"
+                alt="Your profile picture">
+
+            <div class="profile-button-text">
+
+                <div class="profile-button-name">
+                    You
+                </div>
+
+                <div class="profile-button-status">
+                    ● Online
+                </div>
+
             </div>
-
-            <span id="profileButtonName">
-                You — Online
-            </span>
 
         </button>
 
     </aside>
 
 
-    <!-- CHAT -->
+    <!-- =========================
+         CHAT
+    ========================== -->
 
     <main class="chat">
 
@@ -1104,77 +1065,60 @@ textarea:focus-visible {
             <button
                 class="mobile-menu"
                 id="mobileMenu"
-                aria-label="Open channels"
-            >☰</button>
+                aria-label="Open channels">
+                ☰
+            </button>
 
-            <span class="channel-icon">#</span>
+            <span class="channel-header-icon">
+                #
+            </span>
 
             <span
                 class="channel-name"
-                id="channelName"
-            >
+                id="channelName">
                 general
             </span>
 
             <span
                 class="channel-topic"
-                id="channelTopic"
-            ></span>
-
+                id="channelTopic">
+            </span>
 
             <div class="header-actions">
 
                 <button
                     class="header-button"
-                    onclick="toggleNotifications()"
-                    title="Notifications"
-                >🔔</button>
+                    id="notificationsButton"
+                    title="Notifications">
+                    🔔
+                </button>
 
                 <button
                     class="header-button"
-                    onclick="toggleSearch()"
-                    title="Search"
-                >🔎</button>
+                    id="searchButton"
+                    title="Search">
+                    🔎
+                </button>
 
                 <button
                     class="header-button"
-                    onclick="openSettings()"
-                    title="Settings"
-                >⚙</button>
+                    id="headerSettingsButton"
+                    title="Settings">
+                    ⚙
+                </button>
 
             </div>
 
 
             <div
                 class="search-container"
-                id="searchContainer"
-            >
+                id="searchContainer">
 
                 <input
                     id="searchInput"
                     type="text"
                     placeholder="Search this channel..."
-                >
-
-            </div>
-
-
-            <div
-                class="notification-panel"
-                id="notificationPanel"
-            >
-
-                <div class="notification-title">
-                    Notifications
-                </div>
-
-                <div class="notification-item">
-                    🔔 You have no new notifications.
-                </div>
-
-                <div class="notification-item">
-                    💬 Chorda notifications are working locally.
-                </div>
+                    autocomplete="off">
 
             </div>
 
@@ -1183,8 +1127,7 @@ textarea:focus-visible {
 
         <div
             class="messages"
-            id="messages"
-        >
+            id="messages">
 
             <div class="welcome">
 
@@ -1211,8 +1154,7 @@ textarea:focus-visible {
                     id="messageInput"
                     type="text"
                     placeholder="Message #general"
-                    autocomplete="off"
-                >
+                    autocomplete="off">
 
                 <button id="sendButton">
                     Send
@@ -1225,7 +1167,9 @@ textarea:focus-visible {
     </main>
 
 
-    <!-- MEMBERS -->
+    <!-- =========================
+         MEMBERS
+    ========================== -->
 
     <aside class="members">
 
@@ -1233,43 +1177,23 @@ textarea:focus-visible {
             Online — 4
         </div>
 
-        <div
-            class="member"
-            data-member="Alex"
-        >
+        <div class="member">
 
-            <div class="avatar">
-                <img
-                    src="https://i.pravatar.cc/100?img=11"
-                    alt="Alex"
-                >
-            </div>
+            <img
+                class="member-avatar"
+                src="https://ui-avatars.com/api/?name=Alex&background=5865f2&color=fff&bold=true"
+                alt="Alex">
 
-            <div>
-                <div class="member-name">Alex</div>
-                <div class="member-status">Building things</div>
-            </div>
+            <div class="member-info">
 
-            <div class="online"></div>
+                <div class="member-name">
+                    Alex
+                </div>
 
-        </div>
+                <div class="member-status">
+                    Building things
+                </div>
 
-
-        <div
-            class="member"
-            data-member="Sky"
-        >
-
-            <div class="avatar">
-                <img
-                    src="https://i.pravatar.cc/100?img=47"
-                    alt="Sky"
-                >
-            </div>
-
-            <div>
-                <div class="member-name">Sky</div>
-                <div class="member-status">Listening</div>
             </div>
 
             <div class="online"></div>
@@ -1277,21 +1201,23 @@ textarea:focus-visible {
         </div>
 
 
-        <div
-            class="member"
-            data-member="Jamie"
-        >
+        <div class="member">
 
-            <div class="avatar">
-                <img
-                    src="https://i.pravatar.cc/100?img=32"
-                    alt="Jamie"
-                >
-            </div>
+            <img
+                class="member-avatar"
+                src="https://ui-avatars.com/api/?name=Sky&background=8b5cf6&color=fff&bold=true"
+                alt="Sky">
 
-            <div>
-                <div class="member-name">Jamie</div>
-                <div class="member-status">Playing</div>
+            <div class="member-info">
+
+                <div class="member-name">
+                    Sky
+                </div>
+
+                <div class="member-status">
+                    Listening
+                </div>
+
             </div>
 
             <div class="online"></div>
@@ -1299,21 +1225,47 @@ textarea:focus-visible {
         </div>
 
 
-        <div
-            class="member"
-            data-member="Riley"
-        >
+        <div class="member">
 
-            <div class="avatar">
-                <img
-                    src="https://i.pravatar.cc/100?img=5"
-                    alt="Riley"
-                >
+            <img
+                class="member-avatar"
+                src="https://ui-avatars.com/api/?name=Jamie&background=ec4899&color=fff&bold=true"
+                alt="Jamie">
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Jamie
+                </div>
+
+                <div class="member-status">
+                    Playing
+                </div>
+
             </div>
 
-            <div>
-                <div class="member-name">Riley</div>
-                <div class="member-status">Online</div>
+            <div class="online"></div>
+
+        </div>
+
+
+        <div class="member">
+
+            <img
+                class="member-avatar"
+                src="https://ui-avatars.com/api/?name=Riley&background=10b981&color=fff&bold=true"
+                alt="Riley">
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Riley
+                </div>
+
+                <div class="member-status">
+                    Online
+                </div>
+
             </div>
 
             <div class="online"></div>
@@ -1325,37 +1277,33 @@ textarea:focus-visible {
 </div>
 
 
-<!-- MOBILE OVERLAY -->
+<!-- =========================
+     MOBILE OVERLAY
+========================== -->
 
 <div
     class="mobile-overlay"
-    id="mobileOverlay"
-></div>
+    id="mobileOverlay">
+</div>
 
 
-<!-- PROFILE PANEL -->
+<!-- =========================
+     PROFILE PANEL
+========================== -->
 
 <div
     class="user-panel"
-    id="userPanel"
->
+    id="userPanel">
 
     <div class="profile-header">
 
-        <div class="avatar">
-            <img
-                id="profilePanelImage"
-                src="https://i.pravatar.cc/100?img=12"
-                alt="You"
-            >
-        </div>
+        <img
+            src="https://ui-avatars.com/api/?name=You&background=5865f2&color=fff&bold=true"
+            alt="Your profile picture">
 
         <div>
 
-            <div
-                class="profile-name"
-                id="profilePanelName"
-            >
+            <div class="profile-name">
                 You
             </div>
 
@@ -1369,203 +1317,44 @@ textarea:focus-visible {
 
     <button
         class="profile-option"
-        onclick="openEditProfile()"
-    >
+        id="editProfileButton">
         👤 Edit Profile
     </button>
 
     <button
         class="profile-option"
-        onclick="openSettings()"
-    >
+        id="profileSettingsButton">
         ⚙ Settings
     </button>
 
     <button
         class="profile-option"
-        onclick="showToast('Account switching is not available yet.')"
-    >
+        id="switchAccountButton">
         ⇄ Switch Account
     </button>
 
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =========================
+     SETTINGS MODAL
+========================== -->
 
 <div
     class="modal"
-    id="settingsModal"
->
+    id="settingsModal">
 
     <div class="modal-box">
 
         <div class="modal-header">
 
-            <h2>Chorda Settings</h2>
+            <h2>
+                Chorda Settings
+            </h2>
 
             <button
                 class="close-button"
-                onclick="closeSettings()"
-            >
-                ✕
-            </button>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Account</strong>
-
-            <span>
-                Your local Chorda account is active.
-            </span>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Appearance</strong>
-
-            <span>
-                Chorda is currently using dark mode.
-            </span>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Notifications</strong>
-
-            <span>
-                Notifications are currently simulated locally.
-            </span>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Privacy</strong>
-
-            <span>
-                Privacy controls will be connected when Chorda gets a backend.
-            </span>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Voice</strong>
-
-            <span>
-                Voice channels are currently UI-only. They cannot connect to a live voice service yet.
-            </span>
-
-        </div>
-
-        <div class="settings-row">
-
-            <strong>Chorda Plus</strong>
-
-            <span>
-                Premium features are being prepared.
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- EDIT PROFILE -->
-
-<div
-    class="modal"
-    id="editProfileModal"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>Edit Profile</h2>
-
-            <button
-                class="close-button"
-                onclick="closeEditProfile()"
-            >
-                ✕
-            </button>
-
-        </div>
-
-
-        <label class="profile-label">
-            Display name
-        </label>
-
-        <input
-            class="profile-input"
-            id="editName"
-            value="You"
-            maxlength="30"
-        >
-
-
-        <label class="profile-label">
-            Profile picture URL
-        </label>
-
-        <input
-            class="profile-input"
-            id="editAvatar"
-            value="https://i.pravatar.cc/100?img=12"
-            placeholder="Paste an image URL"
-        >
-
-
-        <label class="profile-label">
-            About me
-        </label>
-
-        <textarea
-            class="profile-input"
-            id="editBio"
-            rows="4"
-            placeholder="Tell people about yourself..."
-        >Building Chorda.</textarea>
-
-
-        <button
-            class="modal-button"
-            onclick="saveProfile()"
-        >
-            Save Profile
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- PLUS -->
-
-<div
-    class="modal"
-    id="plusModal"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>✦ Chorda Plus</h2>
-
-            <button
-                class="close-button"
-                onclick="closePlus()"
-            >
+                id="closeSettingsButton">
                 ✕
             </button>
 
@@ -1575,63 +1364,108 @@ textarea:focus-visible {
         <div class="settings-row">
 
             <strong>
-                Chorda Plus is coming
+                Account
             </strong>
 
             <span>
-                These features are planned for a future version of Chorda.
+                Your Chorda account settings.
+            </span>
+
+            <button
+                class="settings-button"
+                id="accountButton">
+                Manage Account
+            </button>
+
+        </div>
+
+
+        <div class="settings-row">
+
+            <strong>
+                Appearance
+            </strong>
+
+            <span>
+                Chorda is currently using dark mode.
+            </span>
+
+            <button
+                class="settings-button"
+                id="appearanceButton">
+                Dark Mode
+            </button>
+
+        </div>
+
+
+        <div class="settings-row">
+
+            <strong>
+                Notifications
+            </strong>
+
+            <span>
+                Notification settings will be expanded later.
+            </span>
+
+            <button
+                class="settings-button"
+                id="notificationSettingsButton">
+                Notification Settings
+            </button>
+
+        </div>
+
+
+        <div class="settings-row">
+
+            <strong>
+                Privacy
+            </strong>
+
+            <span>
+                Privacy controls are planned for a future update.
             </span>
 
         </div>
 
 
-        <div class="plus-feature">
+        <div class="settings-row">
 
-            <div class="plus-feature-icon">🎨</div>
+            <strong>
+                Voice
+            </strong>
 
-            <div class="plus-feature-text">
-
-                <strong>Custom profiles</strong>
-
-                <span>
-                    More profile customisation.
-                </span>
-
-            </div>
+            <span>
+                Voice channels are currently displayed but are not connected to live voice yet.
+            </span>
 
         </div>
 
 
-        <div class="plus-feature">
+        <div class="settings-row">
 
-            <div class="plus-feature-icon">🚀</div>
+            <strong>
+                Parental Controls
+            </strong>
 
-            <div class="plus-feature-text">
-
-                <strong>Extra server features</strong>
-
-                <span>
-                    More tools for communities.
-                </span>
-
-            </div>
+            <span>
+                Parental controls will be added later.
+            </span>
 
         </div>
 
 
-        <div class="plus-feature">
+        <div class="settings-row">
 
-            <div class="plus-feature-icon">✨</div>
+            <strong>
+                Chorda Plus
+            </strong>
 
-            <div class="plus-feature-text">
-
-                <strong>Premium customisation</strong>
-
-                <span>
-                    More ways to personalise Chorda.
-                </span>
-
-            </div>
+            <span>
+                Premium features are coming soon.
+            </span>
 
         </div>
 
@@ -1640,65 +1474,15 @@ textarea:focus-visible {
 </div>
 
 
-<!-- MEMBER PROFILE -->
+<!-- =========================
+     VOICE NOTICE
+========================== -->
 
 <div
-    class="profile-view"
-    id="profileView"
->
-
-    <div class="profile-card">
-
-        <div class="profile-banner"></div>
-
-        <div class="profile-main">
-
-            <div
-                class="avatar profile-large-avatar"
-                id="memberProfileAvatar"
-            ></div>
-
-            <div
-                class="profile-card-name"
-                id="memberProfileName"
-            >
-                Alex
-            </div>
-
-            <div
-                class="profile-card-status"
-                id="memberProfileStatus"
-            >
-                ● Online
-            </div>
-
-            <div
-                class="profile-bio"
-                id="memberProfileBio"
-            >
-                Building things.
-            </div>
-
-            <button
-                class="profile-close"
-                onclick="closeMemberProfile()"
-            >
-                Close
-            </button>
-
-        </div>
-
-    </div>
-
+    class="voice-notice"
+    id="voiceNotice">
+    Voice channels aren't connected to live voice yet.
 </div>
-
-
-<!-- TOAST -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
 
 
 <script>
@@ -1710,7 +1494,11 @@ textarea:focus-visible {
 const serverData = {
 
     chorda: {
+
         name: "Chorda",
+
+        image:
+            "https://ui-avatars.com/api/?name=Chorda&background=5865f2&color=fff&bold=true",
 
         channels: {
 
@@ -1740,12 +1528,16 @@ const serverData = {
             }
 
         }
+
     },
 
 
     gaming: {
 
         name: "Gaming",
+
+        image:
+            "https://ui-avatars.com/api/?name=Gaming&background=ed4245&color=fff&bold=true",
 
         channels: {
 
@@ -1777,6 +1569,9 @@ const serverData = {
     study: {
 
         name: "Study",
+
+        image:
+            "https://ui-avatars.com/api/?name=Study&background=57d68a&color=111318&bold=true",
 
         channels: {
 
@@ -1831,14 +1626,16 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "https://i.pravatar.cc/100?img=11",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Alex&background=5865f2&color=fff&bold=true",
                 text: "Welcome to Chorda!",
                 time: "Today at 7:01 PM"
             },
 
             {
                 name: "Sky",
-                avatar: "https://i.pravatar.cc/100?img=47",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Sky&background=8b5cf6&color=fff&bold=true",
                 text: "This is the general channel.",
                 time: "Today at 7:04 PM"
             }
@@ -1847,7 +1644,8 @@ const messagesData = {
         announcements: [
             {
                 name: "Alex",
-                avatar: "https://i.pravatar.cc/100?img=11",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Alex&background=5865f2&color=fff&bold=true",
                 text: "Welcome to the announcements channel.",
                 time: "Today at 6:55 PM"
             }
@@ -1856,7 +1654,8 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "https://i.pravatar.cc/100?img=32",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Jamie&background=ec4899&color=fff&bold=true",
                 text: "Hey everyone! What's happening?",
                 time: "Today at 6:42 PM"
             }
@@ -1865,7 +1664,8 @@ const messagesData = {
         memes: [
             {
                 name: "Sky",
-                avatar: "https://i.pravatar.cc/100?img=47",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Sky&background=8b5cf6&color=fff&bold=true",
                 text: "This channel is ready for memes 😂",
                 time: "Today at 6:30 PM"
             }
@@ -1874,7 +1674,8 @@ const messagesData = {
         support: [
             {
                 name: "Riley",
-                avatar: "https://i.pravatar.cc/100?img=5",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Riley&background=10b981&color=fff&bold=true",
                 text: "Need help? Ask your question here.",
                 time: "Today at 6:15 PM"
             }
@@ -1888,7 +1689,8 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "https://i.pravatar.cc/100?img=11",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Alex&background=5865f2&color=fff&bold=true",
                 text: "Welcome to Gaming!",
                 time: "Today at 7:10 PM"
             }
@@ -1897,7 +1699,8 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "https://i.pravatar.cc/100?img=32",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Jamie&background=ec4899&color=fff&bold=true",
                 text: "What games are everyone playing?",
                 time: "Today at 7:12 PM"
             }
@@ -1906,7 +1709,8 @@ const messagesData = {
         games: [
             {
                 name: "Sky",
-                avatar: "https://i.pravatar.cc/100?img=47",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Sky&background=8b5cf6&color=fff&bold=true",
                 text: "Let's talk about games!",
                 time: "Today at 7:14 PM"
             }
@@ -1915,7 +1719,8 @@ const messagesData = {
         clips: [
             {
                 name: "Riley",
-                avatar: "https://i.pravatar.cc/100?img=5",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Riley&background=10b981&color=fff&bold=true",
                 text: "Share your best clips here.",
                 time: "Today at 7:16 PM"
             }
@@ -1929,7 +1734,8 @@ const messagesData = {
         general: [
             {
                 name: "Alex",
-                avatar: "https://i.pravatar.cc/100?img=11",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Alex&background=5865f2&color=fff&bold=true",
                 text: "Welcome to the Study server!",
                 time: "Today at 7:20 PM"
             }
@@ -1938,7 +1744,8 @@ const messagesData = {
         homework: [
             {
                 name: "Sky",
-                avatar: "https://i.pravatar.cc/100?img=47",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Sky&background=8b5cf6&color=fff&bold=true",
                 text: "Anyone working on homework?",
                 time: "Today at 7:22 PM"
             }
@@ -1947,7 +1754,8 @@ const messagesData = {
         resources: [
             {
                 name: "Riley",
-                avatar: "https://i.pravatar.cc/100?img=5",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Riley&background=10b981&color=fff&bold=true",
                 text: "This channel is for useful resources.",
                 time: "Today at 7:24 PM"
             }
@@ -1956,7 +1764,8 @@ const messagesData = {
         chat: [
             {
                 name: "Jamie",
-                avatar: "https://i.pravatar.cc/100?img=32",
+                avatar:
+                    "https://ui-avatars.com/api/?name=Jamie&background=ec4899&color=fff&bold=true",
                 text: "How is everyone's studying going?",
                 time: "Today at 7:26 PM"
             }
@@ -1968,54 +1777,10 @@ const messagesData = {
 
 
 /* =====================================================
-   MEMBER DATA
-===================================================== */
-
-const memberData = {
-
-    Alex: {
-        avatar: "https://i.pravatar.cc/100?img=11",
-        status: "Building things",
-        bio: "Building things and working on Chorda."
-    },
-
-    Sky: {
-        avatar: "https://i.pravatar.cc/100?img=47",
-        status: "Listening",
-        bio: "Usually listening to music."
-    },
-
-    Jamie: {
-        avatar: "https://i.pravatar.cc/100?img=32",
-        status: "Playing",
-        bio: "Gaming and hanging out."
-    },
-
-    Riley: {
-        avatar: "https://i.pravatar.cc/100?img=5",
-        status: "Online",
-        bio: "Welcome to Chorda!"
-    }
-
-};
-
-
-/* =====================================================
-   CURRENT STATE
+   CURRENT SERVER
 ===================================================== */
 
 let currentServer = "chorda";
-
-
-let profileData = {
-
-    name: "You",
-
-    avatar: "https://i.pravatar.cc/100?img=12",
-
-    bio: "Building Chorda."
-
-};
 
 
 /* =====================================================
@@ -2023,76 +1788,129 @@ let profileData = {
 ===================================================== */
 
 const serverButtons =
-    document.querySelectorAll(".server[data-server]");
+    document.querySelectorAll(
+        ".server[data-server]"
+    );
 
 const channelList =
-    document.getElementById("channelList");
+    document.getElementById(
+        "channelList"
+    );
 
 const workspaceName =
-    document.getElementById("workspaceName");
+    document.getElementById(
+        "workspaceName"
+    );
+
+const workspaceImage =
+    document.getElementById(
+        "workspaceImage"
+    );
 
 const channelName =
-    document.getElementById("channelName");
+    document.getElementById(
+        "channelName"
+    );
 
 const channelTopic =
-    document.getElementById("channelTopic");
+    document.getElementById(
+        "channelTopic"
+    );
 
 const welcomeTitle =
-    document.getElementById("welcomeTitle");
+    document.getElementById(
+        "welcomeTitle"
+    );
 
 const welcomeText =
-    document.getElementById("welcomeText");
+    document.getElementById(
+        "welcomeText"
+    );
 
 const messageList =
-    document.getElementById("messageList");
+    document.getElementById(
+        "messageList"
+    );
 
 const messages =
-    document.getElementById("messages");
+    document.getElementById(
+        "messages"
+    );
 
 const input =
-    document.getElementById("messageInput");
+    document.getElementById(
+        "messageInput"
+    );
 
 const sendButton =
-    document.getElementById("sendButton");
+    document.getElementById(
+        "sendButton"
+    );
 
 const channelsPanel =
-    document.getElementById("channels");
+    document.getElementById(
+        "channels"
+    );
 
 const mobileMenu =
-    document.getElementById("mobileMenu");
+    document.getElementById(
+        "mobileMenu"
+    );
 
 const mobileOverlay =
-    document.getElementById("mobileOverlay");
+    document.getElementById(
+        "mobileOverlay"
+    );
+
+const searchButton =
+    document.getElementById(
+        "searchButton"
+    );
 
 const searchContainer =
-    document.getElementById("searchContainer");
+    document.getElementById(
+        "searchContainer"
+    );
 
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
 
 const profileButton =
-    document.getElementById("profileButton");
+    document.getElementById(
+        "profileButton"
+    );
 
 const userPanel =
-    document.getElementById("userPanel");
+    document.getElementById(
+        "userPanel"
+    );
 
 const settingsModal =
-    document.getElementById("settingsModal");
+    document.getElementById(
+        "settingsModal"
+    );
 
-const editProfileModal =
-    document.getElementById("editProfileModal");
+const settingsButton =
+    document.getElementById(
+        "settingsButton"
+    );
 
-const plusModal =
-    document.getElementById("plusModal");
+const headerSettingsButton =
+    document.getElementById(
+        "headerSettingsButton"
+    );
 
-const notificationPanel =
-    document.getElementById("notificationPanel");
+const closeSettingsButton =
+    document.getElementById(
+        "closeSettingsButton"
+    );
 
-const toast =
-    document.getElementById("toast");
-
-const profileView =
-    document.getElementById("profileView");
+const voiceNotice =
+    document.getElementById(
+        "voiceNotice"
+    );
 
 
 /* =====================================================
@@ -2107,7 +1925,6 @@ function loadServer(serverId) {
 
     currentServer = serverId;
 
-
     serverButtons.forEach(function(button) {
 
         button.classList.toggle(
@@ -2117,16 +1934,20 @@ function loadServer(serverId) {
 
     });
 
+    const server =
+        serverData[serverId];
 
     workspaceName.textContent =
-        serverData[serverId].name;
+        server.name;
 
+    workspaceImage.src =
+        server.image;
 
     renderChannels();
 
-
     loadChannel(
-        selectedChannel[serverId] || "general"
+        selectedChannel[serverId] ||
+        "general"
     );
 
 }
@@ -2145,17 +1966,21 @@ function renderChannels() {
         return;
     }
 
-
     channelList.innerHTML = "";
 
 
     const category =
         document.createElement("div");
 
-    category.className = "category";
-    category.textContent = "Text Channels";
+    category.className =
+        "category";
 
-    channelList.appendChild(category);
+    category.textContent =
+        "Text Channels";
+
+    channelList.appendChild(
+        category
+    );
 
 
     Object.keys(server.channels).forEach(
@@ -2167,20 +1992,43 @@ function renderChannels() {
             const element =
                 document.createElement("div");
 
-            element.className = "channel";
-
-            element.textContent =
-                "# " + channel.name;
-
+            element.className =
+                "channel";
 
             if (
                 selectedChannel[currentServer] ===
                 channelId
             ) {
 
-                element.classList.add("active");
+                element.classList.add(
+                    "active"
+                );
 
             }
+
+
+            const icon =
+                document.createElement("span");
+
+            icon.className =
+                "channel-icon";
+
+            icon.textContent =
+                "#";
+
+
+            const name =
+                document.createElement("span");
+
+            name.className =
+                "channel-name-small";
+
+            name.textContent =
+                channel.name;
+
+
+            element.appendChild(icon);
+            element.appendChild(name);
 
 
             element.addEventListener(
@@ -2200,7 +2048,9 @@ function renderChannels() {
             );
 
 
-            channelList.appendChild(element);
+            channelList.appendChild(
+                element
+            );
 
         }
     );
@@ -2209,10 +2059,15 @@ function renderChannels() {
     const voiceCategory =
         document.createElement("div");
 
-    voiceCategory.className = "category";
-    voiceCategory.textContent = "Voice";
+    voiceCategory.className =
+        "category";
 
-    channelList.appendChild(voiceCategory);
+    voiceCategory.textContent =
+        "Voice Channels";
+
+    channelList.appendChild(
+        voiceCategory
+    );
 
 
     ["Lounge", "Gaming"].forEach(
@@ -2224,27 +2079,43 @@ function renderChannels() {
             voice.className =
                 "channel voice-disabled";
 
-            voice.textContent =
-                "🔊 " + name;
+            const icon =
+                document.createElement("span");
+
+            icon.className =
+                "channel-icon";
+
+            icon.textContent =
+                "🔊";
 
 
-            voice.title =
-                "Voice channels are not connected to a live service yet";
+            const voiceName =
+                document.createElement("span");
+
+            voiceName.className =
+                "channel-name-small";
+
+            voiceName.textContent =
+                name;
+
+
+            voice.appendChild(icon);
+            voice.appendChild(voiceName);
 
 
             voice.addEventListener(
                 "click",
                 function() {
 
-                    showToast(
-                        "Voice channels are not connected yet."
-                    );
+                    showVoiceNotice();
 
                 }
             );
 
 
-            channelList.appendChild(voice);
+            channelList.appendChild(
+                voice
+            );
 
         }
     );
@@ -2265,14 +2136,12 @@ function loadChannel(channelId) {
         return;
     }
 
-
     const channel =
         server.channels[channelId];
 
     if (!channel) {
         return;
     }
-
 
     selectedChannel[currentServer] =
         channelId;
@@ -2284,16 +2153,13 @@ function loadChannel(channelId) {
     channelTopic.textContent =
         channel.topic;
 
-
     welcomeTitle.textContent =
         "Welcome to #" +
         channel.name +
         " 👋";
 
-
     welcomeText.textContent =
         channel.topic;
-
 
     input.placeholder =
         "Message #" +
@@ -2307,9 +2173,13 @@ function loadChannel(channelId) {
         messagesData[currentServer] = {};
     }
 
+    if (
+        !messagesData[currentServer][channelId]
+    ) {
 
-    if (!messagesData[currentServer][channelId]) {
-        messagesData[currentServer][channelId] = [];
+        messagesData[currentServer][channelId] =
+            [];
+
     }
 
 
@@ -2328,15 +2198,6 @@ function loadChannel(channelId) {
 
 
     searchInput.value = "";
-
-
-    document
-        .querySelectorAll(".message")
-        .forEach(function(message) {
-
-            message.style.display = "flex";
-
-        });
 
 
     requestAnimationFrame(function() {
@@ -2364,41 +2225,28 @@ function createMessage(
     const message =
         document.createElement("div");
 
-    message.className = "message";
+    message.className =
+        "message";
 
 
     const avatarElement =
-        document.createElement("div");
-
-    avatarElement.className = "avatar";
-
-
-    const image =
         document.createElement("img");
 
-    image.src = avatar;
-    image.alt = name;
+    avatarElement.className =
+        "avatar";
 
+    avatarElement.src =
+        avatar;
 
-    image.onerror = function() {
-
-        image.style.display = "none";
-
-        avatarElement.textContent =
-            name
-                .slice(0, 2)
-                .toUpperCase();
-
-    };
-
-
-    avatarElement.appendChild(image);
+    avatarElement.alt =
+        name;
 
 
     const content =
         document.createElement("div");
 
-    content.className = "message-content";
+    content.className =
+        "message-content";
 
 
     const header =
@@ -2408,15 +2256,21 @@ function createMessage(
     const username =
         document.createElement("span");
 
-    username.className = "username";
-    username.textContent = name;
+    username.className =
+        "username";
+
+    username.textContent =
+        name;
 
 
     const timestamp =
         document.createElement("span");
 
-    timestamp.className = "timestamp";
-    timestamp.textContent = time;
+    timestamp.className =
+        "timestamp";
+
+    timestamp.textContent =
+        time;
 
 
     header.appendChild(username);
@@ -2426,21 +2280,28 @@ function createMessage(
     const textElement =
         document.createElement("div");
 
-    textElement.className = "message-text";
-    textElement.textContent = text;
+    textElement.className =
+        "message-text";
+
+    textElement.textContent =
+        text;
 
 
     const reactions =
         document.createElement("div");
 
-    reactions.className = "reactions";
+    reactions.className =
+        "reactions";
 
 
     const likeButton =
         document.createElement("button");
 
-    likeButton.className = "reaction";
-    likeButton.textContent = "👍 0";
+    likeButton.className =
+        "reaction";
+
+    likeButton.textContent =
+        "👍 0";
 
 
     let likes = 0;
@@ -2459,7 +2320,9 @@ function createMessage(
     );
 
 
-    reactions.appendChild(likeButton);
+    reactions.appendChild(
+        likeButton
+    );
 
 
     content.appendChild(header);
@@ -2483,6 +2346,9 @@ function createMessage(
     reactButton.textContent =
         "😀";
 
+    reactButton.title =
+        "React";
+
 
     reactButton.addEventListener(
         "click",
@@ -2497,15 +2363,27 @@ function createMessage(
     );
 
 
-    actions.appendChild(reactButton);
+    actions.appendChild(
+        reactButton
+    );
 
 
-    message.appendChild(avatarElement);
-    message.appendChild(content);
-    message.appendChild(actions);
+    message.appendChild(
+        avatarElement
+    );
+
+    message.appendChild(
+        content
+    );
+
+    message.appendChild(
+        actions
+    );
 
 
-    messageList.appendChild(message);
+    messageList.appendChild(
+        message
+    );
 
 
     if (shouldScroll) {
@@ -2540,9 +2418,13 @@ function sendMessage() {
         messagesData[currentServer] = {};
     }
 
+    if (
+        !messagesData[currentServer][channelId]
+    ) {
 
-    if (!messagesData[currentServer][channelId]) {
-        messagesData[currentServer][channelId] = [];
+        messagesData[currentServer][channelId] =
+            [];
+
     }
 
 
@@ -2562,9 +2444,10 @@ function sendMessage() {
 
     const newMessage = {
 
-        name: profileData.name,
+        name: "You",
 
-        avatar: profileData.avatar,
+        avatar:
+            "https://ui-avatars.com/api/?name=You&background=5865f2&color=fff&bold=true",
 
         text: text,
 
@@ -2644,9 +2527,13 @@ mobileMenu.addEventListener(
     "click",
     function() {
 
-        channelsPanel.classList.add("open");
+        channelsPanel.classList.add(
+            "open"
+        );
 
-        mobileOverlay.classList.add("show");
+        mobileOverlay.classList.add(
+            "show"
+        );
 
     }
 );
@@ -2654,9 +2541,13 @@ mobileMenu.addEventListener(
 
 function closeMobileMenu() {
 
-    channelsPanel.classList.remove("open");
+    channelsPanel.classList.remove(
+        "open"
+    );
 
-    mobileOverlay.classList.remove("show");
+    mobileOverlay.classList.remove(
+        "show"
+    );
 
 }
 
@@ -2673,13 +2564,15 @@ mobileOverlay.addEventListener(
 
 function toggleSearch() {
 
-    notificationPanel.classList.remove("open");
-
-    searchContainer.classList.toggle("open");
+    searchContainer.classList.toggle(
+        "open"
+    );
 
 
     if (
-        searchContainer.classList.contains("open")
+        searchContainer.classList.contains(
+            "open"
+        )
     ) {
 
         searchInput.focus();
@@ -2687,6 +2580,12 @@ function toggleSearch() {
     }
 
 }
+
+
+searchButton.addEventListener(
+    "click",
+    toggleSearch
+);
 
 
 searchInput.addEventListener(
@@ -2721,19 +2620,6 @@ searchInput.addEventListener(
 
 
 /* =====================================================
-   NOTIFICATIONS
-===================================================== */
-
-function toggleNotifications() {
-
-    searchContainer.classList.remove("open");
-
-    notificationPanel.classList.toggle("open");
-
-}
-
-
-/* =====================================================
    PROFILE
 ===================================================== */
 
@@ -2743,28 +2629,9 @@ profileButton.addEventListener(
 
         event.stopPropagation();
 
-        notificationPanel.classList.remove("open");
-
-        searchContainer.classList.remove("open");
-
-        userPanel.classList.toggle("open");
-
-    }
-);
-
-
-document.addEventListener(
-    "click",
-    function(event) {
-
-        if (
-            !userPanel.contains(event.target) &&
-            !profileButton.contains(event.target)
-        ) {
-
-            userPanel.classList.remove("open");
-
-        }
+        userPanel.classList.toggle(
+            "open"
+        );
 
     }
 );
@@ -2776,25 +2643,52 @@ document.addEventListener(
 
 function openSettings() {
 
-    userPanel.classList.remove("open");
+    userPanel.classList.remove(
+        "open"
+    );
 
-    settingsModal.classList.add("open");
+    settingsModal.classList.add(
+        "open"
+    );
 
 }
 
 
 function closeSettings() {
 
-    settingsModal.classList.remove("open");
+    settingsModal.classList.remove(
+        "open"
+    );
 
 }
+
+
+settingsButton.addEventListener(
+    "click",
+    openSettings
+);
+
+
+headerSettingsButton.addEventListener(
+    "click",
+    openSettings
+);
+
+
+closeSettingsButton.addEventListener(
+    "click",
+    closeSettings
+);
 
 
 settingsModal.addEventListener(
     "click",
     function(event) {
 
-        if (event.target === settingsModal) {
+        if (
+            event.target ===
+            settingsModal
+        ) {
 
             closeSettings();
 
@@ -2805,278 +2699,166 @@ settingsModal.addEventListener(
 
 
 /* =====================================================
-   EDIT PROFILE
-===================================================== */
-
-function openEditProfile() {
-
-    userPanel.classList.remove("open");
-
-    document.getElementById("editName").value =
-        profileData.name;
-
-    document.getElementById("editAvatar").value =
-        profileData.avatar;
-
-    document.getElementById("editBio").value =
-        profileData.bio;
-
-    editProfileModal.classList.add("open");
-
-}
-
-
-function closeEditProfile() {
-
-    editProfileModal.classList.remove("open");
-
-}
-
-
-function saveProfile() {
-
-    const newName =
-        document
-            .getElementById("editName")
-            .value
-            .trim();
-
-
-    const newAvatar =
-        document
-            .getElementById("editAvatar")
-            .value
-            .trim();
-
-
-    const newBio =
-        document
-            .getElementById("editBio")
-            .value
-            .trim();
-
-
-    if (!newName) {
-
-        showToast(
-            "Please enter a display name."
-        );
-
-        return;
-
-    }
-
-
-    profileData.name =
-        newName;
-
-    profileData.avatar =
-        newAvatar ||
-        "https://i.pravatar.cc/100?img=12";
-
-    profileData.bio =
-        newBio;
-
-
-    document.getElementById(
-        "profilePanelName"
-    ).textContent =
-        profileData.name;
-
-
-    document.getElementById(
-        "profileButtonName"
-    ).textContent =
-        profileData.name +
-        " — Online";
-
-
-    document.getElementById(
-        "miniProfileImage"
-    ).src =
-        profileData.avatar;
-
-
-    document.getElementById(
-        "profilePanelImage"
-    ).src =
-        profileData.avatar;
-
-
-    closeEditProfile();
-
-
-    showToast(
-        "Profile saved."
-    );
-
-}
-
-
-/* =====================================================
-   PLUS
-===================================================== */
-
-function openPlus() {
-
-    plusModal.classList.add("open");
-
-}
-
-
-function closePlus() {
-
-    plusModal.classList.remove("open");
-
-}
-
-
-plusModal.addEventListener(
-    "click",
-    function(event) {
-
-        if (event.target === plusModal) {
-
-            closePlus();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   MEMBER PROFILES
+   PROFILE OPTIONS
 ===================================================== */
 
 document
-    .querySelectorAll(".member")
-    .forEach(function(member) {
+    .getElementById("editProfileButton")
+    .addEventListener(
+        "click",
+        function() {
 
-        member.addEventListener(
-            "click",
-            function() {
-
-                const name =
-                    member.dataset.member;
-
-                openMemberProfile(name);
-
-            }
-        );
-
-    });
-
-
-function openMemberProfile(name) {
-
-    const member =
-        memberData[name];
-
-    if (!member) {
-        return;
-    }
-
-
-    const avatar =
-        document.getElementById(
-            "memberProfileAvatar"
-        );
-
-
-    avatar.innerHTML = "";
-
-
-    const image =
-        document.createElement("img");
-
-    image.src =
-        member.avatar;
-
-    image.alt =
-        name;
-
-
-    avatar.appendChild(image);
-
-
-    document.getElementById(
-        "memberProfileName"
-    ).textContent =
-        name;
-
-
-    document.getElementById(
-        "memberProfileStatus"
-    ).textContent =
-        "● " + member.status;
-
-
-    document.getElementById(
-        "memberProfileBio"
-    ).textContent =
-        member.bio;
-
-
-    profileView.classList.add("open");
-
-}
-
-
-function closeMemberProfile() {
-
-    profileView.classList.remove("open");
-
-}
-
-
-profileView.addEventListener(
-    "click",
-    function(event) {
-
-        if (event.target === profileView) {
-
-            closeMemberProfile();
+            alert(
+                "Profile editing will be added later."
+            );
 
         }
+    );
 
-    }
-);
+
+document
+    .getElementById("profileSettingsButton")
+    .addEventListener(
+        "click",
+        openSettings
+    );
+
+
+document
+    .getElementById("switchAccountButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Account switching will be added later."
+            );
+
+        }
+    );
 
 
 /* =====================================================
-   TOAST
+   OTHER BUTTONS
 ===================================================== */
 
-let toastTimer;
+document
+    .getElementById("plusButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Chorda Plus is coming soon!"
+            );
+
+        }
+    );
 
 
-function showToast(message) {
+document
+    .getElementById("addServerButton")
+    .addEventListener(
+        "click",
+        function() {
 
-    toast.textContent =
-        message;
+            alert(
+                "Server creation will be added later."
+            );
 
-    toast.classList.add("show");
+        }
+    );
 
 
-    clearTimeout(toastTimer);
+document
+    .getElementById("notificationsButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "You have no new notifications."
+            );
+
+        }
+    );
 
 
-    toastTimer =
+document
+    .getElementById("accountButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Account management will be added later."
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("appearanceButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Chorda is currently using dark mode."
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("notificationSettingsButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "More notification controls will be added later."
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   VOICE CHANNEL NOTICE
+===================================================== */
+
+let voiceNoticeTimer = null;
+
+function showVoiceNotice() {
+
+    voiceNotice.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        voiceNoticeTimer
+    );
+
+    voiceNoticeTimer =
         setTimeout(
             function() {
 
-                toast.classList.remove("show");
+                voiceNotice.classList.remove(
+                    "show"
+                );
 
             },
-            2500
+            3000
         );
 
 }
 
 
 /* =====================================================
-   ESCAPE KEY
+   CLOSE PANELS WITH ESCAPE
 ===================================================== */
 
 document.addEventListener(
@@ -3087,29 +2869,48 @@ document.addEventListener(
             return;
         }
 
-
         closeSettings();
 
-        closeEditProfile();
+        userPanel.classList.remove(
+            "open"
+        );
 
-        closePlus();
-
-        closeMemberProfile();
+        searchContainer.classList.remove(
+            "open"
+        );
 
         closeMobileMenu();
-
-        searchContainer.classList.remove("open");
-
-        notificationPanel.classList.remove("open");
-
-        userPanel.classList.remove("open");
 
     }
 );
 
 
 /* =====================================================
-   START
+   CLOSE PROFILE WHEN CLICKING OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            userPanel.classList.contains("open") &&
+            !userPanel.contains(event.target) &&
+            !profileButton.contains(event.target)
+        ) {
+
+            userPanel.classList.remove(
+                "open"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START APP
 ===================================================== */
 
 loadServer("chorda");
