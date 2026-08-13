@@ -20,7 +20,9 @@
     --text: #ffffff;
     --muted: #9ca3af;
     --accent: #5865f2;
+    --accent-hover: #6874f5;
     --success: #57d68a;
+    --danger: #ed5f68;
 }
 
 html,
@@ -50,6 +52,28 @@ button:focus-visible,
 input:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
+}
+
+/* =========================
+   SCROLLBARS
+========================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #303540;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #414754;
 }
 
 /* =========================
@@ -91,18 +115,44 @@ input:focus-visible {
     color: #fff;
     font-weight: bold;
     font-size: 18px;
-    transition: .2s;
+    transition:
+        background .18s ease,
+        border-radius .18s ease,
+        transform .18s ease;
+    position: relative;
 }
 
-.server:hover,
+.server:hover {
+    background: var(--accent);
+    border-radius: 13px;
+    transform: translateY(-1px);
+}
+
 .server.active {
     background: var(--accent);
     border-radius: 13px;
 }
 
+.server.active::before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 4px;
+    height: 30px;
+    transform: translateY(-50%);
+    background: #fff;
+    border-radius: 0 4px 4px 0;
+}
+
 .server.add {
     color: #6ee7a0;
     font-size: 24px;
+}
+
+.server.add:hover {
+    background: #1f3b2c;
+    color: #7df0a9;
 }
 
 /* =========================
@@ -118,23 +168,41 @@ input:focus-visible {
     flex-shrink: 0;
     min-height: 0;
     z-index: 20;
+    border-right: 1px solid rgba(255,255,255,.02);
 }
 
 .workspace {
     height: 64px;
     min-height: 64px;
-    padding: 0 18px;
+    padding: 0 15px 0 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
+}
+
+.workspace-name-wrap {
+    min-width: 0;
+}
+
+.workspace-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.workspace-subtitle {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: normal;
+    margin-top: 2px;
 }
 
 .workspace-actions {
     display: flex;
-    gap: 5px;
+    gap: 3px;
 }
 
 .small-button {
@@ -142,8 +210,9 @@ input:focus-visible {
     background: transparent;
     color: var(--muted);
     font-size: 17px;
-    padding: 5px;
+    padding: 6px;
     border-radius: 6px;
+    transition: .15s ease;
 }
 
 .small-button:hover {
@@ -151,35 +220,65 @@ input:focus-visible {
     color: #fff;
 }
 
-/* THIS IS THE IMPORTANT PART */
+/* =========================
+   CHANNEL LIST
+========================= */
 
 .channel-list {
     flex: 1;
     min-height: 0;
-    padding: 14px 10px;
+    padding: 12px 10px;
     overflow-y: auto;
 }
 
 .category {
     color: #8f96a3;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
-    margin: 12px 8px 8px;
+    letter-spacing: .04em;
+    margin: 12px 8px 7px;
+}
+
+.category:first-child {
+    margin-top: 4px;
 }
 
 .channel {
-    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
     border-radius: 6px;
     color: var(--muted);
     cursor: pointer;
     margin-bottom: 2px;
+    font-size: 14px;
+    transition: background .12s ease, color .12s ease;
 }
 
-.channel:hover,
+.channel:hover {
+    background: rgba(255,255,255,.04);
+    color: #e7e9ed;
+}
+
 .channel.active {
     background: var(--card);
     color: #fff;
+    font-weight: 600;
+}
+
+.channel-icon {
+    width: 18px;
+    color: #737b89;
+}
+
+.channel.active .channel-icon {
+    color: #bfc4ff;
+}
+
+.voice-channel {
+    opacity: .9;
 }
 
 /* =========================
@@ -187,8 +286,8 @@ input:focus-visible {
 ========================= */
 
 .plus {
-    margin: 10px;
-    padding: 14px;
+    margin: 8px 10px;
+    padding: 13px;
     border-radius: 10px;
     background: linear-gradient(135deg, #292e4a, #202432);
     border: 1px solid #3a4168;
@@ -198,13 +297,14 @@ input:focus-visible {
 .plus-title {
     font-weight: bold;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
 .plus-text {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.4;
-    margin-bottom: 10px;
+    margin-bottom: 9px;
 }
 
 .plus-button {
@@ -215,10 +315,12 @@ input:focus-visible {
     background: var(--accent);
     color: #fff;
     font-weight: bold;
+    font-size: 12px;
+    transition: .15s ease;
 }
 
 .plus-button:hover {
-    filter: brightness(1.1);
+    background: var(--accent-hover);
 }
 
 /* =========================
@@ -230,6 +332,39 @@ input:focus-visible {
     margin: 8px;
     flex-shrink: 0;
     text-align: left;
+    padding: 9px 10px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.user-mini-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.user-mini-info {
+    min-width: 0;
+}
+
+.user-mini-name {
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.user-mini-status {
+    color: var(--success);
+    font-size: 10px;
+    margin-top: 2px;
 }
 
 /* =========================
@@ -251,26 +386,29 @@ input:focus-visible {
     padding: 0 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     background: var(--sidebar);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
     position: relative;
 }
 
-.channel-icon {
+.channel-header-icon {
     color: #8f96a3;
     font-size: 21px;
 }
 
 .channel-name {
     font-weight: bold;
+    font-size: 15px;
 }
 
 .channel-topic {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
     margin-left: 5px;
+    padding-left: 10px;
+    border-left: 1px solid var(--border);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -280,17 +418,18 @@ input:focus-visible {
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
 }
 
 .header-button {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border: 0;
     background: transparent;
     color: var(--muted);
     border-radius: 7px;
-    font-size: 18px;
+    font-size: 17px;
+    transition: .15s ease;
 }
 
 .header-button:hover {
@@ -300,6 +439,11 @@ input:focus-visible {
 
 .mobile-menu {
     display: none;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 21px;
+    padding: 5px;
 }
 
 /* =========================
@@ -311,7 +455,7 @@ input:focus-visible {
     position: absolute;
     top: 58px;
     right: 15px;
-    width: 280px;
+    width: 300px;
     padding: 10px;
     background: #1a1e27;
     border: 1px solid var(--border);
@@ -334,6 +478,10 @@ input:focus-visible {
     border-radius: 7px;
 }
 
+.search-container input::placeholder {
+    color: #737b89;
+}
+
 /* =========================
    MESSAGES
 ========================= */
@@ -349,16 +497,31 @@ input:focus-visible {
     padding: 20px;
     border-radius: 10px;
     background: #1d222b;
+    border: 1px solid rgba(255,255,255,.025);
     margin-bottom: 25px;
+}
+
+.welcome-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    margin-bottom: 12px;
 }
 
 .welcome h2 {
     margin: 0 0 8px;
+    font-size: 20px;
 }
 
 .welcome p {
     color: var(--muted);
     margin: 0;
+    font-size: 13px;
 }
 
 .message {
@@ -367,6 +530,7 @@ input:focus-visible {
     padding: 8px;
     border-radius: 6px;
     position: relative;
+    transition: background .12s ease;
 }
 
 .message:hover {
@@ -381,17 +545,25 @@ input:focus-visible {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
     flex-shrink: 0;
 }
 
 .message-content {
     min-width: 0;
+    flex: 1;
+}
+
+.message-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
 }
 
 .username {
     font-weight: bold;
+    font-size: 14px;
 }
 
 .timestamp {
@@ -404,6 +576,7 @@ input:focus-visible {
     margin-top: 4px;
     color: #d5d9e0;
     line-height: 1.5;
+    font-size: 14px;
     overflow-wrap: anywhere;
 }
 
@@ -421,10 +594,12 @@ input:focus-visible {
     padding: 4px 8px;
     border-radius: 7px;
     font-size: 12px;
+    transition: .15s ease;
 }
 
 .reaction:hover {
     border-color: var(--accent);
+    background: #252a35;
 }
 
 .message-actions {
@@ -436,6 +611,7 @@ input:focus-visible {
     border: 1px solid var(--border);
     border-radius: 7px;
     overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
 }
 
 .message:hover .message-actions {
@@ -459,7 +635,7 @@ input:focus-visible {
 ========================= */
 
 .message-area {
-    padding: 12px 20px 18px;
+    padding: 10px 20px 14px;
     flex-shrink: 0;
     background: var(--background);
 }
@@ -467,9 +643,17 @@ input:focus-visible {
 .message-box {
     display: flex;
     align-items: center;
-    background: var(--card);
-    border-radius: 9px;
-    padding: 5px 10px;
+    gap: 8px;
+    background: #242832;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 4px 7px 4px 12px;
+    transition: border-color .15s ease, background .15s ease;
+}
+
+.message-box:focus-within {
+    background: #282d38;
+    border-color: #3a4050;
 }
 
 .message-box input {
@@ -479,20 +663,32 @@ input:focus-visible {
     outline: 0;
     background: transparent;
     color: #fff;
-    padding: 12px;
+    padding: 11px 6px;
+    font-size: 14px;
+}
+
+.message-box input::placeholder {
+    color: #7f8795;
 }
 
 .message-box button {
     border: 0;
     background: var(--accent);
     color: #fff;
-    padding: 9px 14px;
+    padding: 9px 16px;
     border-radius: 7px;
     font-weight: bold;
+    font-size: 13px;
+    transition: .15s ease;
 }
 
 .message-box button:hover {
-    filter: brightness(1.1);
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.message-box button:active {
+    transform: translateY(0);
 }
 
 /* =========================
@@ -511,7 +707,7 @@ input:focus-visible {
 
 .members-title {
     color: #8f96a3;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
     margin: 4px 8px 12px;
@@ -523,20 +719,34 @@ input:focus-visible {
     gap: 10px;
     padding: 8px;
     border-radius: 6px;
+    transition: .12s ease;
 }
 
 .member:hover {
     background: var(--card);
 }
 
+.member .avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 10px;
+}
+
+.member-info {
+    min-width: 0;
+}
+
 .member-name {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .member-status {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .online {
@@ -545,6 +755,7 @@ input:focus-visible {
     background: var(--success);
     border-radius: 50%;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 /* =========================
@@ -555,7 +766,7 @@ input:focus-visible {
     position: fixed;
     bottom: 70px;
     left: 82px;
-    width: 220px;
+    width: 230px;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -574,6 +785,8 @@ input:focus-visible {
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
 }
 
 .profile-name {
@@ -594,6 +807,7 @@ input:focus-visible {
     text-align: left;
     padding: 9px;
     border-radius: 6px;
+    font-size: 13px;
 }
 
 .profile-option:hover {
@@ -620,11 +834,14 @@ input:focus-visible {
 }
 
 .modal-box {
-    width: min(520px, 100%);
+    width: min(540px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 22px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.5);
 }
 
 .modal-header {
@@ -645,20 +862,72 @@ input:focus-visible {
     padding: 7px 10px;
 }
 
+.close-button:hover {
+    background: var(--card-hover);
+}
+
 .settings-row {
-    margin-top: 18px;
+    margin-top: 12px;
     padding: 14px;
     background: var(--card);
     border-radius: 9px;
+    transition: .15s ease;
+}
+
+.settings-row:hover {
+    background: var(--card-hover);
 }
 
 .settings-row strong {
     display: block;
+    font-size: 14px;
 }
 
 .settings-row span {
     color: var(--muted);
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 230px;
+    max-width: 350px;
+    background: #1d222b;
+    border: 1px solid var(--border);
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 9px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    animation: toastIn .2s ease;
     font-size: 13px;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =========================
@@ -690,12 +959,17 @@ input:focus-visible {
     .servers {
         width: 58px;
         padding: 8px;
+        gap: 9px;
     }
 
     .server {
         width: 42px;
         height: 42px;
         min-height: 42px;
+    }
+
+    .server.active::before {
+        left: -8px;
     }
 
     .channels {
@@ -716,11 +990,6 @@ input:focus-visible {
 
     .mobile-menu {
         display: block;
-        border: 0;
-        background: transparent;
-        color: #fff;
-        font-size: 22px;
-        padding: 5px;
     }
 
     .mobile-overlay.show {
@@ -735,8 +1004,17 @@ input:focus-visible {
         padding: 15px;
     }
 
+    .welcome {
+        padding: 16px;
+        margin-bottom: 15px;
+    }
+
+    .welcome h2 {
+        font-size: 17px;
+    }
+
     .message-area {
-        padding: 10px;
+        padding: 8px 10px 10px;
     }
 
     .chat-header {
@@ -761,6 +1039,41 @@ input:focus-visible {
         width: calc(100vw - 80px);
     }
 
+    .message-box button {
+        padding: 9px 12px;
+    }
+
+}
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:400px) {
+
+    .servers {
+        width: 52px;
+        padding: 7px 5px;
+    }
+
+    .server {
+        width: 40px;
+        height: 40px;
+        min-height: 40px;
+    }
+
+    .channels {
+        left: 52px;
+    }
+
+    .message-text {
+        font-size: 13px;
+    }
+
+    .timestamp {
+        font-size: 10px;
+    }
+
 }
 </style>
 </head>
@@ -769,7 +1082,9 @@ input:focus-visible {
 
 <div class="app">
 
-    <!-- SERVER BAR -->
+    <!-- =========================
+         SERVER BAR
+    ========================== -->
 
     <aside class="servers">
 
@@ -800,15 +1115,28 @@ input:focus-visible {
     </aside>
 
 
-    <!-- CHANNEL SIDEBAR -->
+    <!-- =========================
+         CHANNEL SIDEBAR
+    ========================== -->
 
     <aside class="channels" id="channels">
 
         <div class="workspace">
 
-            <span id="workspaceName">
-                Chorda
-            </span>
+            <div class="workspace-name-wrap">
+
+                <div
+                    class="workspace-name"
+                    id="workspaceName"
+                >
+                    Chorda
+                </div>
+
+                <div class="workspace-subtitle">
+                    Community
+                </div>
+
+            </div>
 
             <div class="workspace-actions">
 
@@ -853,13 +1181,28 @@ input:focus-visible {
             class="small-button"
             id="profileButton"
         >
-            👤 You — Online
+            <span class="user-mini-avatar">YO</span>
+
+            <span class="user-mini-info">
+
+                <span class="user-mini-name">
+                    You
+                </span>
+
+                <span class="user-mini-status">
+                    ● Online
+                </span>
+
+            </span>
+
         </button>
 
     </aside>
 
 
-    <!-- CHAT -->
+    <!-- =========================
+         CHAT
+    ========================== -->
 
     <main class="chat">
 
@@ -871,7 +1214,7 @@ input:focus-visible {
                 aria-label="Open channels"
             >☰</button>
 
-            <span class="channel-icon">
+            <span class="channel-header-icon">
                 #
             </span>
 
@@ -934,6 +1277,10 @@ input:focus-visible {
 
             <div class="welcome">
 
+                <div class="welcome-icon">
+                    #
+                </div>
+
                 <h2 id="welcomeTitle">
                     Welcome to #general 👋
                 </h2>
@@ -971,7 +1318,9 @@ input:focus-visible {
     </main>
 
 
-    <!-- MEMBERS -->
+    <!-- =========================
+         MEMBERS
+    ========================== -->
 
     <aside class="members">
 
@@ -980,47 +1329,86 @@ input:focus-visible {
         </div>
 
         <div class="member">
+
             <div class="avatar">AX</div>
-            <div>
-                <div class="member-name">Alex</div>
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Alex
+                </div>
+
                 <div class="member-status">
                     Building things
                 </div>
+
             </div>
+
             <div class="online"></div>
+
         </div>
 
+
         <div class="member">
+
             <div class="avatar">SK</div>
-            <div>
-                <div class="member-name">Sky</div>
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Sky
+                </div>
+
                 <div class="member-status">
                     Listening
                 </div>
+
             </div>
+
             <div class="online"></div>
+
         </div>
 
+
         <div class="member">
+
             <div class="avatar">JM</div>
-            <div>
-                <div class="member-name">Jamie</div>
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Jamie
+                </div>
+
                 <div class="member-status">
                     Playing
                 </div>
+
             </div>
+
             <div class="online"></div>
+
         </div>
 
+
         <div class="member">
+
             <div class="avatar">RB</div>
-            <div>
-                <div class="member-name">Riley</div>
+
+            <div class="member-info">
+
+                <div class="member-name">
+                    Riley
+                </div>
+
                 <div class="member-status">
                     Online
                 </div>
+
             </div>
+
             <div class="online"></div>
+
         </div>
 
     </aside>
@@ -1028,7 +1416,9 @@ input:focus-visible {
 </div>
 
 
-<!-- MOBILE OVERLAY -->
+<!-- =========================
+     MOBILE OVERLAY
+========================== -->
 
 <div
     class="mobile-overlay"
@@ -1036,7 +1426,9 @@ input:focus-visible {
 ></div>
 
 
-<!-- PROFILE -->
+<!-- =========================
+     PROFILE
+========================== -->
 
 <div
     class="user-panel"
@@ -1087,7 +1479,9 @@ input:focus-visible {
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =========================
+     SETTINGS
+========================== -->
 
 <div
     class="modal"
@@ -1111,12 +1505,14 @@ input:focus-visible {
 
         </div>
 
+
         <div class="settings-row">
             <strong>Account</strong>
             <span>
                 Account management is coming soon.
             </span>
         </div>
+
 
         <div class="settings-row">
             <strong>Appearance</strong>
@@ -1125,6 +1521,7 @@ input:focus-visible {
             </span>
         </div>
 
+
         <div class="settings-row">
             <strong>Notifications</strong>
             <span>
@@ -1132,12 +1529,14 @@ input:focus-visible {
             </span>
         </div>
 
+
         <div class="settings-row">
             <strong>Privacy</strong>
             <span>
                 Privacy controls will be added later.
             </span>
         </div>
+
 
         <div class="settings-row">
             <strong>Chorda Plus</strong>
@@ -1151,6 +1550,16 @@ input:focus-visible {
 </div>
 
 
+<!-- =========================
+     TOASTS
+========================== -->
+
+<div
+    class="toast-container"
+    id="toastContainer"
+></div>
+
+
 <script>
 
 /* =====================================================
@@ -1160,9 +1569,11 @@ input:focus-visible {
 const serverData = {
 
     chorda: {
+
         name: "Chorda",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to your community."
@@ -1187,13 +1598,18 @@ const serverData = {
                 name: "support",
                 topic: "Get help from the community."
             }
+
         }
+
     },
 
+
     gaming: {
+
         name: "Gaming",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Gaming server."
@@ -1213,13 +1629,18 @@ const serverData = {
                 name: "clips",
                 topic: "Share your gaming clips."
             }
+
         }
+
     },
 
+
     study: {
+
         name: "Study",
 
         channels: {
+
             general: {
                 name: "general",
                 topic: "Welcome to the Study server."
@@ -1239,7 +1660,9 @@ const serverData = {
                 name: "chat",
                 topic: "General study discussion."
             }
+
         }
+
     }
 
 };
@@ -1273,6 +1696,7 @@ const messagesData = {
                 text: "Welcome to Chorda!",
                 time: "Today at 7:01 PM"
             },
+
             {
                 name: "Sky",
                 avatar: "SK",
@@ -1319,6 +1743,7 @@ const messagesData = {
 
     },
 
+
     gaming: {
 
         general: [
@@ -1358,6 +1783,7 @@ const messagesData = {
         ]
 
     },
+
 
     study: {
 
@@ -1403,7 +1829,7 @@ const messagesData = {
 
 
 /* =====================================================
-   CURRENT SERVER
+   CURRENT STATE
 ===================================================== */
 
 let currentServer = "chorda";
@@ -1508,6 +1934,11 @@ const settingsModal =
         "settingsModal"
     );
 
+const toastContainer =
+    document.getElementById(
+        "toastContainer"
+    );
+
 
 /* =====================================================
    LOAD SERVER
@@ -1588,8 +2019,26 @@ function renderChannels() {
             element.dataset.channel =
                 channelId;
 
-            element.textContent =
-                "# " + channel.name;
+
+            const icon =
+                document.createElement("span");
+
+            icon.className =
+                "channel-icon";
+
+            icon.textContent =
+                "#";
+
+
+            const label =
+                document.createElement("span");
+
+            label.textContent =
+                channel.name;
+
+
+            element.appendChild(icon);
+            element.appendChild(label);
 
 
             if (
@@ -1650,10 +2099,29 @@ function renderChannels() {
                 document.createElement("div");
 
             voice.className =
-                "channel";
+                "channel voice-channel";
 
-            voice.textContent =
-                "🔊 " + name;
+
+            const icon =
+                document.createElement("span");
+
+            icon.className =
+                "channel-icon";
+
+            icon.textContent =
+                "🔊";
+
+
+            const label =
+                document.createElement("span");
+
+            label.textContent =
+                name;
+
+
+            voice.appendChild(icon);
+            voice.appendChild(label);
+
 
             voice.addEventListener(
                 "click",
@@ -1665,6 +2133,7 @@ function renderChannels() {
 
                 }
             );
+
 
             channelList.appendChild(
                 voice
@@ -1809,6 +2278,9 @@ function createMessage(
     const header =
         document.createElement("div");
 
+    header.className =
+        "message-header";
+
 
     const username =
         document.createElement("span");
@@ -1903,6 +2375,9 @@ function createMessage(
     reactButton.textContent =
         "😀";
 
+    reactButton.title =
+        "React";
+
 
     reactButton.addEventListener(
         "click",
@@ -1917,8 +2392,56 @@ function createMessage(
     );
 
 
+    const copyButton =
+        document.createElement("button");
+
+    copyButton.className =
+        "message-action";
+
+    copyButton.textContent =
+        "📋";
+
+    copyButton.title =
+        "Copy";
+
+
+    copyButton.addEventListener(
+        "click",
+        function() {
+
+            if (
+                navigator.clipboard &&
+                navigator.clipboard.writeText
+            ) {
+
+                navigator.clipboard
+                    .writeText(text)
+                    .then(function() {
+
+                        showToast(
+                            "Message copied."
+                        );
+
+                    });
+
+            } else {
+
+                showToast(
+                    "Copy is not available here."
+                );
+
+            }
+
+        }
+    );
+
+
     actions.appendChild(
         reactButton
+    );
+
+    actions.appendChild(
+        copyButton
     );
 
 
@@ -2170,11 +2693,37 @@ searchInput.addEventListener(
 
 profileButton.addEventListener(
     "click",
-    function() {
+    function(event) {
+
+        event.stopPropagation();
 
         userPanel.classList.toggle(
             "open"
         );
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE PROFILE WHEN CLICKING OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            userPanel.classList.contains("open") &&
+            !userPanel.contains(event.target) &&
+            !profileButton.contains(event.target)
+        ) {
+
+            userPanel.classList.remove(
+                "open"
+            );
+
+        }
 
     }
 );
@@ -2224,12 +2773,86 @@ settingsModal.addEventListener(
 
 
 /* =====================================================
+   ESCAPE KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        closeSettings();
+
+        closeMobileMenu();
+
+        searchContainer.classList.remove(
+            "open"
+        );
+
+        userPanel.classList.remove(
+            "open"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const toast =
+        document.createElement("div");
+
+    toast.className =
+        "toast";
+
+    toast.textContent =
+        message;
+
+
+    toastContainer.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        function() {
+
+            toast.style.opacity =
+                "0";
+
+            toast.style.transform =
+                "translateY(8px)";
+
+            setTimeout(
+                function() {
+
+                    toast.remove();
+
+                },
+                180
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+/* =====================================================
    OTHER
 ===================================================== */
 
 function toggleNotifications() {
 
-    alert(
+    showToast(
         "You have no new notifications."
     );
 
@@ -2238,7 +2861,7 @@ function toggleNotifications() {
 
 function openPlus() {
 
-    alert(
+    showToast(
         "Chorda Plus is coming soon!"
     );
 
@@ -2247,7 +2870,7 @@ function openPlus() {
 
 function comingSoon(feature) {
 
-    alert(
+    showToast(
         feature +
         " is coming soon!"
     );
