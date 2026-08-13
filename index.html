@@ -21,6 +21,7 @@
     --muted: #9ca3af;
     --accent: #5865f2;
     --success: #57d68a;
+    --danger: #ed4245;
 }
 
 html,
@@ -52,20 +53,16 @@ input:focus-visible {
     outline-offset: 2px;
 }
 
-/* =========================
-   APP
-========================= */
+/* APP */
 
 .app {
     width: 100%;
     height: 100vh;
-    min-height: 0;
     display: flex;
+    min-height: 0;
 }
 
-/* =========================
-   SERVER BAR
-========================= */
+/* SERVERS */
 
 .servers {
     width: 72px;
@@ -88,7 +85,7 @@ input:focus-visible {
     border: 0;
     border-radius: 16px;
     background: #242833;
-    color: #fff;
+    color: white;
     font-weight: bold;
     font-size: 18px;
     transition: .2s;
@@ -105,9 +102,7 @@ input:focus-visible {
     font-size: 24px;
 }
 
-/* =========================
-   CHANNEL SIDEBAR
-========================= */
+/* CHANNELS */
 
 .channels {
     width: 250px;
@@ -148,12 +143,8 @@ input:focus-visible {
 
 .small-button:hover {
     background: var(--card);
-    color: #fff;
+    color: white;
 }
-
-/* =========================
-   CHANNEL LIST
-========================= */
 
 .channel-list {
     flex: 1;
@@ -181,12 +172,10 @@ input:focus-visible {
 .channel:hover,
 .channel.active {
     background: var(--card);
-    color: #fff;
+    color: white;
 }
 
-/* =========================
-   PLUS
-========================= */
+/* PLUS */
 
 .plus {
     margin: 10px;
@@ -215,7 +204,7 @@ input:focus-visible {
     padding: 8px;
     border-radius: 7px;
     background: var(--accent);
-    color: #fff;
+    color: white;
     font-weight: bold;
 }
 
@@ -223,9 +212,7 @@ input:focus-visible {
     filter: brightness(1.1);
 }
 
-/* =========================
-   USER BUTTON
-========================= */
+/* PROFILE BUTTON */
 
 #profileButton {
     width: calc(100% - 16px);
@@ -234,9 +221,7 @@ input:focus-visible {
     text-align: left;
 }
 
-/* =========================
-   CHAT
-========================= */
+/* CHAT */
 
 .chat {
     flex: 1;
@@ -297,16 +282,14 @@ input:focus-visible {
 
 .header-button:hover {
     background: var(--card);
-    color: #fff;
+    color: white;
 }
 
 .mobile-menu {
     display: none;
 }
 
-/* =========================
-   SEARCH
-========================= */
+/* SEARCH */
 
 .search-container {
     display: none;
@@ -331,14 +314,12 @@ input:focus-visible {
     border: 0;
     outline: 0;
     background: var(--card);
-    color: #fff;
+    color: white;
     padding: 10px;
     border-radius: 7px;
 }
 
-/* =========================
-   MESSAGES
-========================= */
+/* MESSAGES */
 
 .messages {
     flex: 1;
@@ -378,6 +359,7 @@ input:focus-visible {
 .avatar {
     width: 40px;
     height: 40px;
+    min-width: 40px;
     border-radius: 50%;
     background: var(--accent);
     display: flex;
@@ -385,7 +367,6 @@ input:focus-visible {
     justify-content: center;
     font-size: 13px;
     font-weight: bold;
-    flex-shrink: 0;
 }
 
 .message-content {
@@ -453,12 +434,10 @@ input:focus-visible {
 
 .message-action:hover {
     background: var(--card-hover);
-    color: #fff;
+    color: white;
 }
 
-/* =========================
-   MESSAGE INPUT
-========================= */
+/* INPUT */
 
 .message-area {
     padding: 12px 20px 18px;
@@ -480,14 +459,14 @@ input:focus-visible {
     border: 0;
     outline: 0;
     background: transparent;
-    color: #fff;
+    color: white;
     padding: 12px;
 }
 
 .message-box button {
     border: 0;
     background: var(--accent);
-    color: #fff;
+    color: white;
     padding: 9px 14px;
     border-radius: 7px;
     font-weight: bold;
@@ -497,9 +476,7 @@ input:focus-visible {
     filter: brightness(1.1);
 }
 
-/* =========================
-   MEMBERS
-========================= */
+/* MEMBERS */
 
 .members {
     width: 230px;
@@ -549,9 +526,7 @@ input:focus-visible {
     margin-left: auto;
 }
 
-/* =========================
-   USER PANEL
-========================= */
+/* USER PANEL */
 
 .user-panel {
     position: fixed;
@@ -602,9 +577,7 @@ input:focus-visible {
     background: var(--card);
 }
 
-/* =========================
-   MODAL
-========================= */
+/* MODAL */
 
 .modal {
     position: fixed;
@@ -623,6 +596,8 @@ input:focus-visible {
 
 .modal-box {
     width: min(520px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -642,7 +617,7 @@ input:focus-visible {
 .close-button {
     border: 0;
     background: var(--card);
-    color: #fff;
+    color: white;
     border-radius: 7px;
     padding: 7px 10px;
 }
@@ -663,28 +638,45 @@ input:focus-visible {
     font-size: 13px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* TOAST */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    transform: translate(-50%, 20px);
+    background: #20242d;
+    border: 1px solid var(--border);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 9px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .2s;
+    z-index: 500;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* MOBILE */
 
 .mobile-overlay {
     display: none;
 }
 
 @media(max-width:1050px) {
-
     .members {
         display: none;
     }
-
 }
 
 @media(max-width:700px) {
-
     .channel-topic {
         display: none;
     }
-
 }
 
 @media(max-width:650px) {
@@ -720,7 +712,7 @@ input:focus-visible {
         display: block;
         border: 0;
         background: transparent;
-        color: #fff;
+        color: white;
         font-size: 22px;
         padding: 5px;
     }
@@ -762,7 +754,6 @@ input:focus-visible {
         bottom: 70px;
         width: calc(100vw - 80px);
     }
-
 }
 </style>
 </head>
@@ -771,48 +762,36 @@ input:focus-visible {
 
 <div class="app">
 
+    <!-- SERVERS -->
+
     <aside class="servers">
 
-        <button
-            class="server active"
-            data-server="chorda"
-            title="Chorda"
-        >C</button>
-
-        <button
-            class="server"
-            data-server="gaming"
-            title="Gaming"
-        >G</button>
-
-        <button
-            class="server"
-            data-server="study"
-            title="Study"
-        >S</button>
+        <button class="server active" data-server="chorda">C</button>
+        <button class="server" data-server="gaming">G</button>
+        <button class="server" data-server="study">S</button>
 
         <button
             class="server add"
-            onclick="comingSoon('Server creation')"
-            title="Create a server"
+            id="addServerButton"
+            title="Create server"
         >+</button>
 
     </aside>
 
 
+    <!-- CHANNEL SIDEBAR -->
+
     <aside class="channels" id="channels">
 
         <div class="workspace">
 
-            <span id="workspaceName">
-                Chorda
-            </span>
+            <span id="workspaceName">Chorda</span>
 
             <div class="workspace-actions">
 
                 <button
                     class="small-button"
-                    onclick="openSettings()"
+                    id="settingsButton"
                     title="Settings"
                 >⚙</button>
 
@@ -821,10 +800,7 @@ input:focus-visible {
         </div>
 
 
-        <div
-            class="channel-list"
-            id="channelList"
-        ></div>
+        <div class="channel-list" id="channelList"></div>
 
 
         <div class="plus">
@@ -839,7 +815,7 @@ input:focus-visible {
 
             <button
                 class="plus-button"
-                onclick="openPlus()"
+                id="plusButton"
             >
                 Coming Soon
             </button>
@@ -857,6 +833,8 @@ input:focus-visible {
     </aside>
 
 
+    <!-- CHAT -->
+
     <main class="chat">
 
         <header class="chat-header">
@@ -864,12 +842,9 @@ input:focus-visible {
             <button
                 class="mobile-menu"
                 id="mobileMenu"
-                aria-label="Open channels"
             >☰</button>
 
-            <span class="channel-icon">
-                #
-            </span>
+            <span class="channel-icon">#</span>
 
             <span
                 class="channel-name"
@@ -888,19 +863,19 @@ input:focus-visible {
 
                 <button
                     class="header-button"
-                    onclick="toggleNotifications()"
+                    id="notificationButton"
                     title="Notifications"
                 >🔔</button>
 
                 <button
                     class="header-button"
-                    onclick="toggleSearch()"
+                    id="searchButton"
                     title="Search"
                 >🔎</button>
 
                 <button
                     class="header-button"
-                    onclick="openSettings()"
+                    id="headerSettingsButton"
                     title="Settings"
                 >⚙</button>
 
@@ -923,10 +898,7 @@ input:focus-visible {
         </header>
 
 
-        <div
-            class="messages"
-            id="messages"
-        >
+        <div class="messages" id="messages">
 
             <div class="welcome">
 
@@ -967,6 +939,8 @@ input:focus-visible {
     </main>
 
 
+    <!-- MEMBERS -->
+
     <aside class="members">
 
         <div class="members-title">
@@ -975,68 +949,37 @@ input:focus-visible {
 
         <div class="member">
             <div class="avatar">AX</div>
-
             <div>
-                <div class="member-name">
-                    Alex
-                </div>
-
-                <div class="member-status">
-                    Building things
-                </div>
+                <div class="member-name">Alex</div>
+                <div class="member-status">Building things</div>
             </div>
-
             <div class="online"></div>
         </div>
-
 
         <div class="member">
             <div class="avatar">SK</div>
-
             <div>
-                <div class="member-name">
-                    Sky
-                </div>
-
-                <div class="member-status">
-                    Listening
-                </div>
+                <div class="member-name">Sky</div>
+                <div class="member-status">Listening</div>
             </div>
-
             <div class="online"></div>
         </div>
-
 
         <div class="member">
             <div class="avatar">JM</div>
-
             <div>
-                <div class="member-name">
-                    Jamie
-                </div>
-
-                <div class="member-status">
-                    Playing
-                </div>
+                <div class="member-name">Jamie</div>
+                <div class="member-status">Playing</div>
             </div>
-
             <div class="online"></div>
         </div>
 
-
         <div class="member">
             <div class="avatar">RB</div>
-
             <div>
-                <div class="member-name">
-                    Riley
-                </div>
-
-                <div class="member-status">
-                    Online
-                </div>
+                <div class="member-name">Riley</div>
+                <div class="member-status">Online</div>
             </div>
-
             <div class="online"></div>
         </div>
 
@@ -1045,11 +988,15 @@ input:focus-visible {
 </div>
 
 
+<!-- MOBILE OVERLAY -->
+
 <div
     class="mobile-overlay"
     id="mobileOverlay"
 ></div>
 
+
+<!-- PROFILE -->
 
 <div
     class="user-panel"
@@ -1058,9 +1005,7 @@ input:focus-visible {
 
     <div class="profile-header">
 
-        <div class="avatar">
-            YO
-        </div>
+        <div class="avatar">YO</div>
 
         <div>
 
@@ -1078,27 +1023,29 @@ input:focus-visible {
 
     <button
         class="profile-option"
-        onclick="comingSoon('Edit profile')"
+        id="editProfileButton"
     >
         👤 Edit Profile
     </button>
 
     <button
         class="profile-option"
-        onclick="openSettings()"
+        id="profileSettingsButton"
     >
         ⚙ Settings
     </button>
 
     <button
         class="profile-option"
-        onclick="comingSoon('Account switching')"
+        id="switchAccountButton"
     >
         ⇄ Switch Account
     </button>
 
 </div>
 
+
+<!-- SETTINGS -->
 
 <div
     class="modal"
@@ -1109,13 +1056,11 @@ input:focus-visible {
 
         <div class="modal-header">
 
-            <h2>
-                Chorda Settings
-            </h2>
+            <h2>Chorda Settings</h2>
 
             <button
                 class="close-button"
-                onclick="closeSettings()"
+                id="closeSettingsButton"
             >
                 ✕
             </button>
@@ -1124,37 +1069,27 @@ input:focus-visible {
 
         <div class="settings-row">
             <strong>Account</strong>
-            <span>
-                Account management is coming soon.
-            </span>
+            <span>Account management is coming soon.</span>
         </div>
 
         <div class="settings-row">
             <strong>Appearance</strong>
-            <span>
-                Dark mode is currently enabled.
-            </span>
+            <span>Dark mode is currently enabled.</span>
         </div>
 
         <div class="settings-row">
             <strong>Notifications</strong>
-            <span>
-                Notification controls are coming soon.
-            </span>
+            <span>Notification controls are coming soon.</span>
         </div>
 
         <div class="settings-row">
             <strong>Privacy</strong>
-            <span>
-                Privacy controls will be added later.
-            </span>
+            <span>Privacy controls will be added later.</span>
         </div>
 
         <div class="settings-row">
             <strong>Chorda Plus</strong>
-            <span>
-                Premium features are coming soon.
-            </span>
+            <span>Premium features are coming soon.</span>
         </div>
 
     </div>
@@ -1162,129 +1097,101 @@ input:focus-visible {
 </div>
 
 
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
 <script>
 
 /* =====================================================
-   SERVER DATA
+   DATA
 ===================================================== */
 
 const serverData = {
 
     chorda: {
         name: "Chorda",
-
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to your community."
             },
-
             announcements: {
                 name: "announcements",
                 topic: "Important Chorda announcements."
             },
-
             chat: {
                 name: "chat",
                 topic: "Talk with everyone."
             },
-
             memes: {
                 name: "memes",
                 topic: "Share your funniest stuff."
             },
-
             support: {
                 name: "support",
                 topic: "Get help from the community."
             }
-
         }
-
     },
 
-
     gaming: {
-
         name: "Gaming",
-
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to the Gaming server."
             },
-
             chat: {
                 name: "chat",
                 topic: "Talk about gaming."
             },
-
             games: {
                 name: "games",
                 topic: "Discuss your favourite games."
             },
-
             clips: {
                 name: "clips",
                 topic: "Share your gaming clips."
             }
-
         }
-
     },
 
-
     study: {
-
         name: "Study",
-
         channels: {
-
             general: {
                 name: "general",
                 topic: "Welcome to the Study server."
             },
-
             homework: {
                 name: "homework",
                 topic: "Talk about homework."
             },
-
             resources: {
                 name: "resources",
                 topic: "Share useful study resources."
             },
-
             chat: {
                 name: "chat",
                 topic: "General study discussion."
             }
-
         }
-
     }
 
 };
 
 
-/* =====================================================
-   SELECTED CHANNEL
-===================================================== */
-
 const selectedChannel = {
-
     chorda: "general",
     gaming: "general",
     study: "general"
-
 };
 
-
-/* =====================================================
-   MESSAGE DATA
-===================================================== */
 
 const messagesData = {
 
@@ -1343,7 +1250,6 @@ const messagesData = {
 
     },
 
-
     gaming: {
 
         general: [
@@ -1383,7 +1289,6 @@ const messagesData = {
         ]
 
     },
-
 
     study: {
 
@@ -1429,10 +1334,11 @@ const messagesData = {
 
 
 /* =====================================================
-   CURRENT SERVER
+   STATE
 ===================================================== */
 
 let currentServer = "chorda";
+let toastTimer = null;
 
 
 /* =====================================================
@@ -1440,103 +1346,89 @@ let currentServer = "chorda";
 ===================================================== */
 
 const serverButtons =
-    document.querySelectorAll(
-        ".server[data-server]"
-    );
+    document.querySelectorAll(".server[data-server]");
 
 const channelList =
-    document.getElementById(
-        "channelList"
-    );
+    document.getElementById("channelList");
 
 const workspaceName =
-    document.getElementById(
-        "workspaceName"
-    );
+    document.getElementById("workspaceName");
 
 const channelName =
-    document.getElementById(
-        "channelName"
-    );
+    document.getElementById("channelName");
 
 const channelTopic =
-    document.getElementById(
-        "channelTopic"
-    );
+    document.getElementById("channelTopic");
 
 const welcomeTitle =
-    document.getElementById(
-        "welcomeTitle"
-    );
+    document.getElementById("welcomeTitle");
 
 const welcomeText =
-    document.getElementById(
-        "welcomeText"
-    );
+    document.getElementById("welcomeText");
 
 const messageList =
-    document.getElementById(
-        "messageList"
-    );
+    document.getElementById("messageList");
 
 const messages =
-    document.getElementById(
-        "messages"
-    );
+    document.getElementById("messages");
 
 const input =
-    document.getElementById(
-        "messageInput"
-    );
+    document.getElementById("messageInput");
 
 const sendButton =
-    document.getElementById(
-        "sendButton"
-    );
+    document.getElementById("sendButton");
 
 const channelsPanel =
-    document.getElementById(
-        "channels"
-    );
+    document.getElementById("channels");
 
 const mobileMenu =
-    document.getElementById(
-        "mobileMenu"
-    );
+    document.getElementById("mobileMenu");
 
 const mobileOverlay =
-    document.getElementById(
-        "mobileOverlay"
-    );
+    document.getElementById("mobileOverlay");
 
 const searchContainer =
-    document.getElementById(
-        "searchContainer"
-    );
+    document.getElementById("searchContainer");
 
 const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
+    document.getElementById("searchInput");
 
 const profileButton =
-    document.getElementById(
-        "profileButton"
-    );
+    document.getElementById("profileButton");
 
 const userPanel =
-    document.getElementById(
-        "userPanel"
-    );
+    document.getElementById("userPanel");
 
 const settingsModal =
-    document.getElementById(
-        "settingsModal"
-    );
+    document.getElementById("settingsModal");
+
+const toast =
+    document.getElementById("toast");
 
 
 /* =====================================================
-   LOAD SERVER
+   TOAST
+===================================================== */
+
+function showToast(text) {
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(function() {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+/* =====================================================
+   SERVER
 ===================================================== */
 
 function loadServer(serverId) {
@@ -1562,15 +1454,14 @@ function loadServer(serverId) {
     renderChannels();
 
     loadChannel(
-        selectedChannel[serverId] ||
-        "general"
+        selectedChannel[serverId] || "general"
     );
 
 }
 
 
 /* =====================================================
-   RENDER CHANNELS
+   CHANNELS
 ===================================================== */
 
 function renderChannels() {
@@ -1578,142 +1469,99 @@ function renderChannels() {
     const server =
         serverData[currentServer];
 
-    if (!server) {
-        return;
-    }
-
     channelList.innerHTML = "";
-
 
     const category =
         document.createElement("div");
 
-    category.className =
-        "category";
+    category.className = "category";
+    category.textContent = "Text Channels";
 
-    category.textContent =
-        "Text Channels";
-
-    channelList.appendChild(
-        category
-    );
+    channelList.appendChild(category);
 
 
-    Object.keys(server.channels).forEach(
-        function(channelId) {
+    Object.keys(server.channels).forEach(function(channelId) {
 
-            const channel =
-                server.channels[channelId];
+        const channel =
+            server.channels[channelId];
 
-            const element =
-                document.createElement("div");
+        const element =
+            document.createElement("div");
 
-            element.className =
-                "channel";
+        element.className = "channel";
 
-            element.dataset.channel =
-                channelId;
+        element.textContent =
+            "# " + channel.name;
 
-            element.textContent =
-                "# " + channel.name;
+        if (
+            selectedChannel[currentServer] ===
+            channelId
+        ) {
 
-
-            if (
-                selectedChannel[currentServer] ===
-                channelId
-            ) {
-
-                element.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            element.addEventListener(
-                "click",
-                function() {
-
-                    selectedChannel[currentServer] =
-                        channelId;
-
-                    renderChannels();
-
-                    loadChannel(channelId);
-
-                    closeMobileMenu();
-
-                }
-            );
-
-
-            channelList.appendChild(
-                element
-            );
+            element.classList.add("active");
 
         }
-    );
+
+        element.addEventListener("click", function() {
+
+            selectedChannel[currentServer] =
+                channelId;
+
+            renderChannels();
+
+            loadChannel(channelId);
+
+            closeMobileMenu();
+
+        });
+
+        channelList.appendChild(element);
+
+    });
 
 
     const voiceCategory =
         document.createElement("div");
 
-    voiceCategory.className =
-        "category";
+    voiceCategory.className = "category";
+    voiceCategory.textContent = "Voice";
 
-    voiceCategory.textContent =
-        "Voice";
-
-    channelList.appendChild(
-        voiceCategory
-    );
+    channelList.appendChild(voiceCategory);
 
 
-    ["Lounge", "Gaming"].forEach(
-        function(name) {
+    ["Lounge", "Gaming"].forEach(function(name) {
 
-            const voice =
-                document.createElement("div");
+        const voice =
+            document.createElement("div");
 
-            voice.className =
-                "channel";
+        voice.className = "channel";
 
-            voice.textContent =
-                "🔊 " + name;
+        voice.textContent =
+            "🔊 " + name;
 
-            voice.addEventListener(
-                "click",
-                function() {
+        voice.addEventListener("click", function() {
 
-                    comingSoon(
-                        "Voice channels"
-                    );
-
-                }
+            showToast(
+                "Voice channels are coming soon."
             );
 
-            channelList.appendChild(
-                voice
-            );
+        });
 
-        }
-    );
+        channelList.appendChild(voice);
+
+    });
 
 }
 
 
 /* =====================================================
-   LOAD CHANNEL
+   CHANNEL
 ===================================================== */
 
 function loadChannel(channelId) {
 
     const server =
         serverData[currentServer];
-
-    if (!server) {
-        return;
-    }
 
     const channel =
         server.channels[channelId];
@@ -1724,7 +1572,6 @@ function loadChannel(channelId) {
 
     selectedChannel[currentServer] =
         channelId;
-
 
     channelName.textContent =
         channel.name;
@@ -1744,24 +1591,14 @@ function loadChannel(channelId) {
         "Message #" +
         channel.name;
 
-
     messageList.innerHTML = "";
 
-
-    if (!messagesData[currentServer]) {
-        messagesData[currentServer] = {};
-    }
-
-
-    if (
-        !messagesData[currentServer][channelId]
-    ) {
+    if (!messagesData[currentServer][channelId]) {
 
         messagesData[currentServer][channelId] =
             [];
 
     }
-
 
     messagesData[currentServer][channelId]
         .forEach(function(message) {
@@ -1776,19 +1613,9 @@ function loadChannel(channelId) {
 
         });
 
-
     searchInput.value = "";
 
-
-    document
-        .querySelectorAll(".message")
-        .forEach(function(message) {
-
-            message.style.display =
-                "flex";
-
-        });
-
+    filterMessages("");
 
     requestAnimationFrame(function() {
 
@@ -1801,7 +1628,7 @@ function loadChannel(channelId) {
 
 
 /* =====================================================
-   CREATE MESSAGE
+   MESSAGE
 ===================================================== */
 
 function createMessage(
@@ -1815,18 +1642,14 @@ function createMessage(
     const message =
         document.createElement("div");
 
-    message.className =
-        "message";
+    message.className = "message";
 
 
     const avatarElement =
         document.createElement("div");
 
-    avatarElement.className =
-        "avatar";
-
-    avatarElement.textContent =
-        avatar;
+    avatarElement.className = "avatar";
+    avatarElement.textContent = avatar;
 
 
     const content =
@@ -1843,21 +1666,15 @@ function createMessage(
     const username =
         document.createElement("span");
 
-    username.className =
-        "username";
-
-    username.textContent =
-        name;
+    username.className = "username";
+    username.textContent = name;
 
 
     const timestamp =
         document.createElement("span");
 
-    timestamp.className =
-        "timestamp";
-
-    timestamp.textContent =
-        time;
+    timestamp.className = "timestamp";
+    timestamp.textContent = time;
 
 
     header.appendChild(username);
@@ -1867,49 +1684,37 @@ function createMessage(
     const textElement =
         document.createElement("div");
 
-    textElement.className =
-        "message-text";
-
-    textElement.textContent =
-        text;
+    textElement.className = "message-text";
+    textElement.textContent = text;
 
 
     const reactions =
         document.createElement("div");
 
-    reactions.className =
-        "reactions";
-
-
-    const likeButton =
-        document.createElement("button");
-
-    likeButton.className =
-        "reaction";
-
-    likeButton.textContent =
-        "👍 0";
+    reactions.className = "reactions";
 
 
     let likes = 0;
 
 
-    likeButton.addEventListener(
-        "click",
-        function() {
+    const likeButton =
+        document.createElement("button");
 
-            likes++;
-
-            likeButton.textContent =
-                "👍 " + likes;
-
-        }
-    );
+    likeButton.className = "reaction";
+    likeButton.textContent = "👍 0";
 
 
-    reactions.appendChild(
-        likeButton
-    );
+    likeButton.addEventListener("click", function() {
+
+        likes++;
+
+        likeButton.textContent =
+            "👍 " + likes;
+
+    });
+
+
+    reactions.appendChild(likeButton);
 
 
     content.appendChild(header);
@@ -1933,41 +1738,71 @@ function createMessage(
     reactButton.textContent =
         "😀";
 
+    reactButton.title =
+        "React";
 
-    reactButton.addEventListener(
-        "click",
-        function() {
 
-            likes++;
+    reactButton.addEventListener("click", function() {
 
-            likeButton.textContent =
-                "👍 " + likes;
+        likes++;
+
+        likeButton.textContent =
+            "👍 " + likes;
+
+    });
+
+
+    const copyButton =
+        document.createElement("button");
+
+    copyButton.className =
+        "message-action";
+
+    copyButton.textContent =
+        "📋";
+
+    copyButton.title =
+        "Copy";
+
+
+    copyButton.addEventListener("click", function() {
+
+        if (
+            navigator.clipboard &&
+            navigator.clipboard.writeText
+        ) {
+
+            navigator.clipboard.writeText(text)
+                .then(function() {
+
+                    showToast("Message copied.");
+
+                })
+                .catch(function() {
+
+                    showToast("Could not copy message.");
+
+                });
+
+        } else {
+
+            showToast("Copy is not supported here.");
 
         }
-    );
+
+    });
 
 
-    actions.appendChild(
-        reactButton
-    );
+    actions.appendChild(reactButton);
+    actions.appendChild(copyButton);
 
 
-    message.appendChild(
-        avatarElement
-    );
-
-    message.appendChild(
-        content
-    );
-
-    message.appendChild(
-        actions
-    );
+    message.appendChild(avatarElement);
+    message.appendChild(content);
+    message.appendChild(actions);
 
 
-    messageList.appendChild(
-        message
-    );
+    messageList.appendChild(message);
 
 
     if (shouldScroll) {
@@ -1981,7 +1816,7 @@ function createMessage(
 
 
 /* =====================================================
-   SEND MESSAGE
+   SEND
 ===================================================== */
 
 function sendMessage() {
@@ -1993,24 +1828,8 @@ function sendMessage() {
         return;
     }
 
-
     const channelId =
         selectedChannel[currentServer];
-
-
-    if (!messagesData[currentServer]) {
-        messagesData[currentServer] = {};
-    }
-
-
-    if (
-        !messagesData[currentServer][channelId]
-    ) {
-
-        messagesData[currentServer][channelId] =
-            [];
-
-    }
 
 
     const now =
@@ -2018,26 +1837,28 @@ function sendMessage() {
 
 
     const time =
-        now.toLocaleTimeString(
-            [],
-            {
-                hour: "numeric",
-                minute: "2-digit"
-            }
-        );
+        now.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit"
+        });
 
 
     const newMessage = {
 
         name: "You",
-
         avatar: "YO",
-
         text: text,
-
         time: "Today at " + time
 
     };
+
+
+    if (!messagesData[currentServer][channelId]) {
+
+        messagesData[currentServer][channelId] =
+            [];
+
+    }
 
 
     messagesData[currentServer][channelId]
@@ -2082,56 +1903,38 @@ input.addEventListener(
 
 
 /* =====================================================
-   SERVER SWITCHING
+   SERVERS
 ===================================================== */
 
-serverButtons.forEach(
-    function(button) {
+serverButtons.forEach(function(button) {
 
-        button.addEventListener(
-            "click",
-            function() {
+    button.addEventListener("click", function() {
 
-                loadServer(
-                    button.dataset.server
-                );
-
-            }
+        loadServer(
+            button.dataset.server
         );
 
-    }
-);
+    });
+
+});
 
 
 /* =====================================================
    MOBILE
 ===================================================== */
 
-mobileMenu.addEventListener(
-    "click",
-    function() {
+mobileMenu.addEventListener("click", function() {
 
-        channelsPanel.classList.add(
-            "open"
-        );
+    channelsPanel.classList.add("open");
+    mobileOverlay.classList.add("show");
 
-        mobileOverlay.classList.add(
-            "show"
-        );
-
-    }
-);
+});
 
 
 function closeMobileMenu() {
 
-    channelsPanel.classList.remove(
-        "open"
-    );
-
-    mobileOverlay.classList.remove(
-        "show"
-    );
+    channelsPanel.classList.remove("open");
+    mobileOverlay.classList.remove("show");
 
 }
 
@@ -2148,20 +1951,45 @@ mobileOverlay.addEventListener(
 
 function toggleSearch() {
 
-    searchContainer.classList.toggle(
-        "open"
-    );
-
+    searchContainer.classList.toggle("open");
 
     if (
-        searchContainer.classList.contains(
-            "open"
-        )
+        searchContainer.classList.contains("open")
     ) {
 
         searchInput.focus();
 
+    } else {
+
+        searchInput.value = "";
+
+        filterMessages("");
+
     }
+
+}
+
+
+function filterMessages(query) {
+
+    const cleanQuery =
+        query.toLowerCase().trim();
+
+
+    document
+        .querySelectorAll("#messageList .message")
+        .forEach(function(message) {
+
+            const text =
+                message.textContent.toLowerCase();
+
+            message.style.display =
+                !cleanQuery ||
+                text.includes(cleanQuery)
+                    ? "flex"
+                    : "none";
+
+        });
 
 }
 
@@ -2170,28 +1998,9 @@ searchInput.addEventListener(
     "input",
     function() {
 
-        const query =
+        filterMessages(
             searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        document
-            .querySelectorAll(".message")
-            .forEach(function(message) {
-
-                const text =
-                    message.textContent
-                        .toLowerCase();
-
-
-                message.style.display =
-                    !query ||
-                    text.includes(query)
-                        ? "flex"
-                        : "none";
-
-            });
+        );
 
     }
 );
@@ -2203,14 +2012,29 @@ searchInput.addEventListener(
 
 profileButton.addEventListener(
     "click",
-    function() {
+    function(event) {
 
-        userPanel.classList.toggle(
-            "open"
-        );
+        event.stopPropagation();
+
+        userPanel.classList.toggle("open");
 
     }
 );
+
+
+document.addEventListener("click", function(event) {
+
+    if (
+        userPanel.classList.contains("open") &&
+        !userPanel.contains(event.target) &&
+        event.target !== profileButton
+    ) {
+
+        userPanel.classList.remove("open");
+
+    }
+
+});
 
 
 /* =====================================================
@@ -2219,34 +2043,57 @@ profileButton.addEventListener(
 
 function openSettings() {
 
-    userPanel.classList.remove(
-        "open"
-    );
+    userPanel.classList.remove("open");
 
-    settingsModal.classList.add(
-        "open"
-    );
+    settingsModal.classList.add("open");
 
 }
 
 
 function closeSettings() {
 
-    settingsModal.classList.remove(
-        "open"
-    );
+    settingsModal.classList.remove("open");
 
 }
+
+
+document
+    .getElementById("settingsButton")
+    .addEventListener(
+        "click",
+        openSettings
+    );
+
+
+document
+    .getElementById("headerSettingsButton")
+    .addEventListener(
+        "click",
+        openSettings
+    );
+
+
+document
+    .getElementById("profileSettingsButton")
+    .addEventListener(
+        "click",
+        openSettings
+    );
+
+
+document
+    .getElementById("closeSettingsButton")
+    .addEventListener(
+        "click",
+        closeSettings
+    );
 
 
 settingsModal.addEventListener(
     "click",
     function(event) {
 
-        if (
-            event.target ===
-            settingsModal
-        ) {
+        if (event.target === settingsModal) {
 
             closeSettings();
 
@@ -2257,35 +2104,109 @@ settingsModal.addEventListener(
 
 
 /* =====================================================
-   OTHER
+   OTHER BUTTONS
 ===================================================== */
 
-function toggleNotifications() {
+document
+    .getElementById("notificationButton")
+    .addEventListener(
+        "click",
+        function() {
 
-    alert(
-        "You have no new notifications."
+            showToast(
+                "You have no new notifications."
+            );
+
+        }
     );
 
-}
 
+document
+    .getElementById("plusButton")
+    .addEventListener(
+        "click",
+        function() {
 
-function openPlus() {
+            showToast(
+                "Chorda Plus is coming soon!"
+            );
 
-    alert(
-        "Chorda Plus is coming soon!"
+        }
     );
 
-}
 
+document
+    .getElementById("addServerButton")
+    .addEventListener(
+        "click",
+        function() {
 
-function comingSoon(feature) {
+            showToast(
+                "Server creation is coming soon."
+            );
 
-    alert(
-        feature +
-        " is coming soon!"
+        }
     );
 
-}
+
+document
+    .getElementById("editProfileButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                "Profile editing is coming soon."
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("switchAccountButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                "Account switching is coming soon."
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("searchButton")
+    .addEventListener(
+        "click",
+        toggleSearch
+    );
+
+
+/* =====================================================
+   ESCAPE KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        closeSettings();
+
+        closeMobileMenu();
+
+        searchContainer.classList.remove("open");
+
+        userPanel.classList.remove("open");
+
+    }
+);
 
 
 /* =====================================================
