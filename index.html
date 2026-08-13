@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111318">
 <title>Chorda</title>
 
 <style>
@@ -21,6 +22,13 @@
     --muted: #9ca3af;
     --accent: #5865f2;
     --success: #57d68a;
+    --danger: #ed6a6a;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
 }
 
 body {
@@ -50,6 +58,7 @@ input:focus-visible {
 
 .app {
     height: 100vh;
+    height: 100dvh;
     display: flex;
 }
 
@@ -65,11 +74,13 @@ input:focus-visible {
     gap: 12px;
     flex-shrink: 0;
     z-index: 30;
+    overflow-y: auto;
 }
 
 .server {
     width: 48px;
     height: 48px;
+    min-width: 48px;
     border: 0;
     border-radius: 16px;
     background: #242833;
@@ -213,6 +224,7 @@ input:focus-visible {
     background: var(--sidebar);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
+    position: relative;
 }
 
 .channel-icon {
@@ -257,6 +269,11 @@ input:focus-visible {
 
 .mobile-menu {
     display: none;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 22px;
+    padding: 5px;
 }
 
 /* SEARCH */
@@ -295,6 +312,7 @@ input:focus-visible {
     flex: 1;
     padding: 25px;
     overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 .welcome {
@@ -439,6 +457,11 @@ input:focus-visible {
     font-weight: bold;
 }
 
+.message-box button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
 /* MEMBERS */
 
 .members {
@@ -559,6 +582,8 @@ input:focus-visible {
 
 .modal-box {
     width: min(520px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
     background: #1a1e27;
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -612,18 +637,6 @@ input:focus-visible {
     }
 }
 
-@media (max-width: 700px) {
-
-    .channel-topic {
-        display: none;
-    }
-
-    .header-actions {
-        gap: 0;
-    }
-
-}
-
 @media (max-width: 650px) {
 
     .servers {
@@ -634,6 +647,7 @@ input:focus-visible {
     .server {
         width: 42px;
         height: 42px;
+        min-width: 42px;
     }
 
     .channels {
@@ -653,11 +667,6 @@ input:focus-visible {
 
     .mobile-menu {
         display: block;
-        border: 0;
-        background: transparent;
-        color: white;
-        font-size: 22px;
-        padding: 5px;
     }
 
     .mobile-overlay.show {
@@ -680,6 +689,14 @@ input:focus-visible {
         padding: 0 10px;
     }
 
+    .channel-topic {
+        display: none;
+    }
+
+    .header-actions {
+        gap: 0;
+    }
+
     .search-container {
         right: 8px;
         width: calc(100vw - 80px);
@@ -697,6 +714,18 @@ input:focus-visible {
         bottom: 10px;
         width: calc(100vw - 80px);
     }
+
+    .message-box {
+        padding: 4px 7px;
+    }
+
+    .message-box input {
+        padding: 10px 8px;
+    }
+
+    .message-box button {
+        padding: 9px 11px;
+    }
 }
 </style>
 </head>
@@ -707,17 +736,29 @@ input:focus-visible {
 
     <!-- SERVER BAR -->
 
-    <aside class="servers">
+    <aside class="servers" id="serverList">
 
-        <button class="server active" title="Chorda">
+        <button
+            class="server active"
+            title="Chorda"
+            data-server="chorda"
+        >
             C
         </button>
 
-        <button class="server" title="Gaming">
+        <button
+            class="server"
+            title="Gaming"
+            data-server="gaming"
+        >
             G
         </button>
 
-        <button class="server" title="Study">
+        <button
+            class="server"
+            title="Study"
+            data-server="study"
+        >
             S
         </button>
 
@@ -738,7 +779,9 @@ input:focus-visible {
 
         <div class="workspace">
 
-            <span>Chorda</span>
+            <span id="workspaceName">
+                Chorda
+            </span>
 
             <div class="workspace-actions">
 
@@ -746,6 +789,7 @@ input:focus-visible {
                     class="small-button"
                     onclick="openSettings()"
                     title="Settings"
+                    aria-label="Settings"
                 >
                     ⚙
                 </button>
@@ -755,75 +799,15 @@ input:focus-visible {
         </div>
 
 
-        <div class="channel-list">
-
+        <div
+            class="channel-list"
+            id="channelList"
+        >
             <div class="category">
-                Welcome
+                Text Channels
             </div>
-
-            <div
-                class="channel active"
-                data-channel="general"
-            >
-                # general
-            </div>
-
-            <div
-                class="channel"
-                data-channel="announcements"
-            >
-                # announcements
-            </div>
-
-
-            <div class="category">
-                Community
-            </div>
-
-            <div
-                class="channel"
-                data-channel="chat"
-            >
-                # chat
-            </div>
-
-            <div
-                class="channel"
-                data-channel="memes"
-            >
-                # memes
-            </div>
-
-            <div
-                class="channel"
-                data-channel="support"
-            >
-                # support
-            </div>
-
-
-            <div class="category">
-                Voice
-            </div>
-
-            <div
-                class="channel"
-                onclick="comingSoon('Voice channels')"
-            >
-                🔊 Lounge
-            </div>
-
-            <div
-                class="channel"
-                onclick="comingSoon('Voice channels')"
-            >
-                🔊 Gaming
-            </div>
-
         </div>
 
-
-        <!-- PLUS -->
 
         <div class="plus">
 
@@ -897,6 +881,7 @@ input:focus-visible {
                     class="header-button"
                     onclick="toggleNotifications()"
                     title="Notifications"
+                    aria-label="Notifications"
                 >
                     🔔
                 </button>
@@ -905,6 +890,7 @@ input:focus-visible {
                     class="header-button"
                     onclick="toggleSearch()"
                     title="Search"
+                    aria-label="Search"
                 >
                     🔎
                 </button>
@@ -913,6 +899,7 @@ input:focus-visible {
                     class="header-button"
                     onclick="openSettings()"
                     title="Settings"
+                    aria-label="Settings"
                 >
                     ⚙
                 </button>
@@ -929,6 +916,7 @@ input:focus-visible {
                     id="searchInput"
                     type="text"
                     placeholder="Search this channel..."
+                    autocomplete="off"
                 >
 
             </div>
@@ -969,6 +957,8 @@ input:focus-visible {
                     type="text"
                     placeholder="Message #general"
                     autocomplete="off"
+                    maxlength="2000"
+                    aria-label="Message"
                 >
 
                 <button id="sendButton">
@@ -986,93 +976,14 @@ input:focus-visible {
 
     <aside class="members">
 
-        <div class="members-title">
-            Online — 4
+        <div
+            class="members-title"
+            id="membersTitle"
+        >
+            Online — 0
         </div>
 
-
-        <div class="member">
-
-            <div class="avatar">
-                AX
-            </div>
-
-            <div>
-                <div class="member-name">
-                    Alex
-                </div>
-
-                <div class="member-status">
-                    Building things
-                </div>
-            </div>
-
-            <div class="online"></div>
-
-        </div>
-
-
-        <div class="member">
-
-            <div class="avatar">
-                SK
-            </div>
-
-            <div>
-                <div class="member-name">
-                    Sky
-                </div>
-
-                <div class="member-status">
-                    Listening
-                </div>
-            </div>
-
-            <div class="online"></div>
-
-        </div>
-
-
-        <div class="member">
-
-            <div class="avatar">
-                JM
-            </div>
-
-            <div>
-                <div class="member-name">
-                    Jamie
-                </div>
-
-                <div class="member-status">
-                    Playing
-                </div>
-            </div>
-
-            <div class="online"></div>
-
-        </div>
-
-
-        <div class="member">
-
-            <div class="avatar">
-                RB
-            </div>
-
-            <div>
-                <div class="member-name">
-                    Riley
-                </div>
-
-                <div class="member-status">
-                    Online
-                </div>
-            </div>
-
-            <div class="online"></div>
-
-        </div>
+        <div id="memberList"></div>
 
     </aside>
 
@@ -1157,6 +1068,7 @@ input:focus-visible {
             <button
                 class="close-button"
                 onclick="closeSettings()"
+                aria-label="Close settings"
             >
                 ✕
             </button>
@@ -1235,72 +1147,38 @@ input:focus-visible {
 
 <script>
 
-/* =========================
-   CHANNEL DATA
-========================= */
+/* =========================================================
+   CHORDA API
+========================================================= */
 
-const channelData = {
-
-    general: [
-        {
-            name: "Alex",
-            avatar: "AX",
-            text: "Welcome to Chorda!",
-            time: "Today at 7:01 PM"
-        },
-        {
-            name: "Sky",
-            avatar: "SK",
-            text: "This is the general channel.",
-            time: "Today at 7:04 PM"
-        }
-    ],
-
-    announcements: [
-        {
-            name: "Alex",
-            avatar: "AX",
-            text: "Welcome to the announcements channel.",
-            time: "Today at 6:55 PM"
-        }
-    ],
-
-    chat: [
-        {
-            name: "Jamie",
-            avatar: "JM",
-            text: "Hey everyone! What's happening?",
-            time: "Today at 6:42 PM"
-        }
-    ],
-
-    memes: [
-        {
-            name: "Sky",
-            avatar: "SK",
-            text: "This channel is ready for memes 😂",
-            time: "Today at 6:30 PM"
-        }
-    ],
-
-    support: [
-        {
-            name: "Riley",
-            avatar: "RB",
-            text: "Need help? Ask your question here.",
-            time: "Today at 6:15 PM"
-        }
-    ]
-
+const API = {
+    servers: "/api/servers",
+    channels: "/api/channels",
+    messages: "/api/messages",
+    users: "/api/users"
 };
 
 
-/* =========================
+/* =========================================================
+   STATE
+========================================================= */
+
+let serversData = [];
+let channelsData = [];
+let usersData = [];
+let messagesData = [];
+
+let currentServer = "chorda";
+let currentChannel = "general";
+
+let isSending = false;
+
+
+/* =========================================================
    CHANNEL TOPICS
-========================= */
+========================================================= */
 
 const channelTopics = {
-
     general:
         "Welcome to your community.",
 
@@ -1315,158 +1193,744 @@ const channelTopics = {
 
     support:
         "Get help from the community."
-
 };
 
 
-/* =========================
+/* =========================================================
    ELEMENTS
-========================= */
+========================================================= */
 
-const channels =
-    document.querySelectorAll(
-        ".channel[data-channel]"
-    );
+const serverList =
+    document.getElementById("serverList");
+
+const channelList =
+    document.getElementById("channelList");
+
+const workspaceName =
+    document.getElementById("workspaceName");
 
 const channelName =
-    document.getElementById(
-        "channelName"
-    );
+    document.getElementById("channelName");
 
 const channelTopic =
-    document.getElementById(
-        "channelTopic"
-    );
+    document.getElementById("channelTopic");
 
 const welcomeTitle =
-    document.getElementById(
-        "welcomeTitle"
-    );
+    document.getElementById("welcomeTitle");
 
 const welcomeText =
-    document.getElementById(
-        "welcomeText"
-    );
+    document.getElementById("welcomeText");
 
 const messageList =
-    document.getElementById(
-        "messageList"
-    );
+    document.getElementById("messageList");
 
 const messages =
-    document.getElementById(
-        "messages"
-    );
+    document.getElementById("messages");
 
 const input =
-    document.getElementById(
-        "messageInput"
-    );
+    document.getElementById("messageInput");
 
 const sendButton =
-    document.getElementById(
-        "sendButton"
-    );
+    document.getElementById("sendButton");
 
 const channelsPanel =
-    document.getElementById(
-        "channels"
-    );
+    document.getElementById("channels");
 
 const mobileMenu =
-    document.getElementById(
-        "mobileMenu"
-    );
+    document.getElementById("mobileMenu");
 
 const mobileOverlay =
-    document.getElementById(
-        "mobileOverlay"
-    );
+    document.getElementById("mobileOverlay");
 
 const searchContainer =
-    document.getElementById(
-        "searchContainer"
-    );
+    document.getElementById("searchContainer");
 
 const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
+    document.getElementById("searchInput");
 
 const profileButton =
-    document.getElementById(
-        "profileButton"
-    );
+    document.getElementById("profileButton");
 
 const userPanel =
-    document.getElementById(
-        "userPanel"
-    );
+    document.getElementById("userPanel");
 
 const settingsModal =
-    document.getElementById(
-        "settingsModal"
-    );
+    document.getElementById("settingsModal");
+
+const memberList =
+    document.getElementById("memberList");
+
+const membersTitle =
+    document.getElementById("membersTitle");
 
 
-let currentChannel = "general";
+/* =========================================================
+   API HELPER
+========================================================= */
 
+async function fetchJSON(url, options = {}) {
 
-/* =========================
-   LOAD CHANNEL
-========================= */
+    const response =
+        await fetch(url, options);
 
-function loadChannel(name) {
-
-    currentChannel = name;
-
-    channelName.textContent =
-        name;
-
-    channelTopic.textContent =
-        channelTopics[name] || "";
-
-    welcomeTitle.textContent =
-        "Welcome to #" +
-        name +
-        " 👋";
-
-    welcomeText.textContent =
-        channelTopics[name] ||
-        "This is the beginning of this channel.";
-
-    input.placeholder =
-        "Message #" +
-        name;
-
-    messageList.innerHTML = "";
-
-    if (!channelData[name]) {
-        channelData[name] = [];
+    if (!response.ok) {
+        throw new Error(
+            "Request failed: " +
+            response.status
+        );
     }
 
-    channelData[name].forEach(
-        function(message) {
+    return response.json();
+}
 
-            createMessage(
-                message.name,
-                message.avatar,
-                message.text,
-                message.time,
-                false
+
+/* =========================================================
+   LOAD SERVERS
+========================================================= */
+
+async function loadServers() {
+
+    try {
+
+        const data =
+            await fetchJSON(API.servers);
+
+        if (
+            !data.ok ||
+            !Array.isArray(data.servers)
+        ) {
+            throw new Error(
+                "Invalid server response."
+            );
+        }
+
+        serversData =
+            data.servers;
+
+        renderServers();
+
+    } catch (error) {
+
+        console.error(
+            "Could not load servers:",
+            error
+        );
+
+        renderFallbackServers();
+    }
+}
+
+
+/* =========================================================
+   RENDER SERVERS
+========================================================= */
+
+function renderServers() {
+
+    serverList.innerHTML = "";
+
+    serversData.forEach(
+        function(server) {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "server";
+
+            if (
+                server.id === currentServer
+            ) {
+                button.classList.add(
+                    "active"
+                );
+            }
+
+            button.title =
+                server.name;
+
+            button.dataset.server =
+                server.id;
+
+            button.textContent =
+                server.icon ||
+                server.name
+                    .charAt(0)
+                    .toUpperCase();
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    switchServer(
+                        server
+                    );
+
+                }
+            );
+
+            serverList.appendChild(
+                button
             );
 
         }
     );
 
-    messages.scrollTop =
-        messages.scrollHeight;
+
+    const addButton =
+        document.createElement("button");
+
+    addButton.className =
+        "server add";
+
+    addButton.title =
+        "Create a server";
+
+    addButton.setAttribute(
+        "aria-label",
+        "Create a server"
+    );
+
+    addButton.textContent =
+        "+";
+
+    addButton.addEventListener(
+        "click",
+        function() {
+
+            comingSoon(
+                "Server creation"
+            );
+
+        }
+    );
+
+    serverList.appendChild(
+        addButton
+    );
 }
 
 
-/* =========================
+/* =========================================================
+   FALLBACK SERVERS
+========================================================= */
+
+function renderFallbackServers() {
+
+    serversData = [
+        {
+            id: "chorda",
+            name: "Chorda",
+            icon: "C"
+        },
+        {
+            id: "gaming",
+            name: "Gaming",
+            icon: "G"
+        },
+        {
+            id: "study",
+            name: "Study",
+            icon: "S"
+        }
+    ];
+
+    renderServers();
+}
+
+
+/* =========================================================
+   SWITCH SERVER
+========================================================= */
+
+function switchServer(server) {
+
+    currentServer =
+        server.id;
+
+    workspaceName.textContent =
+        server.name;
+
+    document
+        .querySelectorAll(
+            ".server[data-server]"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.server ===
+                    currentServer
+                );
+
+            }
+        );
+
+    loadChannels();
+}
+
+
+/* =========================================================
+   LOAD CHANNELS
+========================================================= */
+
+async function loadChannels() {
+
+    try {
+
+        const data =
+            await fetchJSON(API.channels);
+
+        if (
+            !data.ok ||
+            !Array.isArray(data.channels)
+        ) {
+            throw new Error(
+                "Invalid channel response."
+            );
+        }
+
+        channelsData =
+            data.channels;
+
+        renderChannels();
+
+    } catch (error) {
+
+        console.error(
+            "Could not load channels:",
+            error
+        );
+
+        renderFallbackChannels();
+    }
+}
+
+
+/* =========================================================
+   RENDER CHANNELS
+========================================================= */
+
+function renderChannels() {
+
+    channelList.innerHTML = "";
+
+    const category =
+        document.createElement("div");
+
+    category.className =
+        "category";
+
+    category.textContent =
+        "Text Channels";
+
+    channelList.appendChild(
+        category
+    );
+
+
+    channelsData.forEach(
+        function(channel) {
+
+            if (
+                channel.type !== "text"
+            ) {
+                return;
+            }
+
+            const element =
+                document.createElement("div");
+
+            element.className =
+                "channel";
+
+            element.dataset.channel =
+                channel.id;
+
+            if (
+                channel.id === currentChannel
+            ) {
+                element.classList.add(
+                    "active"
+                );
+            }
+
+            element.textContent =
+                "# " + channel.name;
+
+            element.addEventListener(
+                "click",
+                function() {
+
+                    selectChannel(
+                        channel.id
+                    );
+
+                }
+            );
+
+            channelList.appendChild(
+                element
+            );
+
+        }
+    );
+
+
+    const voiceCategory =
+        document.createElement("div");
+
+    voiceCategory.className =
+        "category";
+
+    voiceCategory.textContent =
+        "Voice";
+
+    channelList.appendChild(
+        voiceCategory
+    );
+
+
+    ["Lounge", "Gaming"]
+        .forEach(
+            function(name) {
+
+                const voice =
+                    document.createElement(
+                        "div"
+                    );
+
+                voice.className =
+                    "channel";
+
+                voice.textContent =
+                    "🔊 " + name;
+
+                voice.addEventListener(
+                    "click",
+                    function() {
+
+                        comingSoon(
+                            "Voice channels"
+                        );
+
+                    }
+                );
+
+                channelList.appendChild(
+                    voice
+                );
+
+            }
+        );
+
+
+    if (
+        !channelsData.some(
+            channel =>
+                channel.id ===
+                currentChannel
+        )
+    ) {
+
+        if (channelsData.length > 0) {
+
+            currentChannel =
+                channelsData[0].id;
+
+        }
+
+    }
+
+    updateChannelUI();
+
+    loadMessages();
+}
+
+
+/* =========================================================
+   FALLBACK CHANNELS
+========================================================= */
+
+function renderFallbackChannels() {
+
+    channelsData = [
+        {
+            id: "general",
+            name: "general",
+            type: "text"
+        },
+        {
+            id: "announcements",
+            name: "announcements",
+            type: "text"
+        },
+        {
+            id: "chat",
+            name: "chat",
+            type: "text"
+        },
+        {
+            id: "memes",
+            name: "memes",
+            type: "text"
+        },
+        {
+            id: "support",
+            name: "support",
+            type: "text"
+        }
+    ];
+
+    renderChannels();
+}
+
+
+/* =========================================================
+   SELECT CHANNEL
+========================================================= */
+
+function selectChannel(name) {
+
+    currentChannel =
+        name;
+
+    document
+        .querySelectorAll(
+            ".channel[data-channel]"
+        )
+        .forEach(
+            function(channel) {
+
+                channel.classList.toggle(
+                    "active",
+                    channel.dataset.channel ===
+                    currentChannel
+                );
+
+            }
+        );
+
+    updateChannelUI();
+
+    closeMobileMenu();
+
+    loadMessages();
+}
+
+
+/* =========================================================
+   UPDATE CHANNEL UI
+========================================================= */
+
+function updateChannelUI() {
+
+    const channel =
+        channelsData.find(
+            item =>
+                item.id ===
+                currentChannel
+        );
+
+    const displayName =
+        channel
+            ? channel.name
+            : currentChannel;
+
+    channelName.textContent =
+        displayName;
+
+    channelTopic.textContent =
+        channelTopics[
+            currentChannel
+        ] || "Talk with your community.";
+
+    welcomeTitle.textContent =
+        "Welcome to #" +
+        displayName +
+        " 👋";
+
+    welcomeText.textContent =
+        channelTopics[
+            currentChannel
+        ] ||
+        "This is the beginning of this channel.";
+
+    input.placeholder =
+        "Message #" +
+        displayName;
+
+    searchInput.placeholder =
+        "Search #" +
+        displayName + "...";
+}
+
+
+/* =========================================================
+   LOAD MESSAGES
+========================================================= */
+
+async function loadMessages() {
+
+    messageList.innerHTML = "";
+
+    try {
+
+        const data =
+            await fetchJSON(API.messages);
+
+        if (
+            !data.ok ||
+            !Array.isArray(data.messages)
+        ) {
+            throw new Error(
+                "Invalid message response."
+            );
+        }
+
+        messagesData =
+            data.messages;
+
+        const channelMessages =
+            messagesData.filter(
+                function(message) {
+
+                    return (
+                        message.channel ===
+                        currentChannel
+                    );
+
+                }
+            );
+
+        if (
+            channelMessages.length === 0
+        ) {
+
+            renderEmptyChannel();
+
+        } else {
+
+            channelMessages.forEach(
+                function(message) {
+
+                    createMessage(
+                        message.username,
+                        message.avatar,
+                        message.content,
+                        formatTime(
+                            message.createdAt
+                        ),
+                        false
+                    );
+
+                }
+            );
+
+        }
+
+        scrollToBottom();
+
+    } catch (error) {
+
+        console.error(
+            "Could not load messages:",
+            error
+        );
+
+        renderErrorMessage(
+            "Could not load messages from the Chorda API."
+        );
+    }
+}
+
+
+/* =========================================================
+   EMPTY CHANNEL
+========================================================= */
+
+function renderEmptyChannel() {
+
+    const empty =
+        document.createElement("div");
+
+    empty.style.color =
+        "var(--muted)";
+
+    empty.style.padding =
+        "10px 8px";
+
+    empty.textContent =
+        "No messages here yet. Start the conversation!";
+
+    messageList.appendChild(
+        empty
+    );
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+function renderErrorMessage(text) {
+
+    const error =
+        document.createElement("div");
+
+    error.style.color =
+        "var(--danger)";
+
+    error.style.padding =
+        "10px 8px";
+
+    error.textContent =
+        text;
+
+    messageList.appendChild(
+        error
+    );
+}
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function formatTime(value) {
+
+    if (!value) {
+        return "Today";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return value;
+    }
+
+    return (
+        "Today at " +
+        date.toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        )
+    );
+}
+
+
+/* =========================================================
    CREATE MESSAGE
-========================= */
+========================================================= */
 
 function createMessage(
     name,
@@ -1490,7 +1954,7 @@ function createMessage(
         "avatar";
 
     avatarElement.textContent =
-        avatar;
+        avatar || "??";
 
 
     const content =
@@ -1511,7 +1975,7 @@ function createMessage(
         "username";
 
     username.textContent =
-        name;
+        name || "Unknown";
 
 
     const timestamp =
@@ -1521,12 +1985,16 @@ function createMessage(
         "timestamp";
 
     timestamp.textContent =
-        time;
+        time || "Today";
 
 
-    header.appendChild(username);
+    header.appendChild(
+        username
+    );
 
-    header.appendChild(timestamp);
+    header.appendChild(
+        timestamp
+    );
 
 
     const textElement =
@@ -1536,7 +2004,7 @@ function createMessage(
         "message-text";
 
     textElement.textContent =
-        text;
+        text || "";
 
 
     const reactions =
@@ -1551,6 +2019,9 @@ function createMessage(
 
     likeButton.className =
         "reaction";
+
+    likeButton.type =
+        "button";
 
     likeButton.textContent =
         "👍 0";
@@ -1577,11 +2048,17 @@ function createMessage(
     );
 
 
-    content.appendChild(header);
+    content.appendChild(
+        header
+    );
 
-    content.appendChild(textElement);
+    content.appendChild(
+        textElement
+    );
 
-    content.appendChild(reactions);
+    content.appendChild(
+        reactions
+    );
 
 
     const actions =
@@ -1597,11 +2074,18 @@ function createMessage(
     reactButton.className =
         "message-action";
 
+    reactButton.type =
+        "button";
+
     reactButton.textContent =
         "😀";
 
+    reactButton.title =
+        "React";
 
-    reactButton.onclick =
+
+    reactButton.addEventListener(
+        "click",
         function() {
 
             likes++;
@@ -1609,7 +2093,8 @@ function createMessage(
             likeButton.textContent =
                 "👍 " + likes;
 
-        };
+        }
+    );
 
 
     actions.appendChild(
@@ -1636,75 +2121,115 @@ function createMessage(
 
 
     if (shouldScroll) {
-
-        messages.scrollTop =
-            messages.scrollHeight;
-
+        scrollToBottom();
     }
-
 }
 
 
-/* =========================
+/* =========================================================
    SEND MESSAGE
-========================= */
+========================================================= */
 
-function sendMessage() {
+async function sendMessage() {
 
     const text =
         input.value.trim();
 
-
-    if (!text) {
+    if (
+        !text ||
+        isSending
+    ) {
         return;
     }
 
 
-    const now =
-        new Date();
+    isSending = true;
+
+    sendButton.disabled =
+        true;
+
+    sendButton.textContent =
+        "...";
 
 
-    const time =
-        now.toLocaleTimeString(
-            [],
-            {
-                hour: "numeric",
-                minute: "2-digit"
-            }
+    try {
+
+        const data =
+            await fetchJSON(
+                API.messages,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            username: "You",
+                            avatar: "YO",
+                            channel:
+                                currentChannel,
+                            content:
+                                text
+                        })
+                }
+            );
+
+
+        if (
+            !data.ok ||
+            !data.message
+        ) {
+            throw new Error(
+                "Invalid message response."
+            );
+        }
+
+
+        const message =
+            data.message;
+
+
+        createMessage(
+            message.username,
+            message.avatar,
+            message.content,
+            formatTime(
+                message.createdAt
+            )
         );
 
 
-    if (!channelData[currentChannel]) {
+        input.value = "";
 
-        channelData[currentChannel] =
-            [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not send message:",
+            error
+        );
+
+        alert(
+            "Chorda could not send that message yet."
+        );
+
+    } finally {
+
+        isSending =
+            false;
+
+        sendButton.disabled =
+            false;
+
+        sendButton.textContent =
+            "Send";
+
+        input.focus();
 
     }
-
-
-    channelData[currentChannel].push({
-
-        name: "You",
-
-        avatar: "YO",
-
-        text: text,
-
-        time: "Today at " + time
-
-    });
-
-
-    createMessage(
-        "You",
-        "YO",
-        text,
-        "Today at " + time
-    );
-
-
-    input.value = "";
-
 }
 
 
@@ -1718,7 +2243,12 @@ input.addEventListener(
     "keydown",
     function(event) {
 
-        if (event.key === "Enter") {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
 
             sendMessage();
 
@@ -1728,50 +2258,207 @@ input.addEventListener(
 );
 
 
-/* =========================
-   CHANNEL SWITCHING
-========================= */
+/* =========================================================
+   LOAD USERS
+========================================================= */
 
-channels.forEach(
-    function(channel) {
+async function loadUsers() {
 
-        channel.addEventListener(
-            "click",
-            function() {
+    try {
 
-                channels.forEach(
-                    function(item) {
+        const data =
+            await fetchJSON(API.users);
 
-                        item.classList.remove(
-                            "active"
-                        );
+        if (
+            !data.ok ||
+            !Array.isArray(data.users)
+        ) {
+            throw new Error(
+                "Invalid user response."
+            );
+        }
 
-                    }
-                );
+        usersData =
+            data.users;
 
+        renderMembers();
 
-                channel.classList.add(
-                    "active"
-                );
+    } catch (error) {
 
-
-                loadChannel(
-                    channel.dataset.channel
-                );
-
-
-                closeMobileMenu();
-
-            }
+        console.error(
+            "Could not load users:",
+            error
         );
 
+        renderFallbackMembers();
     }
-);
+}
 
 
-/* =========================
+/* =========================================================
+   RENDER MEMBERS
+========================================================= */
+
+function renderMembers() {
+
+    memberList.innerHTML = "";
+
+    const onlineUsers =
+        usersData.filter(
+            user =>
+                user.status ===
+                "online"
+        );
+
+    membersTitle.textContent =
+        "Online — " +
+        onlineUsers.length;
+
+
+    usersData.forEach(
+        function(user) {
+
+            const member =
+                document.createElement("div");
+
+            member.className =
+                "member";
+
+
+            const avatar =
+                document.createElement("div");
+
+            avatar.className =
+                "avatar";
+
+            avatar.textContent =
+                user.avatar || "??";
+
+
+            const info =
+                document.createElement("div");
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "member-name";
+
+            name.textContent =
+                user.username;
+
+
+            const status =
+                document.createElement("div");
+
+            status.className =
+                "member-status";
+
+            status.textContent =
+                user.status === "online"
+                    ? "Online"
+                    : user.status;
+
+
+            info.appendChild(
+                name
+            );
+
+            info.appendChild(
+                status
+            );
+
+
+            member.appendChild(
+                avatar
+            );
+
+            member.appendChild(
+                info
+            );
+
+
+            if (
+                user.status ===
+                "online"
+            ) {
+
+                const online =
+                    document.createElement(
+                        "div"
+                    );
+
+                online.className =
+                    "online";
+
+                member.appendChild(
+                    online
+                );
+
+            }
+
+
+            memberList.appendChild(
+                member
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   FALLBACK MEMBERS
+========================================================= */
+
+function renderFallbackMembers() {
+
+    usersData = [
+        {
+            id: "alex",
+            username: "Alex",
+            status: "online",
+            avatar: "AX"
+        },
+        {
+            id: "sky",
+            username: "Sky",
+            status: "online",
+            avatar: "SK"
+        },
+        {
+            id: "jamie",
+            username: "Jamie",
+            status: "online",
+            avatar: "JM"
+        },
+        {
+            id: "riley",
+            username: "Riley",
+            status: "online",
+            avatar: "RB"
+        }
+    ];
+
+    renderMembers();
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToBottom() {
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+/* =========================================================
    MOBILE MENU
-========================= */
+========================================================= */
 
 mobileMenu.addEventListener(
     "click",
@@ -1808,9 +2495,9 @@ mobileOverlay.addEventListener(
 );
 
 
-/* =========================
+/* =========================================================
    SEARCH
-========================= */
+========================================================= */
 
 function toggleSearch() {
 
@@ -1827,8 +2514,37 @@ function toggleSearch() {
 
         searchInput.focus();
 
-    }
+    } else {
 
+        searchInput.value = "";
+
+        applySearch("");
+
+    }
+}
+
+
+function applySearch(query) {
+
+    document
+        .querySelectorAll(
+            ".message"
+        )
+        .forEach(
+            function(message) {
+
+                const text =
+                    message.textContent
+                        .toLowerCase();
+
+                message.style.display =
+                    !query ||
+                    text.includes(query)
+                        ? "flex"
+                        : "none";
+
+            }
+        );
 }
 
 
@@ -1841,45 +2557,15 @@ searchInput.addEventListener(
                 .toLowerCase()
                 .trim();
 
-
-        document
-            .querySelectorAll(
-                ".message"
-            )
-            .forEach(
-                function(message) {
-
-                    const text =
-                        message
-                            .textContent
-                            .toLowerCase();
-
-
-                    if (
-                        !query ||
-                        text.includes(query)
-                    ) {
-
-                        message.style.display =
-                            "flex";
-
-                    } else {
-
-                        message.style.display =
-                            "none";
-
-                    }
-
-                }
-            );
+        applySearch(query);
 
     }
 );
 
 
-/* =========================
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
 profileButton.addEventListener(
     "click",
@@ -1893,9 +2579,9 @@ profileButton.addEventListener(
 );
 
 
-/* =========================
+/* =========================================================
    SETTINGS
-========================= */
+========================================================= */
 
 function openSettings() {
 
@@ -1936,9 +2622,9 @@ settingsModal.addEventListener(
 );
 
 
-/* =========================
+/* =========================================================
    NOTIFICATIONS
-========================= */
+========================================================= */
 
 function toggleNotifications() {
 
@@ -1949,9 +2635,9 @@ function toggleNotifications() {
 }
 
 
-/* =========================
+/* =========================================================
    PLUS
-========================= */
+========================================================= */
 
 function openPlus() {
 
@@ -1962,9 +2648,9 @@ function openPlus() {
 }
 
 
-/* =========================
+/* =========================================================
    COMING SOON
-========================= */
+========================================================= */
 
 function comingSoon(feature) {
 
@@ -1976,11 +2662,23 @@ function comingSoon(feature) {
 }
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   START CHORDA
+========================================================= */
 
-loadChannel("general");
+async function startChorda() {
+
+    await Promise.all([
+        loadServers(),
+        loadUsers()
+    ]);
+
+    await loadChannels();
+
+}
+
+
+startChorda();
 
 </script>
 
